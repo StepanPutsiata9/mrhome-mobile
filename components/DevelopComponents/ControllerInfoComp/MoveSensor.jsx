@@ -2,7 +2,6 @@ import { ScrollView, Text } from "react-native";
 import { View, StyleSheet, Pressable } from "react-native"
 import { Header } from "../Header";
 import Back from "../PhotosComponents/Back"
-import Temp from "../PhotosComponents/Temp";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 
@@ -29,8 +28,8 @@ export default function MoveSensor({data,socket}){
       </View>
       <View style={styles.info}>
         <View style={styles.infoLine}>
-          <Text style={styles.infoLineText}>Подключение</Text>
-          <Text style={styles.status}>{data.isOnline ? "В сети" : "Не в сети"}</Text>
+          <Text style={styles.infoText}>Фиксирует любое движение в помещении и мгновенно сообщает об этом в приложение,
+             помогая обеспечить безопасность и автоматизацию.</Text>
         </View>
         <View style={styles.infoLine}>
           <Text style={styles.infoLineText}>Состояние</Text>
@@ -43,10 +42,11 @@ export default function MoveSensor({data,socket}){
       </View>
       <View style={styles.onOff}>
         <View style={{ alignItems: 'center' }}>
-          <Pressable onPress={async () => {
-            await socket.current.send({ type: "onMoveSensor" });
+          <Pressable disabled={on} onPress={async () => {
+            await socket.current.send(JSON.stringify({ type: "onMoveSensor" }));
+            console.log("успешно on");
             setOn(!on);
-            setOff(!off)
+            setOff(!off);
           }}>
             <MoveOn color={on ? "#4C82FF" : "#8B8B8B"} />
           </Pressable>
@@ -54,8 +54,9 @@ export default function MoveSensor({data,socket}){
 
         </View>
         <View style={{ alignItems: 'center' }}>
-          <Pressable onPress={async () => {
-            await socket.current.send({ type: "offMoveSensor" });
+          <Pressable disabled={off} onPress={async () => {
+            await socket.current.send(JSON.stringify({ type: "offMoveSensor" }));
+            console.log("успешно off");
             setOn(!on);
             setOff(!off)
           }}>
@@ -90,6 +91,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 25,
     marginVertical: 5,
+    marginBottom:10
+
   },
   infoLineText: {
     fontSize: 16,
@@ -104,5 +107,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 50
-  }
+  },
+  infoText:{
+    fontFamily:"Roboto",
+    fontSize:16,
+    color:"#8B8B8B"
+  },
 });

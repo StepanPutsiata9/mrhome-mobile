@@ -1,48 +1,73 @@
-import {  StyleSheet ,Text,View,ImageBackground} from 'react-native';
+import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { useContext } from 'react';
+import SmartSwitch from "../components/DevelopComponents/ControllerInfoComp/SmartSwitch";
+import { SmartLight } from "../components/DevelopComponents/ControllerInfoComp/SmartLight";
+import SmartShtora from "../components/DevelopComponents/ControllerInfoComp/SmartShtora";
+import TempSensor from "../components/DevelopComponents/ControllerInfoComp/TempSensor";
+import MoveSensor from "../components/DevelopComponents/ControllerInfoComp/MoveSensor";
+import { SocketContext } from '../app/_layout'; 
 import { useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
-import SmartSwitch from "../components/DevelopComponents/ControllerInfoComp/SmartSwitch"
-import {SmartLight} from "../components/DevelopComponents/ControllerInfoComp/SmartLight"
-import SmartShtora from "../components/DevelopComponents/ControllerInfoComp/SmartShtora"
-import TempSensor from "../components/DevelopComponents/ControllerInfoComp/TempSensor"
-import MoveSensor from "../components/DevelopComponents/ControllerInfoComp/MoveSensor"
+
 export default function ControllerInfo() {
-  const {data,socket} = useLocalSearchParams();
-  let comp=null;
-  if(data.title=="Умная подсветка"){
-    comp=<SmartLight data={data} socket={socket}/>
-  }else if(data.title=="Умный выключатель"){
-    comp=<SmartSwitch data={data} socket={socket}/>
-  }else if(data.title=="Умная роль-штора"){
-    comp=<SmartShtora data={data} socket={socket}/>
-  }else if(data.title=="Датчик температуры"){
-    comp=<TempSensor data={data} socket={socket}/>
-  }else if(data.title=="Датчик движения"){
-    comp=<MoveSensor data={data} socket={socket}/>
+
+  const { socket,data} = useContext(SocketContext);
+  
+  const {id} = useLocalSearchParams();
+  function findDeviceById(data, targetId) {
+    // Получаем все массивы устройств (electro и sensors)
+    const allDevices = Object.values(data).flat();
+    console.log('====================================');
+    console.log(allDevices);
+    console.log('====================================');
+    // Ищем устройство с нужным ID
+    return allDevices.find(device => device.id == targetId);
   }
+  const controllerData=findDeviceById(data,id)
+
+  console.log("data ",controllerData);
+
+
+  
+  const renderComponent = () => {
+    
+
+    switch(controllerData.title) {
+      case "Умная подсветка":
+        return <SmartLight data={controllerData} socket={socket} />;
+      case "Умный выключатель":
+        return <SmartSwitch data={controllerData} socket={socket} />;
+      case "Умная роль-штора":
+        return <SmartShtora data={controllerData} socket={socket} />;
+      case "Датчик температуры":
+        return <TempSensor data={controllerData} socket={socket} />;
+      case "Датчик движения":
+        return <MoveSensor data={controllerData} socket={socket} />;
+      default:
+        return <Text style={styles.text}>Неизвестный тип устройства</Text>;
+    }
+  };
+
   return (
     <ImageBackground
-    source={require('../assets/images/Background.png')} 
-          style={styles.background}
-          resizeMode="cover"
+      source={require('../assets/images/Background.png')} 
+      style={styles.background}
+      resizeMode="cover"
     >
-      
-      {comp}
-
+      {renderComponent()}
     </ImageBackground>
-  
   );
 }
+
 const styles = StyleSheet.create({
-  text:{
-   flex:1,
-   justifyContent:'center',
-   alignItems:'center',
+  text: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   background: {
     flex: 1,
     width: '100%',
     height: '100%',
-    zIndex:0,
+    zIndex: 0,
   },
 });

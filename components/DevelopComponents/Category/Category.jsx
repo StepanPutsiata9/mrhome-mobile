@@ -1,6 +1,7 @@
 import { View,StyleSheet,Text } from "react-native";
 import ControllerItem from  "./ControllerItem"
 export default function Category({titleOfCategory,data,socket}){
+
     return(
         <View style={styles.category}>
             <Text style={styles.categoryTitle}>{titleOfCategory}</Text>
@@ -8,7 +9,7 @@ export default function Category({titleOfCategory,data,socket}){
                 
                 {data.map((elData)=>{
                   return(
-                    <ControllerItem data={elData} key={elData.id} socket={socket}/>
+                    <ControllerItem data={elData} key={elData.id} socket={socket} />
                   )
                 })}
             </View>

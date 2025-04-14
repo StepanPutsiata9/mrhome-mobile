@@ -7,6 +7,7 @@ import Shtora from "../PhotosComponents/Shtora"
 import SwitchOutline from "../PhotosComponents/SwitchOutline"
 export default function ControllerItem({ data,socket }) {
   let photo;
+
   if (data.title == "Умная подсветка") {
     photo = <Light color={"#4C82FF"} />
 
@@ -28,7 +29,10 @@ export default function ControllerItem({ data,socket }) {
       onPress={() => {
         router.push({
           pathname: '/controllerInfo',
-          params: {data,socket},
+          params:{
+            id:data.id,
+
+          } ,
         });
       }}
     >
@@ -39,7 +43,7 @@ export default function ControllerItem({ data,socket }) {
         </View>
         <View style={styles.infoBlock}>
           <View style={styles.statusView}>
-            <Text style={styles.status}>{data.isOnline?"В сети":"Не в сети"}</Text>
+            {/* <Text style={styles.status}>{data.isOnline?"В сети":"Не в сети"}</Text> */}
           </View>
           <Text style={styles.online}>{data.state}</Text>
         </View>
@@ -89,8 +93,6 @@ const styles = StyleSheet.create({
     color: "#8B8B8B",
     fontSize: 12,
     fontFamily: "Roboto",
-    // marginLeft:16,
-    // marginRight:16
 
   },
   statusView: {

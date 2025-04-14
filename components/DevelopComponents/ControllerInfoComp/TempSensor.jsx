@@ -26,10 +26,10 @@ export default function TempSensor({data,socket}){
                 </Pressable>
              </View>
               <View style={styles.info}>
-                         <View style={styles.infoLine}>
-                           <Text style={styles.infoLineText}>Подключение</Text>
-                           <Text style={styles.status}>{data.isOnline?"В сети":"Не в сети"}</Text>
-                         </View>
+                       <View style={styles.infoLine}>
+                          <Text style={styles.infoText}>Получайте точные данные о климате в реальном времени и
+                             поддерживайте комфорт, где бы вы ни находились.</Text>
+                        </View>
                          <View style={styles.infoLine}>
                            <Text style={styles.infoLineText}>Состояние</Text>
                            <Text style={styles.status}>{data.state}</Text>
@@ -41,8 +41,8 @@ export default function TempSensor({data,socket}){
             </View>
             <View style={styles.onOff}>
                 <View style={{alignItems:'center'}}>
-                    <Pressable onPress={async()=>{
-                      await socket.current.send({type:"onTempSensor"});
+                    <Pressable disabled={on} onPress={async()=>{
+                      await socket.current.send(JSON.stringify({type:"onTempSensor"}));
                       setOn(!on);
                       setOff(!off);
                     }}>
@@ -52,8 +52,8 @@ export default function TempSensor({data,socket}){
 
                 </View>
                 <View style={{alignItems:'center'}}>
-                    <Pressable onPress={async()=>{
-                     await socket.current.send({type:"offTempSensor"});
+                    <Pressable disabled={off}  onPress={async()=>{
+                     await socket.current.send(JSON.stringify({type:"offTempSensor"}));
                      setOn(!on);
                      setOff(!off);
                     }}>
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         paddingHorizontal:25,
         marginVertical:5,
+        marginBottom:10
       },
       infoLineText:{
         fontSize:16,
@@ -102,5 +103,10 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between',
         paddingHorizontal:50
-      }
+      },
+      infoText:{
+        fontFamily:"Roboto",
+        fontSize:16,
+        color:"#8B8B8B"
+      },
 });

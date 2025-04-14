@@ -28,11 +28,22 @@ export default function RootLayout() {
         setData(dataApi.dataObj);
         setLoaded(true);
       } else if (dataApi.type === 'update') {
-        setData(prev => prev.map(item => 
-          item.map(itemCurrent =>
-            itemCurrent.id === dataApi.item.id ? dataApi.item : itemCurrent
-          )
-        ));
+        const updateData = (dataApi) => {
+          setData(prev => {
+            const updateDevices = (devices, updatedDevice) => {
+              return devices.map(device => 
+                device.id === updatedDevice.id 
+                  ? { ...device, ...updatedDevice }
+                  : device
+              );
+            };
+            return {
+              electro: updateDevices(prev.electro, dataApi.dataObj),
+              sensors: updateDevices(prev.sensors, dataApi.dataObj),
+            };
+          });
+        };
+        updateData(dataApi.dataObj)
       }
     };
 
@@ -58,7 +69,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <SocketContext.Provider value={{ socket: socket.current, data }}>
+      <SocketContext.Provider value={{ socket: socket, data }}>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="controllerInfo" />

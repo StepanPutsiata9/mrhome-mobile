@@ -32,7 +32,6 @@ export default function TabLayout() {
           title: 'Главная',
           
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color}
-          
           />,
         }}
       />
