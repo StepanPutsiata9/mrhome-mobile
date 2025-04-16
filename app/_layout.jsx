@@ -17,11 +17,11 @@ export default function RootLayout() {
 
   async function socketInit() {
     socket.current = new WebSocket('ws://testyandex.onrender.com');
-    
+
     socket.current.onopen = () => {
       console.log('Connected');
     };
-    
+
     socket.current.onmessage = async (event) => {
       const dataApi = await JSON.parse(event.data);
       if (dataApi.type === 'initial') {
@@ -31,8 +31,8 @@ export default function RootLayout() {
         const updateData = (dataApi) => {
           setData(prev => {
             const updateDevices = (devices, updatedDevice) => {
-              return devices.map(device => 
-                device.id === updatedDevice.id 
+              return devices.map(device =>
+                device.id === updatedDevice.id
                   ? { ...device, ...updatedDevice }
                   : device
               );

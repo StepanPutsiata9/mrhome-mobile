@@ -14,12 +14,10 @@ export default function ControllerInfo() {
   
   const {id} = useLocalSearchParams();
   function findDeviceById(data, targetId) {
-    // Получаем все массивы устройств (electro и sensors)
     const allDevices = Object.values(data).flat();
     console.log('====================================');
     console.log(allDevices);
     console.log('====================================');
-    // Ищем устройство с нужным ID
     return allDevices.find(device => device.id == targetId);
   }
   const controllerData=findDeviceById(data,id)
@@ -29,9 +27,22 @@ export default function ControllerInfo() {
 
   
   const renderComponent = () => {
-    
+    // switch(controllerData.deviceType) {
+    //   case "light":
+    //     return <SmartLight data={controllerData} socket={socket} />;
+    //   case "switch":
+    //     return <SmartSwitch data={controllerData} socket={socket} />;
+    //   case "curtain":
+    //     return <SmartShtora data={controllerData} socket={socket} />;
+    //   case "temp":
+    //     return <TempSensor data={controllerData} socket={socket} />;
+    //   case "move":
+    //     return <MoveSensor data={controllerData} socket={socket} />;
+    //   default:
+    //     return <Text style={styles.text}>Неизвестный тип устройства</Text>;
+    // }
 
-    switch(controllerData.title) {
+    switch(controllerData.title){
       case "Умная подсветка":
         return <SmartLight data={controllerData} socket={socket} />;
       case "Умный выключатель":

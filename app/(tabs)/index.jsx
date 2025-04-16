@@ -2,14 +2,14 @@ import { StyleSheet, Text, ScrollView, ImageBackground } from 'react-native';
 import { Header } from "../../components/DevelopComponents/Header";
 import Category from "../../components/DevelopComponents/Category/Category";
 import { useContext } from 'react';
-import { SocketContext } from '../../app/_layout'; // Исправленный путь
+import { SocketContext } from '../../app/_layout'; 
 
 export default function HomeScreen() {
-  const { socket, data } = useContext(SocketContext); // Получаем и socket, и data из контекста
-  
-  console.log('SocketContext data:',data);
+  const { socket, data } = useContext(SocketContext);
+
+  console.log('SocketContext data:', data);
   console.log('====================================');
-  console.log("Socket: ",socket.current);
+  console.log("Socket: ", socket.current);
   console.log('====================================');
   // if (!data) {
   //   return (
@@ -25,21 +25,21 @@ export default function HomeScreen() {
 
   return (
     <ImageBackground
-      source={require('../../assets/images/Background.png')} 
+      source={require('../../assets/images/Background.png')}
       style={styles.background}
       resizeMode="cover"
     >
       <ScrollView>
-        <Header/>
+        <Header />
         <Text style={styles.myGadgets}>Мои устройства</Text>
-        <Category 
-          titleOfCategory={"Электронные устройства"} 
-          data={data.electro} 
+        <Category
+          titleOfCategory={"Электронные устройства"}
+          data={data.electro}
           socket={socket}
         />
-        <Category 
-          titleOfCategory={"Датчики"} 
-          data={data.sensors} 
+        <Category
+          titleOfCategory={"Датчики"}
+          data={data.sensors}
           socket={socket}
         />
       </ScrollView>

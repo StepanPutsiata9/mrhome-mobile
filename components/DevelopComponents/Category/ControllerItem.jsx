@@ -7,7 +7,6 @@ import Shtora from "../PhotosComponents/Shtora"
 import SwitchOutline from "../PhotosComponents/SwitchOutline"
 export default function ControllerItem({ data,socket }) {
   let photo;
-
   if (data.title == "Умная подсветка") {
     photo = <Light color={"#4C82FF"} />
 
@@ -23,7 +22,31 @@ export default function ControllerItem({ data,socket }) {
   } else if (data.title == "Датчик движения") {
     photo = <Snickers color={"#4C82FF"} />
   }
+  // if (data.deviceType =="light") {
+  //   photo = <Light color={"#4C82FF"} />
+
+  // } else if (data.title == "switch") {
+  //   photo = <SwitchOutline color={"#4C82FF"} />
+
+  // } else if (data.deviceType == "curtain") {
+  //   photo = <Shtora color={"#4C82FF"} />
+
+  // } else if (data.deviceType == "temp") {
+  //   photo = <Temp color={"#4C82FF"} />
+
+  // } else if (data.deviceType == "move") {
+  //   photo = <Snickers color={"#4C82FF"} />
+  // }
   const router = useRouter();
+  // EXMPL FOR SEND DEVICE 
+  // {
+  //   "deviceId": "curtain1",
+  //   "deviceType": "curtain",
+  //   "command": "set_position",
+  //   "params": {
+  //     "position": 80
+  //   }
+  // }
   return (
     <TouchableOpacity
       onPress={() => {
@@ -31,7 +54,6 @@ export default function ControllerItem({ data,socket }) {
           pathname: '/controllerInfo',
           params:{
             id:data.id,
-
           } ,
         });
       }}
@@ -42,10 +64,14 @@ export default function ControllerItem({ data,socket }) {
           <Text style={styles.title}>{data.title}</Text>
         </View>
         <View style={styles.infoBlock}>
+        <Text style={styles.online}>{data.state}</Text>
           <View style={styles.statusView}>
-            {/* <Text style={styles.status}>{data.isOnline?"В сети":"Не в сети"}</Text> */}
+          {(data.state==="Включен"||data.state==="Включена"||data.state==="Открыта")?
+          <View style={styles.onlineCircle}></View>
+          :
+          <View style={styles.offlineCircle}></View>
+          }
           </View>
-          <Text style={styles.online}>{data.state}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -97,6 +123,22 @@ const styles = StyleSheet.create({
   },
   statusView: {
     maxWidth: 75,
+    paddingHorizontal:10,
 
-  }
+  },
+  onlineCircle:{
+    width:20,
+    height:20,
+    borderRadius:"50%",
+    backgroundColor:"#4C82FF",
+    boxShadow: "0 0 15px 5px rgba(76, 130, 255, 0.9)"
+  },
+  offlineCircle:{
+    width:20,
+    height:20,
+    borderRadius:"50%",
+    backgroundColor:"#8b8b8b",
+    boxShadow: "0 0 10px 3px rgba(139, 139, 139, 0.7)"
+  },
+
 });
