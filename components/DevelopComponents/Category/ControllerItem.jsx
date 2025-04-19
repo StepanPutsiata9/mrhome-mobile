@@ -7,21 +7,42 @@ import Shtora from "../PhotosComponents/Shtora"
 import SwitchOutline from "../PhotosComponents/SwitchOutline"
 export default function ControllerItem({ data,socket }) {
   let photo;
-  if (data.title == "Умная подсветка") {
-    photo = <Light color={"#4C82FF"} />
-
-  } else if (data.title == "Умный выключатель") {
-    photo = <SwitchOutline color={"#4C82FF"} />
-
-  } else if (data.title == "Умная роль-штора") {
-    photo = <Shtora color={"#4C82FF"} />
-
-  } else if (data.title == "Датчик температуры") {
-    photo = <Temp color={"#4C82FF"} />
-
-  } else if (data.title == "Датчик движения") {
-    photo = <Snickers color={"#4C82FF"} />
+  switch(data.title){
+    case "Умная подсветка":
+      photo = <Light color={"#4C82FF"} />
+      break;
+    case "Умный выключатель":
+      photo = <SwitchOutline color={"#4C82FF"} />
+      break;
+    case "Умная роль-штора":
+      photo = <Shtora color={"#4C82FF"} />
+      break;
+    case "Датчик температуры":
+      photo = <Temp color={"#4C82FF"} />  
+      break;
+    case "Датчик движения":
+      photo = <Snickers color={"#4C82FF"} />
+      break;
   }
+  // switch(data.deviceType){
+  //   case "Умная подсветка":
+  //     photo = <Light color={"#4C82FF"} />
+  //     break;
+  //   case "Умный выключатель":
+  //     photo = <SwitchOutline color={"#4C82FF"} />
+  //     break;
+  //   case "Умная роль-штора":
+  //     photo = <Shtora color={"#4C82FF"} />
+  //     break;
+  //   case "temp":
+  //     photo = <Temp color={"#4C82FF"} />  
+  //     break;
+  //   case "move":
+  //     photo = <Snickers color={"#4C82FF"} />
+  //     break;
+  // }
+ 
+  
   // if (data.deviceType =="light") {
   //   photo = <Light color={"#4C82FF"} />
 
@@ -64,18 +85,11 @@ export default function ControllerItem({ data,socket }) {
           <Text style={styles.title}>{data.title}</Text>
         </View>
         <View style={styles.infoBlock}>
+        <Text style={styles.status}>Статус</Text>
         <Text style={styles.online}>{data.state}</Text>
-          <View style={styles.statusView}>
-          {(data.state==="Включен"||data.state==="Включена"||data.state==="Открыта")?
-          <View style={styles.onlineCircle}></View>
-          :
-          <View style={styles.offlineCircle}></View>
-          }
-          </View>
         </View>
       </View>
     </TouchableOpacity>
-
   )
 };
 
@@ -108,7 +122,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: "space-between",
-    marginBottom: -20
+    alignItems:'center',
+    marginBottom: -10
   },
   status: {
     fontSize: 12,

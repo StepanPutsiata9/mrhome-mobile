@@ -46,7 +46,6 @@ export default function SmartSwitch({ data, socket }) {
             <SwitchOn color={on ? "#4C82FF" : "#8B8B8B"} />
           </Pressable>
           {on ? <Text style={{ color: '#4C82FF' }}>Включен</Text> : <Text style={{ color: '#8B8B8B' }}>Включен</Text>}
-
         </View>
         <View style={{ alignItems: 'center' }}>
           <Pressable disabled={off} onPress={async () => {

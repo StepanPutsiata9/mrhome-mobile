@@ -11,17 +11,6 @@ export default function HomeScreen() {
   console.log('====================================');
   console.log("Socket: ", socket.current);
   console.log('====================================');
-  // if (!data) {
-  //   return (
-  //     <ImageBackground
-  //       source={require('../../assets/images/Background.png')}
-  //       style={styles.background}
-  //       resizeMode="cover"
-  //     >
-  //       <Text>Loading...</Text>
-  //     </ImageBackground>
-  //   );
-  // }
 
   return (
     <ImageBackground

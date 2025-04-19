@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, ImageBackground } from 'react-native';
 import { useContext } from 'react';
 import SmartSwitch from "../components/DevelopComponents/ControllerInfoComp/SmartSwitch";
 import { SmartLight } from "../components/DevelopComponents/ControllerInfoComp/SmartLight";
