@@ -113,26 +113,36 @@ export const SmartLight = ({data,socket}) => {
         style={styles.btn}
         activeOpacity={0.7}
         onPress={async()=>{
-            await socket.current.send(JSON.stringify({
-              type:"changeLight",
-              payload:{
-                color:color,
-                brightness:sliderValue,
-                glow:selectedItem
-              }
-        }));
+            await socket.current.send(JSON.stringify(
+             {
+        deviceId:data.deviceId,
+        deviceType:data.deviceType,
+        command:'set_params',
+        params: {
+            color:color,
+            brightness:sliderValue,
+            glow:selectedItem
+        }
+    }
+      ));
             setOn(!on);
             setOff(!off)
         }}
   >
-    <Text style={styles.btnText}>Изменить цвет</Text>
+    <Text style={styles.btnText}>Изменить параметры</Text>
     </TouchableOpacity>
     </View>
     <Text style={{fontSize:20,marginLeft:20,marginTop:45}}>Состояние:</Text>
     <View style={styles.onOff}>
       <View style={{alignItems:'center'}}>
         <Pressable disabled={on} onPress={async()=>{
-                     await socket.current.send(JSON.stringify({type:"onSmartLight"}));
+                     await socket.current.send(JSON.stringify(
+                      {
+                        deviceId:data.deviceId,
+                        deviceType:data.deviceType,
+                        command:'turn_on'
+                    }
+                     ));
                      setOn(!on);
                      setOff(!off)
                      }}>
@@ -143,7 +153,13 @@ export const SmartLight = ({data,socket}) => {
       </View>
       <View style={{alignItems:'center'}}>
         <Pressable  disabled={off} onPress={async()=>{
-                     await socket.current.send(JSON.stringify({type:"offSmartLight"}));
+                     await socket.current.send(JSON.stringify(
+                      {
+                        deviceId:data.deviceId,
+                        deviceType:data.deviceType,
+                        command:'turn_off'
+                    }
+                     ));
                      setOn(!on);
                      setOff(!off)
                      }}>
@@ -235,6 +251,7 @@ const styles = StyleSheet.create({
   btnText:{
     color:'white',
     fontSize:16,
+    paddingVertical:3
   },
   dropdownButton: {
     paddingHorizontal: 50,

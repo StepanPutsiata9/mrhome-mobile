@@ -42,7 +42,13 @@ export default function TempSensor({data,socket}){
             <View style={styles.onOff}>
                 <View style={{alignItems:'center'}}>
                     <Pressable disabled={on} onPress={async()=>{
-                      await socket.current.send(JSON.stringify({type:"onTempSensor"}));
+                      await socket.current.send(JSON.stringify(
+                        {
+                        deviceId:data.deviceId,
+                        deviceType:data.deviceType,
+                        command:'turn_on'
+                    }
+                  ));
                       setOn(!on);
                       setOff(!off);
                     }}>
@@ -53,7 +59,13 @@ export default function TempSensor({data,socket}){
                 </View>
                 <View style={{alignItems:'center'}}>
                     <Pressable disabled={off}  onPress={async()=>{
-                     await socket.current.send(JSON.stringify({type:"offTempSensor"}));
+                     await socket.current.send(JSON.stringify(
+                      {
+                        deviceId:data.deviceId,
+                        deviceType:data.deviceType,
+                        command:'turn_off'
+                    }
+                     ));
                      setOn(!on);
                      setOff(!off);
                     }}>

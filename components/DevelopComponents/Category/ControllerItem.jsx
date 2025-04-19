@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto",
     marginLeft: 9,
     marginRight: 16
-
   },
   infoBlock: {
     flex: 1,
@@ -128,7 +127,6 @@ const styles = StyleSheet.create({
   status: {
     fontSize: 12,
     fontFamily: "Roboto",
-
   },
   online: {
     color: "#8B8B8B",
@@ -155,5 +153,4 @@ const styles = StyleSheet.create({
     backgroundColor:"#8b8b8b",
     boxShadow: "0 0 10px 3px rgba(139, 139, 139, 0.7)"
   },
-
 });

@@ -43,7 +43,11 @@ export default function MoveSensor({data,socket}){
       <View style={styles.onOff}>
         <View style={{ alignItems: 'center' }}>
           <Pressable disabled={on} onPress={async () => {
-            await socket.current.send(JSON.stringify({ type: "onMoveSensor" }));
+            await socket.current.send(JSON.stringify({
+              deviceId:data.deviceId,
+              deviceType:data.deviceType,
+              command:'turn_on'
+          }));
             console.log("успешно on");
             setOn(!on);
             setOff(!off);
@@ -55,7 +59,11 @@ export default function MoveSensor({data,socket}){
         </View>
         <View style={{ alignItems: 'center' }}>
           <Pressable disabled={off} onPress={async () => {
-            await socket.current.send(JSON.stringify({ type: "offMoveSensor" }));
+            await socket.current.send(JSON.stringify({
+              deviceId:data.deviceId,
+              deviceType:data.deviceType,
+              command:'turn_off'
+          }));
             console.log("успешно off");
             setOn(!on);
             setOff(!off)

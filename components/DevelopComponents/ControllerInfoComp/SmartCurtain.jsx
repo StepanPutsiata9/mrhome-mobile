@@ -2,16 +2,14 @@ import { ScrollView, Text } from "react-native";
 import { View,StyleSheet,Pressable } from "react-native"
 import { Header } from "../Header";
 import Back from "../PhotosComponents/Back"
-
 import { useRouter } from "expo-router";
 import { useState } from "react";
-
 import Shtora from "../PhotosComponents/Shtora";
 import ShtoraOpen from "../PhotosComponents/ShtoraOpen";
 import ShtoraClose from "../PhotosComponents/ShtoraClose";
 
 
-export default function SmartShtora({data,socket}){
+export default function SmartCurtain({data,socket}){
     const router=useRouter();
       const [on,setOn]=useState(data.state=="Открыта"?true:false);
       const [off,setOff]=useState(!on);
@@ -42,7 +40,13 @@ export default function SmartShtora({data,socket}){
             <View style={styles.onOff}>
                 <View style={{alignItems:'center'}}>
                     <Pressable disabled={on} onPress={async()=>{
-                     await socket.current.send(JSON.stringify({type:"onSmartShtora"}));
+                     await socket.current.send(JSON.stringify(
+                      {
+                        deviceId:data.deviceId,
+                        deviceType:data.deviceType,
+                        command:'turn_on'
+                    }
+                  ));
                      setOn(!on);
                      setOff(!off)
                      }}>
@@ -53,7 +57,13 @@ export default function SmartShtora({data,socket}){
                 </View>
                 <View style={{alignItems:'center'}}>
                     <Pressable disabled={off} onPress={async()=>{
-                     await socket.current.send(JSON.stringify({type:"offSmartShtora"}));
+                     await socket.current.send(JSON.stringify(
+                      {
+                        deviceId:data.deviceId,
+                        deviceType:data.deviceType,
+                        command:'turn_off'
+                    }
+                     ));
                      setOn(!on);
                      setOff(!off)
                      }}>
@@ -70,7 +80,6 @@ const styles = StyleSheet.create({
     switch:{
         backgroundColor:"white",
         width:"100%",
-        // height:"100%"
     },
     title:{
         flexDirection:'row',

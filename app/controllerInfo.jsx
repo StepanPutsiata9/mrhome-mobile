@@ -2,7 +2,7 @@ import { StyleSheet, Text, ImageBackground } from 'react-native';
 import { useContext } from 'react';
 import SmartSwitch from "../components/DevelopComponents/ControllerInfoComp/SmartSwitch";
 import { SmartLight } from "../components/DevelopComponents/ControllerInfoComp/SmartLight";
-import SmartShtora from "../components/DevelopComponents/ControllerInfoComp/SmartShtora";
+import SmartCurtain from "../components/DevelopComponents/ControllerInfoComp/SmartCurtain";
 import TempSensor from "../components/DevelopComponents/ControllerInfoComp/TempSensor";
 import MoveSensor from "../components/DevelopComponents/ControllerInfoComp/MoveSensor";
 import { SocketContext } from '../app/_layout'; 
@@ -48,7 +48,7 @@ export default function ControllerInfo() {
       case "Умный выключатель":
         return <SmartSwitch data={controllerData} socket={socket} />;
       case "Умная роль-штора":
-        return <SmartShtora data={controllerData} socket={socket} />;
+        return <SmartCurtain data={controllerData} socket={socket} />;
       case "Датчик температуры":
         return <TempSensor data={controllerData} socket={socket} />;
       case "Датчик движения":
