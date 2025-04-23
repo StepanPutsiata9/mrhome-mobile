@@ -2,7 +2,7 @@ import { StyleSheet, Text, ScrollView, ImageBackground } from 'react-native';
 import { Header } from "../../components/DevelopComponents/Header";
 import Category from "../../components/DevelopComponents/Category/Category";
 import { useContext } from 'react';
-import { SocketContext } from '../../app/_layout'; 
+import { SocketContext } from '../_layout'; 
 
 export default function HomeScreen() {
   const { socket, data } = useContext(SocketContext);

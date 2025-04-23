@@ -2,8 +2,11 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef, useState, createContext } from 'react';
 import LoadScreen from "../components/DevelopComponents/LoadScreen";
+import LoginScreen from "./LoginScreen"
+import RegistrationScreen from "./Registr"
 import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { AuthProvider } from '@/Auth/AuthContext';
 
 
 const SocketContext = createContext(null);
@@ -25,7 +28,7 @@ export default function RootLayout() {
       const dataApi = await JSON.parse(event.data);
       if (dataApi.type === 'initial') {
         setData(dataApi.dataObj);
-        setLoaded(true);
+        // setLoaded(true);
       } else if (dataApi.type === 'update') {
         const updateData = (dataApi) => {
           setData(prev => {
@@ -63,11 +66,20 @@ export default function RootLayout() {
   }, []);
 
   if (!loaded) {
-    return <LoadScreen />;
+    // return <LoadScreen />;
+
+    return (
+      <AuthProvider>
+         <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="LoginScreen" />
+          <Stack.Screen name="Registr"/>
+        </Stack>
+      </AuthProvider>
+    )
   }
 
   return (
-
+    <AuthProvider>
       <SocketContext.Provider value={{ socket: socket, data }}>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(tabs)" />
@@ -76,7 +88,7 @@ export default function RootLayout() {
         </Stack>
         <StatusBar style="auto" />
       </SocketContext.Provider>
-
+      </AuthProvider>
   );
 }
 
