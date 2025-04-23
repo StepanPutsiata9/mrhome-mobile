@@ -1,4 +1,3 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef, useState, createContext } from 'react';
@@ -68,7 +67,7 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+
       <SocketContext.Provider value={{ socket: socket, data }}>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(tabs)" />
@@ -77,7 +76,7 @@ export default function RootLayout() {
         </Stack>
         <StatusBar style="auto" />
       </SocketContext.Provider>
-    </ThemeProvider>
+
   );
 }
 
