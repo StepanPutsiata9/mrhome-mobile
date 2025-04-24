@@ -61,7 +61,7 @@ const RegistrationScreen = () => {
       {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
       
       <TouchableOpacity onPress={() => {
-         router.push('/index')
+         router.push('/')
       }}>
         <Text style={styles.link}>Есть аккаунт? Войти</Text>
       </TouchableOpacity>
