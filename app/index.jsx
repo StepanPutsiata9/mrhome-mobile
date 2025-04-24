@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import { Header } from '../components/DevelopComponents/Header';
 import EyeOpen from "../components/DevelopComponents/PhotosComponents/EyeOpen"
 import EyeClosed from "../components/DevelopComponents/PhotosComponents/EyeClosed"
+import { useRouter } from 'expo-router';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -13,7 +14,8 @@ const LoginScreen = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { login } = useContext(AuthContext);
-    const [isVisible,setIsVisible]=useState(false);
+  const [isVisible,setIsVisible]=useState(false);
+  const router=useRouter();
   const handleLogin = async () => {
     setLoading(true);
     setError('');
@@ -52,7 +54,7 @@ const LoginScreen = () => {
       />
       <View style={styles.eye}>
         <Pressable onPress={()=>setIsVisible(!isVisible)}>
-            {!isVisible?<EyeOpen/>:<EyeClosed/>}
+            {isVisible?<EyeOpen/>:<EyeClosed/>}
         </Pressable>
       </View>
      </View>
@@ -60,10 +62,7 @@ const LoginScreen = () => {
       {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
       
       <TouchableOpacity onPress={() => {
-         router.push({
-            pathname: '/Registr',
-          
-        })
+         router.push('/Registr')
       }}>
         <Text style={styles.link}>Нет аккаунта? Зарегистрироваться</Text>
       </TouchableOpacity>

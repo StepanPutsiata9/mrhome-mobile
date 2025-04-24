@@ -1,94 +1,82 @@
-import { Stack } from 'expo-router';
+import { Stack, Redirect, useNavigation } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef, useState, createContext } from 'react';
+import { AuthProvider, useAuth } from '../Auth/AuthContext';
 import LoadScreen from "../components/DevelopComponents/LoadScreen";
-import LoginScreen from "./LoginScreen"
-import RegistrationScreen from "./Registr"
-import 'react-native-reanimated';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { AuthProvider } from '@/Auth/AuthContext';
 
+const SocketContext = createContext({
+  socket: { current: null },
+  data: {}
+});
 
-const SocketContext = createContext(null);
-
-export default function RootLayout() {
+function LayoutContent() {
   const [loaded, setLoaded] = useState(false);
   const [data, setData] = useState({});
   const socket = useRef(null);
-  const colorScheme = useColorScheme();
+  const  user = false;
+  // const navigation = useNavigation();
+  const updateDevices = (devices, updatedDevice) => {
+    return devices.map(device =>
+      device.id === updatedDevice.id ? { ...device, ...updatedDevice } : device
+    );
+  };
+  useEffect(() => {
+    if (user) {
+      const ws = new WebSocket('ws://testyandex.onrender.com');
+      
+      ws.onopen = () => {
+        console.log('Connected');
+        socket.current = ws;
+      };
 
-  async function socketInit() {
-    socket.current = new WebSocket('ws://testyandex.onrender.com');
+      ws.onmessage = (event) => {
+        const dataApi = JSON.parse(event.data);
+        if (dataApi.type === 'initial') {
+          setData(dataApi.dataObj);
+          setLoaded(true);
+        }else if (dataApi.type === 'update') {
+          setData(prev => ({
+            electro: updateDevices(prev.electro, dataApi.dataObj),
+            sensors: updateDevices(prev.sensors, dataApi.dataObj),
+          }));
+        }
+      };
 
-    socket.current.onopen = () => {
-      console.log('Connected');
-    };
+      return () => ws.close();
+    }
+  }, [user]);
 
-    socket.current.onmessage = async (event) => {
-      const dataApi = await JSON.parse(event.data);
-      if (dataApi.type === 'initial') {
-        setData(dataApi.dataObj);
-        // setLoaded(true);
-      } else if (dataApi.type === 'update') {
-        const updateData = (dataApi) => {
-          setData(prev => {
-            const updateDevices = (devices, updatedDevice) => {
-              return devices.map(device =>
-                device.id === updatedDevice.id
-                  ? { ...device, ...updatedDevice }
-                  : device
-              );
-            };
-            return {
-              electro: updateDevices(prev.electro, dataApi.dataObj),
-              sensors: updateDevices(prev.sensors, dataApi.dataObj),
-            };
-          });
-        };
-        updateData(dataApi.dataObj)
-      }
-    };
 
-    return () => {
-      if (socket.current) {
-        socket.current.close();
-      }
-    };
+  if (!user) {
+    return (
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="Registr" />
+      </Stack>
+    );
   }
 
-  useEffect(() => {
-    socketInit();
-    return () => {
-      if (socket.current) {
-        socket.current.close();
-      }
-    };
-  }, []);
-
-  if (!loaded) {
-    // return <LoadScreen />;
-
-    return (
-      <AuthProvider>
-         <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="LoginScreen" />
-          <Stack.Screen name="Registr"/>
-        </Stack>
-      </AuthProvider>
-    )
+  if (!loaded&&user) {
+    return <LoadScreen />;
   }
 
   return (
+    <SocketContext.Provider value={{ socket, data }}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="controllerInfo" />
+        <Redirect href="/(tabs)" />
+      </Stack>
+      <StatusBar style="auto" />
+    </SocketContext.Provider>
+  );
+}
+
+export default function RootLayout() {
+  return (
     <AuthProvider>
-      <SocketContext.Provider value={{ socket: socket, data }}>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="controllerInfo" />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-        <StatusBar style="auto" />
-      </SocketContext.Provider>
-      </AuthProvider>
+      <LayoutContent />
+    </AuthProvider>
   );
 }
 

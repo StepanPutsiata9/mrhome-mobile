@@ -1,8 +1,8 @@
-import * as Keychain from 'react-native-keychain';
+import * as SecureStore from 'expo-secure-store';
 
 export const storeTokens = async (accessToken, refreshToken) => {
   try {
-    await Keychain.setGenericPassword('auth', JSON.stringify({
+    await SecureStore.setItemAsync('authData', JSON.stringify({
       accessToken,
       refreshToken
     }));
@@ -15,11 +15,8 @@ export const storeTokens = async (accessToken, refreshToken) => {
 
 export const getTokens = async () => {
   try {
-    const credentials = await Keychain.getGenericPassword();
-    if (credentials) {
-      return JSON.parse(credentials.password);
-    }
-    return null;
+    const authData = await SecureStore.getItemAsync('authData');
+    return authData ? JSON.parse(authData) : null;
   } catch (error) {
     console.error('Error getting tokens:', error);
     return null;
@@ -28,7 +25,7 @@ export const getTokens = async () => {
 
 export const clearTokens = async () => {
   try {
-    await Keychain.resetGenericPassword();
+    await SecureStore.deleteItemAsync('authData');
     return true;
   } catch (error) {
     console.error('Error clearing tokens:', error);

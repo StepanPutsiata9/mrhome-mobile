@@ -61,10 +61,7 @@ const RegistrationScreen = () => {
       {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
       
       <TouchableOpacity onPress={() => {
-         router.push({
-            pathname: '/LoginScreen',
-          
-        })
+         router.push('/index')
       }}>
         <Text style={styles.link}>Есть аккаунт? Войти</Text>
       </TouchableOpacity>
