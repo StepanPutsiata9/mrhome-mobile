@@ -11,7 +11,7 @@ import {Header} from "../Header"
 
 
 export const SmartLight = ({data,socket}) => {
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState(data.color);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(data.glow);
   const items = ['Свечение', 'Мерцание', 'Затухание', 'Сплошной цвет'];
@@ -23,7 +23,6 @@ export const SmartLight = ({data,socket}) => {
     if (typeof colorObj === 'string') {
       setColor(colorObj);
     } else {
-      // Конвертируем HSV/HSL объект в HEX
       const hex = hsvToHex(colorObj);
       setColor(hex);
     }
@@ -62,7 +61,7 @@ export const SmartLight = ({data,socket}) => {
         initialColor="#FF0000"
         onColorChange={handleColorChange}
         style={styles.wheel}
-        thumbSize={30}
+        thumbSize={20}
       />
       <Text style={styles.text}>Цвет: {color}</Text>
       

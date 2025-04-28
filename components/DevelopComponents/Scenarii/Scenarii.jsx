@@ -12,7 +12,7 @@ export default function Scenarii({socket}) {
 
   return (
     <ScrollView style={styles.scenarii}>
-        <Text style={styles.scenText}>Сценарии</Text>
+
          <TouchableOpacity 
               onPress={async() => {
                 await socket.current.send(
@@ -107,13 +107,9 @@ export default function Scenarii({socket}) {
 }
 const styles = StyleSheet.create({
 scenarii:{
-    marginTop:30,
     marginHorizontal:"auto",
-  },
-  scenText:{
-    fontSize:32
-  },
- scen:{
+},
+scen:{
     backgroundColor:'white',
     width:328,
     height:'min-content',

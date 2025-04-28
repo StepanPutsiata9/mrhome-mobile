@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from './authContext';
+import { useAuth } from './AuthContext';
 import { View, Text, ActivityIndicator, Button } from 'react-native';
 
 const ProtectedRoute = ({ children }) => {

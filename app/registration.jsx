@@ -15,11 +15,11 @@ const RegistrationScreen = () => {
   const { login } = useContext(AuthContext);
   const [isVisible,setIsVisible]=useState(true);
   const router=useRouter();  
-  const handleLogin = async () => {
+  const handleRegistration = async () => {
     setLoading(true);
     setError('');
     try {
-      const response = await api.post('/auth/regist', { email, password });
+      const response = await api.post('/auth/registration', { email, password });
       const { accessToken, refreshToken } = response.data;
       login(accessToken, refreshToken);
     } catch (err) {
@@ -70,7 +70,7 @@ const RegistrationScreen = () => {
       ) : (<TouchableOpacity
                 style={styles.logBtn}
                 activeOpacity={0.7}
-                onPress={handleLogin}>
+                onPress={handleRegistration}>
             <Text style={styles.btnText}>Зарегистрироваться</Text>
             </TouchableOpacity>
       )}

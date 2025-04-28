@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getTokens, storeTokens } from './authStorage';
 
 const api = axios.create({
-  baseURL: 'https://your-api-url.com/api',
+  baseURL: 'url',
 });
 
 api.interceptors.request.use(async (config) => {

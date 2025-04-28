@@ -1,7 +1,7 @@
-import { Stack, Redirect, useNavigation } from 'expo-router';
+import { Stack, Redirect } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef, useState, createContext } from 'react';
-import { AuthProvider, useAuth } from '../Auth/AuthContext';
+import { AuthProvider} from '../Auth/AuthContext';
 import LoadScreen from "../components/DevelopComponents/LoadScreen";
 
 const SocketContext = createContext({
@@ -13,8 +13,7 @@ function LayoutContent() {
   const [loaded, setLoaded] = useState(false);
   const [data, setData] = useState({});
   const socket = useRef(null);
-  const  user = false;
-  // const navigation = useNavigation();
+  const  user = true;
   const updateDevices = (devices, updatedDevice) => {
     return devices.map(device =>
       device.id === updatedDevice.id ? { ...device, ...updatedDevice } : device
@@ -23,10 +22,12 @@ function LayoutContent() {
   useEffect(() => {
     if (user) {
       const ws = new WebSocket('ws://testyandex.onrender.com');
-      
       ws.onopen = () => {
         console.log('Connected');
         socket.current = ws;
+        // if (user?.token) {
+        //  ws.send(JSON.stringify({ type: 'auth', token: user.token }));
+        // }
       };
 
       ws.onmessage = (event) => {
@@ -49,14 +50,18 @@ function LayoutContent() {
 
   if (!user) {
     return (
+      <>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
-        <Stack.Screen name="Registr" />
+        <Stack.Screen name="registration" />
+        {/* <Redirect href="/index" /> */}
       </Stack>
+      {/* <Redirect href="/(tabs)" /> */}
+      </>
     );
   }
-
-  if (!loaded&&user) {
+  
+  if (!loaded) {
     return <LoadScreen />;
   }
 
@@ -65,8 +70,9 @@ function LayoutContent() {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="controllerInfo" />
-        <Redirect href="/(tabs)" />
+        <Stack.Screen name="(scen)" />
       </Stack>
+      <Redirect href="/(tabs)/" />
       <StatusBar style="auto" />
     </SocketContext.Provider>
   );
