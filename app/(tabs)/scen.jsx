@@ -25,7 +25,7 @@ export default function TabTwoScreen() {
       </View>
     </ScrollView >
     <Pressable onPress={()=>{
-      router.push('/(scen)/newScenarii');
+      router.push('/(scen)/NewScenarii');
     }}>
       <View style={styles.plus}>
         <Plus/>
