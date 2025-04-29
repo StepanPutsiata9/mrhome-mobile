@@ -4,6 +4,7 @@ import { useState } from "react";
 import Moon from "../PhotosComponents/Moon"
 import SunRise from "../PhotosComponents/SunRise"
 import {  StyleSheet ,Text,View,ScrollView,TouchableOpacity} from 'react-native';
+
 export default function Scenarii({socket}) {
     const [morningActive,setMorningActive]=useState(false);
     const [nightActive,setNightActive]=useState(false);

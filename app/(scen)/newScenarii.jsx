@@ -13,7 +13,8 @@ import  {ScenariiContext}  from '../(scen)/ScenariiContext';
 export default function NewScen() {
 
     const {socket,data}=useContext(SocketContext);
-    const {isListEmpty,setIsListEmpty,controllerState,setControllerState}=useContext(ScenariiContext);
+    const {isListEmpty,setIsListEmpty,controllerState,
+      setControllerState,scenariiState,setScenariiState}=useContext(ScenariiContext);
     const [title,setTitle]=useState("");
     const [isOpen,setIsOpen]=useState(false)
     const icons=[
@@ -117,6 +118,14 @@ export default function NewScen() {
             style={styles.btn}
             activeOpacity={0.7}
             onPress={()=>{
+              setScenariiState(prev => [...prev, 
+                {
+                  title:title||"Без названия",
+                  state:controllerState,
+                  icon:selectedItem,
+                }
+              ])
+              setControllerState([]);
               router.back();
             }}>
         <Text style={styles.btnText}>Добавить сценраий</Text>

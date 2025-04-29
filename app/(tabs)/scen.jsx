@@ -7,10 +7,15 @@ import {useRouter } from 'expo-router';
 import Plus from "../../components/DevelopComponents/PhotosComponents/Plus"
 import { useContext } from 'react';
 import { SocketContext } from '../_layout';
+import { ScenariiContext } from '../(scen)/ScenariiContext';
+import Back from "../../components/DevelopComponents/PhotosComponents/Back"
+
 export default function TabTwoScreen() {
 
   const {socket,data}=useContext(SocketContext);
   const router=useRouter();
+  const {setScenariiState,scenariiState}=useContext(ScenariiContext);
+  // console.log(scenariiState[0]["state"]);
   return (
   <ImageBackground
         source={require('../../assets/images/Background.png')} 
@@ -21,7 +26,22 @@ export default function TabTwoScreen() {
       <Header/>
       <View style={styles.container}>
       <Text style={styles.scenText}>Сценарии</Text>
-      <Scenarii socket={socket}/>   
+      {/* <Scenarii socket={socket}/>    */}
+      <View>
+        {scenariiState.map((item,index)=>{
+          return(
+            <View key={index}>
+              <Text>{item.title}</Text>
+              <View>{item.icon}</View>
+              <View>
+                    {scenariiState.length!=0?item.state.map((i,index)=>{
+                    return <Text style={{color:'#8b8b8b',marginBottom:5}} key={index}>{i.title}</Text>
+                      }):null}
+                  </View>
+            </View>
+          )
+        })}
+      </View>
       </View>
     </ScrollView >
     <Pressable onPress={()=>{
