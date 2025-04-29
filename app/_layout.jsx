@@ -1,7 +1,8 @@
 import { Stack, Redirect } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useRef, useState, createContext } from 'react';
-import { AuthProvider} from '../Auth/AuthContext';
+import { useEffect, useRef, useState, createContext, useContext } from 'react';
+import { AuthContext, AuthProvider} from '../Auth/AuthContext';
+import {ScenariiProvider} from "./(scen)/ScenariiContext"
 import LoadScreen from "../components/DevelopComponents/LoadScreen";
 
 const SocketContext = createContext({
@@ -14,6 +15,8 @@ function LayoutContent() {
   const [data, setData] = useState({});
   const socket = useRef(null);
   const  user = true;
+
+
   const updateDevices = (devices, updatedDevice) => {
     return devices.map(device =>
       device.id === updatedDevice.id ? { ...device, ...updatedDevice } : device
@@ -68,9 +71,9 @@ function LayoutContent() {
   return (
     <SocketContext.Provider value={{ socket, data }}>
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)" />
         <Stack.Screen name="controllerInfo" />
-        <Stack.Screen name="(scen)" />
+          <Stack.Screen name="(tabs)"/>
+          <Stack.Screen name="(scen)" />
       </Stack>
       <Redirect href="/(tabs)/" />
       <StatusBar style="auto" />
@@ -81,7 +84,9 @@ function LayoutContent() {
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <LayoutContent />
+      <ScenariiProvider>
+        <LayoutContent />
+      </ScenariiProvider>
     </AuthProvider>
   );
 }

@@ -9,40 +9,28 @@ import { SocketContext } from '../app/_layout';
 import { useLocalSearchParams } from 'expo-router';
 
 export default function ControllerInfo() {
+  const { socket, data } = useContext(SocketContext);
+  const { id } = useLocalSearchParams();
 
-  const { socket,data} = useContext(SocketContext);
-  
-  const {id} = useLocalSearchParams();
   function findDeviceById(data, targetId) {
+    if (!data) return null;
     const allDevices = Object.values(data).flat();
-    console.log('====================================');
-    console.log(allDevices);
-    console.log('====================================');
     return allDevices.find(device => device.id == targetId);
   }
-  const controllerData=findDeviceById(data,id)
 
-  console.log("data ",controllerData);
+  const controllerData = findDeviceById(data, id);
 
+  console.log('====================================');
+  console.log("id ", id);
+  console.log("controllerData ", controllerData);
+  console.log('====================================');
 
-  
   const renderComponent = () => {
-    // switch(controllerData.deviceType) {
-    //   case "light":
-    //     return <SmartLight data={controllerData} socket={socket} />;
-    //   case "switch":
-    //     return <SmartSwitch data={controllerData} socket={socket} />;
-    //   case "curtain":
-    //     return <SmartShtora data={controllerData} socket={socket} />;
-    //   case "temp":
-    //     return <TempSensor data={controllerData} socket={socket} />;
-    //   case "move":
-    //     return <MoveSensor data={controllerData} socket={socket} />;
-    //   default:
-    //     return <Text style={styles.text}>Неизвестный тип устройства</Text>;
-    // }
+    if (!controllerData) {
+      return <Text style={styles.text}>Устройство не найдено</Text>;
+    }
 
-    switch(controllerData.title){
+    switch(controllerData.title) {
       case "Умная подсветка":
         return <SmartLight data={controllerData} socket={socket} />;
       case "Умный выключатель":
@@ -74,6 +62,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    color: 'white',
+    fontSize: 18,
   },
   background: {
     flex: 1,

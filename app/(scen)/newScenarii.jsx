@@ -5,24 +5,23 @@ import {useRouter } from 'expo-router';
 import Back from "../../components/DevelopComponents/PhotosComponents/Back"
 import EyeOpen from "../../components/DevelopComponents/PhotosComponents/EyeOpen"
 import EyeClosed from "../../components/DevelopComponents/PhotosComponents/EyeClosed"
-
-
 import ToArrow from "../../components/DevelopComponents/PhotosComponents/toArrow"
 import { useContext, useState } from 'react';
 import { SocketContext } from '../_layout';
+import  {ScenariiContext}  from '../(scen)/ScenariiContext';
 
 export default function NewScen() {
 
-  const {socket,data}=useContext(SocketContext);
-  const [title,setTitle]=useState("");
-  const [isOpen,setIsOpen]=useState(false)
-  const icons=[
+    const {socket,data}=useContext(SocketContext);
+    const {isListEmpty,setIsListEmpty}=useContext(ScenariiContext);
+    const [title,setTitle]=useState("");
+    const [isOpen,setIsOpen]=useState(false)
+    const icons=[
     <Back/>,
     <EyeOpen/>,
     <EyeClosed/>
   ];
-  const [selectedItem, setSelectedItem] = useState(data.glow);
-  const [isListEmpty,setIsListEmpty]=useState(false);
+  const [selectedItem, setSelectedItem] = useState("");
   const router=useRouter();
   return (
     <ScrollView>
@@ -32,9 +31,11 @@ export default function NewScen() {
       
       <View style={styles.title}>
             <Text style={styles.titleText}>Новый сценарий</Text>
-        <Pressable onPress={() => router.back()}>
-          <Back />
-        </Pressable>
+            <Pressable 
+              onPress={() =>router.back()}>
+  <Back />
+</Pressable>
+
       </View>
         <TextInput
                   value={title}
@@ -106,10 +107,6 @@ export default function NewScen() {
       </View>
       </View>     
     </ScrollView>
-    
-  
-    
-
   );
 }
 
