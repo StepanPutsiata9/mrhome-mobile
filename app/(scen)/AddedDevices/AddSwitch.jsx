@@ -3,15 +3,33 @@ import { View, StyleSheet, Pressable,TouchableOpacity } from "react-native"
 import { Header } from "../../../components/DevelopComponents/Header";
 import Back from "../../../components/DevelopComponents/PhotosComponents/Back"
 import { useRouter } from "expo-router";
-import { useState } from "react"
+import { useContext, useState } from "react"
 import SwitchOn from "../../../components/DevelopComponents/PhotosComponents/SwitchOn";
 import SwitchOff from "../../../components/DevelopComponents/PhotosComponents/SwitchOff";
+import { ScenariiContext } from "../ScenariiContext";
 
 
 export default function AddCurtain() {
     const router = useRouter();
     const [on, setOn] = useState(true);
     const [off, setOff] = useState(!on);
+    const {controllerState,setControllerState}=useContext(ScenariiContext);
+    const addController = (newItem) => {
+        setControllerState(prevItems => {
+          // Проверяем, есть ли элемент с таким же title
+          const itemIndex = prevItems.findIndex(item => item.title === newItem.title);
+          
+          if (itemIndex >= 0) {
+            // Если нашли - создаем новый массив с замененным элементом
+            const updatedItems = [...prevItems];
+            updatedItems[itemIndex] = newItem;
+            return updatedItems;
+          } else {
+            // Если не нашли - добавляем новый элемент
+            return [...prevItems, newItem];
+          }
+        });
+      };
     return (
         <ScrollView style={styles.switch}>
             <Header />
@@ -53,6 +71,10 @@ export default function AddCurtain() {
                     style={styles.btn}
                     activeOpacity={0.7}
                     onPress={() => {
+                        addController({title:"Умный выключатель",
+                            commands:["Состояние"],
+                            state:[on?"Включать":"Выключать"]
+                          });
                         router.back();
                     }}>
                     <Text style={styles.btnText}>Добавить</Text>

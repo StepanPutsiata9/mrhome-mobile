@@ -5,7 +5,7 @@ const ScenariiContext = createContext();
 export function ScenariiProvider({ children }) {
   const [scenariiState, setScenariiState] = useState([]);
   const [controllerState, setControllerState] = useState([]);
-  const [isListEmpty, setIsListEmpty] = useState(false);
+  const [isListEmpty, setIsListEmpty] = useState(true);
 
   const value = {
     isListEmpty:isListEmpty,

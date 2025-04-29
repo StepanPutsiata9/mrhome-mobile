@@ -13,7 +13,7 @@ import  {ScenariiContext}  from '../(scen)/ScenariiContext';
 export default function NewScen() {
 
     const {socket,data}=useContext(SocketContext);
-    const {isListEmpty,setIsListEmpty}=useContext(ScenariiContext);
+    const {isListEmpty,setIsListEmpty,controllerState,setControllerState}=useContext(ScenariiContext);
     const [title,setTitle]=useState("");
     const [isOpen,setIsOpen]=useState(false)
     const icons=[
@@ -80,10 +80,28 @@ export default function NewScen() {
             <Text style={styles.itemStateText}>Состояние элементов :</Text>
         </View>
         <View style={styles.controllersView}>
-            {isListEmpty?
+            {controllerState.length==0?
             <Text style={styles.emptyList}>Добавленных элементов пока нет</Text>
             :
-            <Text style={styles.emptyList}>Добавленные элементы есть</Text>
+            controllerState.map((item,key)=>{
+              return(
+                <View style={styles.viewConroller} key={key}>
+                <Text style={styles.titleController}>{item.title}</Text>
+                <View style={styles.infoView}>
+                  <View style={styles.commandView}>
+                      {item.commands.map((i,index)=>{
+                       if(i!=null) return <Text style={{marginBottom:5}} key={index}>{i}</Text>
+                      })}
+                  </View>
+                  <View style={styles.stateView}>
+                    {item.state.map((i,index)=>{
+                        if(i!=null) return <Text style={{color:'#8b8b8b',textAlign:'right',marginBottom:5}} key={index}>{i}</Text>
+                      })}
+                  </View>
+                </View>
+                </View>
+              )
+            })
             }
         </View>
         <View style={styles.addController}>
@@ -94,7 +112,7 @@ export default function NewScen() {
           </Pressable>
         </View>
         <View style={styles.btnBlock}>
-          {!isListEmpty&&
+          {!controllerState.length==0&&
             <TouchableOpacity
             style={styles.btn}
             activeOpacity={0.7}
@@ -163,7 +181,7 @@ const styles = StyleSheet.create({
     marginTop:10,
   },
   itemStateText:{
-    fontSize:18,
+    fontSize:20,
   },
   addController:{
     marginTop:20,
@@ -172,7 +190,6 @@ const styles = StyleSheet.create({
     color:'#8B8B8B',
     textDecorationLine:"underline",
   },
-
   emptyList:{
     textAlign:'center',
     marginTop:20,
@@ -194,5 +211,20 @@ const styles = StyleSheet.create({
     margin:'auto'
     
   },
-
+  viewConroller:{
+    paddingHorizontal:10,
+    marginVertical:5
+  },
+  titleController:{
+    fontSize:18
+  },
+  infoView:{
+    marginLeft:10,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+  },
+  commandView:{
+    marginVertical:10
+  }
 });
