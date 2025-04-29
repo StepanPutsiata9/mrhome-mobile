@@ -17,7 +17,7 @@
         const [isOpenGlow, setIsOpenGlow] = useState(false);
         const [isOpenCircle, setIsOpenCircle] = useState(false);
         const [isOpenState, setIsOpenState] = useState(false);
-        const [state,setState]=useState("");
+        const [state,setState]=useState("Выключить");
         const {setControllerState}=useContext(ScenariiContext);
         const [color, setColor] = useState("");
         const items = ['Свечение', 'Мерцание', 'Затухание', 'Сплошной цвет'];

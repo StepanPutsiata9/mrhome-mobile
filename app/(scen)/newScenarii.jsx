@@ -14,7 +14,7 @@ export default function NewScen() {
 
     const {socket,data}=useContext(SocketContext);
     const {isListEmpty,setIsListEmpty,controllerState,
-      setControllerState,scenariiState,setScenariiState}=useContext(ScenariiContext);
+      setControllerState,scenariiState,setScenariiState,scenCount,setScenCount}=useContext(ScenariiContext);
     const [title,setTitle]=useState("");
     const [isOpen,setIsOpen]=useState(false)
     const icons=[
@@ -123,8 +123,11 @@ export default function NewScen() {
                   title:title||"Без названия",
                   state:controllerState,
                   icon:selectedItem,
+                  id:scenCount,
+                  modalVisible:false,
                 }
               ])
+              setScenCount(scenCount+1);
               setControllerState([]);
               router.back();
             }}>

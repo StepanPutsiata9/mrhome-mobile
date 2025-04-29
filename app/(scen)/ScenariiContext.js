@@ -6,6 +6,7 @@ export function ScenariiProvider({ children }) {
   const [scenariiState, setScenariiState] = useState([]);
   const [controllerState, setControllerState] = useState([]);
   const [isListEmpty, setIsListEmpty] = useState(true);
+  const [scenCount,setScenCount]=useState(0)
 
   const value = {
     isListEmpty:isListEmpty,
@@ -14,6 +15,8 @@ export function ScenariiProvider({ children }) {
     controllerState:controllerState,
     setScenariiState:setScenariiState,
     setControllerState:setControllerState,
+    scenCount:scenCount,
+    setScenCount:setScenCount,
   };
 
   return (
