@@ -10,6 +10,9 @@ import { useRouter } from 'expo-router';
 const RegistrationScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [broker, setBroker] = useState('');
+  const [ws, setWs] = useState('');
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { login } = useContext(AuthContext);
@@ -19,7 +22,7 @@ const RegistrationScreen = () => {
     setLoading(true);
     setError('');
     try {
-      const response = await api.post('/auth/registration', { email, password });
+      const response = await api.post('/auth/registration', { email, password,broker,socket });
       const { accessToken, refreshToken } = response.data;
       login(accessToken, refreshToken);
     } catch (err) {
@@ -41,6 +44,8 @@ const RegistrationScreen = () => {
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
+            placeholderTextColor="#999"
+
         />
       
      <View style={styles.inputView}>
@@ -50,6 +55,8 @@ const RegistrationScreen = () => {
         style={styles.input}
         onChangeText={setPassword}
         secureTextEntry={isVisible}
+        placeholderTextColor="#999"
+
       />
       <View style={styles.eye}>
         <Pressable onPress={()=>setIsVisible(!isVisible)}>
@@ -57,7 +64,24 @@ const RegistrationScreen = () => {
         </Pressable>
       </View>
      </View>
-      
+     <TextInput
+            value={broker}
+            placeholder='Адерс брокера'
+            style={styles.input}
+            onChangeText={setBroker}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            placeholderTextColor="#999"
+        />
+      <TextInput
+            value={ws}
+            placeholder='WebSocket-порт'
+            style={styles.input}
+            onChangeText={setWs}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            placeholderTextColor="#999"
+        />
       {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
       
       <TouchableOpacity onPress={() => {

@@ -2,6 +2,8 @@ import { StyleSheet,View,Pressable,ScrollView, Text,TextInput,Modal, TouchableOp
 import {Header} from "../../components/DevelopComponents/Header"
 
 import {useRouter } from 'expo-router';
+import SunRise from "../../components/DevelopComponents/PhotosComponents/SunRise"
+import Moon from "../../components/DevelopComponents/PhotosComponents/Moon"
 import Back from "../../components/DevelopComponents/PhotosComponents/Back"
 import EyeOpen from "../../components/DevelopComponents/PhotosComponents/EyeOpen"
 import EyeClosed from "../../components/DevelopComponents/PhotosComponents/EyeClosed"
@@ -18,9 +20,10 @@ export default function NewScen() {
     const [title,setTitle]=useState("");
     const [isOpen,setIsOpen]=useState(false)
     const icons=[
-    <Back/>,
+    <SunRise/>,
     <EyeOpen/>,
-    <EyeClosed/>
+    <EyeClosed/>,
+    <Moon/>,
   ];
   const [selectedItem, setSelectedItem] = useState("");
   const router=useRouter();
@@ -166,7 +169,8 @@ const styles = StyleSheet.create({
   },
   iconBlock:{
     flexDirection:'row',
-    justifyContent:'space-between'
+    justifyContent:'space-between',
+    marginBottom:5,
   },
   modalOverlay: {
     flex: 1,

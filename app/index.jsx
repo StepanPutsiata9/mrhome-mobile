@@ -42,6 +42,7 @@ const LoginScreen = () => {
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
+            placeholderTextColor="#999"
         />
       
      <View style={styles.inputView}>
@@ -51,6 +52,8 @@ const LoginScreen = () => {
         style={styles.input}
         onChangeText={setPassword}
         secureTextEntry={!isVisible}
+        placeholderTextColor="#999"
+
       />
       <View style={styles.eye}>
         <Pressable onPress={()=>setIsVisible(!isVisible)}>
@@ -81,7 +84,7 @@ const LoginScreen = () => {
 };
 const styles = StyleSheet.create({
     conatiner:{
-        padding:20
+        padding:20,
     },
     enter:{
         fontSize:30,
@@ -94,7 +97,6 @@ const styles = StyleSheet.create({
         backgroundColor:'#4C82FF',
         paddingHorizontal:60,
         paddingVertical:10,
-        
       },
     link:{
         color:'#4C82FF',

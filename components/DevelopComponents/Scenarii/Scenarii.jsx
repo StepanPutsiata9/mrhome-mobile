@@ -1,8 +1,13 @@
 
-import { StyleSheet, Text, View, TouchableOpacity, Modal, Pressable } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, Pressable,Alert } from 'react-native';
 import { useContext } from 'react';
 import { ScenariiContext } from '@/app/(scen)/ScenariiContext';
 import Close from "../PhotosComponents/Close"
+import Points from "../PhotosComponents/Points"
+import TrashBin from "../PhotosComponents/TrashBin"
+
+
+
 
 
 const toggleModal = (id, data, callback) => {
@@ -12,28 +17,43 @@ const toggleModal = (id, data, callback) => {
             : scen
     ));
 };
+const deleteScenario = (id, data, callback) => {
+    callback(data.filter(scen => scen.id !== id));
+};
 export default function Scenarii({ item }) {
     const { scenariiState, setScenariiState } = useContext(ScenariiContext);
-
     return (
-        <TouchableOpacity
-            onPress={() => toggleModal(item.id, scenariiState, setScenariiState)}
-        >
+        <>
             <Modal visible={item.modalVisible} animationType="fade"
                 transparent={true}>
                 <ModalScen item={item} />
             </Modal>
-            <View>
-                <Text>{item.title}</Text>
-                <View>{item.icon}</View>
-                <View>
+            <View style={styles.scenView}>
+                <View style={styles.infoTitle}>
+                    <View style={styles.titleView}>
+                        <View style={styles.icon}>{item.icon}</View>
+                        <Text style={styles.titleName}>{item.title}</Text>
+                    </View>
+                    <View style={styles.points}>
+                        <TouchableOpacity
+                            onPress={() => toggleModal(item.id, scenariiState, setScenariiState)}
+                        >
+                            <Points />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.addedControllers}>
+                    <Text style={styles.addedControllersText}>Добавленные элементы :</Text>
+                </View>
+                <View style={styles.controllerView}>
                     {scenariiState.length != 0 ? item.state.map((i, index) => {
-                        return <Text style={{ color: '#8b8b8b', marginBottom: 5 }} key={index}>{i.title}</Text>
+                        return <Text style={styles.controllerName} key={index}>{i.title}</Text>
                     }) : null}
                 </View>
 
             </View>
-        </TouchableOpacity>
+        </>
+
     );
 }
 
@@ -53,12 +73,13 @@ export function ModalScen({ item }) {
                         </View>
                         {/* <View>{item.icon}</View> */}
                     </View>
-                    <Pressable onPress={() => toggleModal(item.id, scenariiState, setScenariiState)}>
-                        <Close />
-                    </Pressable>
-                </View>
-              
+                    <View style={styles.iconsBlock}>
 
+                        <Pressable onPress={() => toggleModal(item.id, scenariiState, setScenariiState)}>
+                            <Close />
+                        </Pressable>
+                    </View>
+                </View>
                 <View>
                     {
                         item.state.map((st, key) => {
@@ -81,6 +102,28 @@ export function ModalScen({ item }) {
                             )
                         })}
                 </View>
+                <View style={styles.trashView}>
+                    <Pressable onPress={() =>
+                        Alert.alert(
+                            'Удаление сценария',
+                            'Вы точно хотите удалить этот сценарий?',
+                            [
+                                {
+                                    text: 'Отмена',
+                                    style: 'cancel',
+                                },
+                                {
+                                    text: 'Удалить',
+                                    onPress: () => deleteScenario(item.id, scenariiState, setScenariiState),
+                                    style: 'destructive',
+                                },
+                            ]
+                        )
+                    }>
+                        <TrashBin />
+                    </Pressable>
+                </View>
+
 
             </View>
         </TouchableOpacity>
@@ -97,7 +140,7 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         width: '85%',
-        height:"min-content",
+        height: "min-content",
         backgroundColor: 'white',
         borderRadius: 10,
         padding: 16,
@@ -116,14 +159,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     viewConroller: {
-        paddingHorizontal: 10,
+        paddingHorizontal: 16,
         marginVertical: 5
     },
     titleController: {
         fontSize: 18
     },
     infoView: {
-        marginLeft: 10,
+        // marginLeft: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -134,11 +177,63 @@ const styles = StyleSheet.create({
     titleBlock: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems:'center',
-        marginBottom:10,
+        alignItems: 'center',
+        marginBottom: 10,
+        paddingHorizontal: 16,
     },
-    title:{
-        flexDirection:'row',
-        alignItems:'center',
+    title: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    scenView: {
+        margin: 'auto',
+        marginTop: 20,
+        width: 296,
+        paddingHorizontal: 16,
+        paddingVertical: 20,
+        backgroundColor: '#fff',
+        borderRadius: 16,
+    },
+    titleView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    titleName: {
+        marginLeft: 10,
+        fontSize: 22,
+        fontWeight: 600,
+    },
+    controllerView: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+
+    },
+    controllerName: {
+        color: '#8b8b8b',
+        marginBottom: 7,
+        fontWeight: 300,
+    },
+    infoTitle: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: "center",
+    },
+    addedControllers: {
+        marginVertical: 10,
+
+    },
+    addedControllersText: {
+        fontSize: 16,
+    },
+    iconsBlock: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 20
+    },
+    trashView: {
+        margin: 'auto',
+        marginTop: 10,
+        // paddingHorizontal:16
     }
 });

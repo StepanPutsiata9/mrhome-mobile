@@ -109,13 +109,14 @@ const styles = StyleSheet.create({
   titleBlock: {
     flex: 1,
     flexDirection: "row",
+
   },
   title: {
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: 500,
     fontFamily: "Roboto",
-    marginLeft: 9,
-    marginRight: 16
+    marginLeft: 5,
+    width:90,
   },
   infoBlock: {
     flex: 1,

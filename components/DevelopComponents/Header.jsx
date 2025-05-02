@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         paddingHorizontal: 20,
-        marginTop: 25,
+        paddingTop: 30,
         marginBottom: 10,
     },
     headerText: {
