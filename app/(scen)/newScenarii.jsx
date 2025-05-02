@@ -1,176 +1,210 @@
-import { StyleSheet,View,Pressable,ScrollView, Text,TextInput,Modal, TouchableOpacity} from 'react-native';
-import {Header} from "../../components/DevelopComponents/Header"
+import { StyleSheet, View, Pressable, ScrollView, Text, TextInput, Modal, TouchableOpacity } from 'react-native';
+import { Header } from "../../components/DevelopComponents/Header"
 
-import {useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import SunRise from "../../components/DevelopComponents/PhotosComponents/SunRise"
 import Moon from "../../components/DevelopComponents/PhotosComponents/Moon"
 import Back from "../../components/DevelopComponents/PhotosComponents/Back"
-import EyeOpen from "../../components/DevelopComponents/PhotosComponents/EyeOpen"
-import EyeClosed from "../../components/DevelopComponents/PhotosComponents/EyeClosed"
+import Lamp from "../../components/DevelopComponents/PhotosComponents/Lamp"
+import Briefcase from "../../components/DevelopComponents/PhotosComponents/Briefcase"
+import Balloon from "../../components/DevelopComponents/PhotosComponents/Balloon"
+import Sun from "../../components/DevelopComponents/PhotosComponents/Sun"
+import SunSet from "../../components/DevelopComponents/PhotosComponents/SunSet"
+import Lightning from "../../components/DevelopComponents/PhotosComponents/Lightning"
+import Egg from "../../components/DevelopComponents/PhotosComponents/Egg"
+import Default from "../../components/DevelopComponents/PhotosComponents/Default"
+import Cup from "../../components/DevelopComponents/PhotosComponents/Cup"
+import CloudySun from "../../components/DevelopComponents/PhotosComponents/CloudySun"
+import CloudyMoon from "../../components/DevelopComponents/PhotosComponents/CloudyMoon"
+import CPU from "../../components/DevelopComponents/PhotosComponents/CPU"
+
+
+
+
+
+
+
+
 import ToArrow from "../../components/DevelopComponents/PhotosComponents/toArrow"
+
+
+
+
 import { useContext, useState } from 'react';
 import { SocketContext } from '../_layout';
-import  {ScenariiContext}  from '../(scen)/ScenariiContext';
+import { ScenariiContext } from '../(scen)/ScenariiContext';
 
 export default function NewScen() {
 
-    const {socket,data}=useContext(SocketContext);
-    const {isListEmpty,setIsListEmpty,controllerState,
-      setControllerState,scenariiState,setScenariiState,scenCount,setScenCount}=useContext(ScenariiContext);
-    const [title,setTitle]=useState("");
-    const [isOpen,setIsOpen]=useState(false)
-    const icons=[
-    <SunRise/>,
-    <EyeOpen/>,
-    <EyeClosed/>,
-    <Moon/>,
+  const { socket, data } = useContext(SocketContext);
+  const { isListEmpty, setIsListEmpty, controllerState,
+    setControllerState, scenariiState, setScenariiState, scenCount, setScenCount } = useContext(ScenariiContext);
+  const [title, setTitle] = useState("");
+  const [isOpen, setIsOpen] = useState(false)
+  const icons = [
+    <SunRise />,
+    <Briefcase />,
+    <Lamp />,
+    <Balloon />,
+    <Moon />,
+    <Sun/>,
+    <SunSet/>,
+    <Lightning/>,
+    <Egg/>,
+    <Cup/>,
+    <CloudySun/>,
+    <CloudyMoon/>,
+    <CPU/>
   ];
   const [selectedItem, setSelectedItem] = useState("");
-  const router=useRouter();
+  const router = useRouter();
   return (
     <ScrollView>
-      <Header/>
+      <Header />
       <View style={styles.container}>
+        <View style={styles.title}>
+          <Text style={styles.titleText}>Новый сценарий</Text>
+          <Pressable
+            onPress={() => router.back()}>
+            <Back />
+          </Pressable>
 
-      
-      <View style={styles.title}>
-            <Text style={styles.titleText}>Новый сценарий</Text>
-            <Pressable 
-              onPress={() =>router.back()}>
-  <Back />
-</Pressable>
-
-      </View>
+        </View>
         <TextInput
-                  value={title}
-                  placeholder='Название сценария'
-                  style={styles.input}
-                  onChangeText={setTitle}
-                  autoCapitalize="none"
-              />
+          value={title}
+          placeholder='Название сценария'
+          style={styles.input}
+          onChangeText={setTitle}
+          autoCapitalize="none"
+        />
         <View style={styles.iconBlock}>
-          <View style={{flexDirection:'row', alignItems:'center'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text>Иконка</Text>
-            <Pressable onPress={()=>{
-                setIsOpen(true)
+            <Pressable 
+          
+            onPress={() => {
+              setIsOpen(true)
             }}>
-                  <Modal visible={isOpen} transparent={true} animationType="fade">
-                    <Pressable style={styles.modalOverlay} onPress={() => setIsOpen(false)}>
-                      <View style={styles.dropdownList}>
-                        {icons.map((item, index) => (
-                          <Pressable
-                            key={index}
-                            style={styles.item}
-                            onPress={() => {
-                              setSelectedItem(item);
-                              setIsOpen(false);
-                            }}
-                          >
-                            <Text>{item}</Text>
-                          </Pressable>
-                        ))}
-                      </View>
-                    </Pressable>
-                  </Modal>
-              <ToArrow/>
+              <Modal visible={isOpen} transparent={true} animationType="fade">
+                <Pressable style={styles.modalOverlay} onPress={() => setIsOpen(false)}>
+                  <View style={styles.dropdownList}>
+                    {icons.map((item, index) => (
+                    <Pressable
+                        key={index}
+                        style={styles.item}
+                        onPress={() => {
+                          setSelectedItem(item);
+                          setIsOpen(false);
+                        }}
+                      >
+                        <Text>{item}</Text>
+                      </Pressable>
+                    ))}
+                  </View>
+                </Pressable>
+              </Modal>
+              <ToArrow />
             </Pressable>
-            
+
           </View>
           <View>
-              <Text>{selectedItem}</Text>
+            <Text>{selectedItem}</Text>
           </View>
         </View>
         <View style={styles.itemsState}>
-            <Text style={styles.itemStateText}>Состояние элементов :</Text>
+          <Text style={styles.itemStateText}>Состояние элементов :</Text>
         </View>
         <View style={styles.controllersView}>
-            {controllerState.length==0?
+          {controllerState.length == 0 ?
             <Text style={styles.emptyList}>Добавленных элементов пока нет</Text>
             :
-            controllerState.map((item,key)=>{
-              return(
+            controllerState.map((item, key) => {
+              return (
                 <View style={styles.viewConroller} key={key}>
-                <Text style={styles.titleController}>{item.title}</Text>
-                <View style={styles.infoView}>
-                  <View style={styles.commandView}>
-                      {item.commands.map((i,index)=>{
-                       if(i!=null) return <Text style={{marginBottom:5}} key={index}>{i}</Text>
+                  <Text style={styles.titleController}>{item.title}</Text>
+                  <View style={styles.infoView}>
+                    <View style={styles.commandView}>
+                      {item.commands.map((i, index) => {
+                        if (i != null) return <Text style={{ marginBottom: 5 }} key={index}>{i}</Text>
                       })}
-                  </View>
-                  <View style={styles.stateView}>
-                    {item.state.map((i,index)=>{
-                        if(i!=null) return <Text style={{color:'#8b8b8b',textAlign:'right',marginBottom:5}} key={index}>{i}</Text>
+                    </View>
+                    <View style={styles.stateView}>
+                      {item.state.map((i, index) => {
+                        if (i != null) return <Text style={{ color: '#8b8b8b', textAlign: 'right', marginBottom: 5 }} key={index}>{i}</Text>
                       })}
+                    </View>
                   </View>
-                </View>
                 </View>
               )
             })
-            }
+          }
         </View>
         <View style={styles.addController}>
-          <Pressable onPress={()=>{
-              router.push('/(scen)/AddControllersToScenarii')
+          <TouchableOpacity 
+          hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+          onPress={() => {
+            router.push('/(scen)/AddControllersToScenarii')
           }}>
             <Text style={styles.addControllerText}>Добавить элемент</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
         <View style={styles.btnBlock}>
-          {!controllerState.length==0&&
+          {!controllerState.length == 0 &&
             <TouchableOpacity
-            style={styles.btn}
-            activeOpacity={0.7}
-            onPress={()=>{
-              setScenariiState(prev => [...prev, 
+              style={styles.btn}
+              activeOpacity={0.7}
+              
+              onPress={() => {
+                setScenariiState(prev => [...prev,
                 {
-                  title:title||"Без названия",
-                  state:controllerState,
-                  icon:selectedItem,
-                  id:scenCount,
-                  modalVisible:false,
+                  title: title || "Без названия",
+                  state: controllerState,
+                  icon: selectedItem||<Default/>,
+                  id: scenCount,
+                  modalVisible: false,
                 }
-              ])
-              setScenCount(scenCount+1);
-              setControllerState([]);
-              router.back();
-            }}>
-        <Text style={styles.btnText}>Добавить сценраий</Text>
-        </TouchableOpacity>
-        }
+                ])
+                setScenCount(scenCount + 1);
+                setControllerState([]);
+                router.back();
+              }}>
+              <Text style={styles.btnText}>Добавить сценарий</Text>
+            </TouchableOpacity>
+          }
+        </View>
       </View>
-      </View>     
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container:{
-    paddingHorizontal:20
+  container: {
+    paddingHorizontal: 20
   },
   title: {
     flexDirection: 'row',
-    justifyContent:'space-between',
-    alignItems:'center',
-    marginTop:5,
-    marginBottom:10,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 5,
+    marginBottom: 10,
   },
-  titleText:{
-    fontSize:20,
+  titleText: {
+    fontSize: 20,
   },
 
   input: {
     height: 50,
     borderRadius: 10,
     paddingHorizontal: 15,
-    marginBottom:15,
+    marginBottom: 15,
     fontSize: 16,
     backgroundColor: '#ECEEF4',
-    color:'#8B8B8B',
+    color: '#8B8B8B',
   },
-  iconBlock:{
-    flexDirection:'row',
-    justifyContent:'space-between',
-    marginBottom:5,
+  iconBlock: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5,
   },
   modalOverlay: {
     flex: 1,
@@ -180,67 +214,69 @@ const styles = StyleSheet.create({
   },
   dropdownList: {
     backgroundColor: 'white',
-    
-    width: 200,
+
+    width: 320,
+    flexDirection:'row',
+    flexWrap:'wrap',
     borderRadius: 5,
     padding: 10,
   },
   item: {
-    padding: 10,
+    padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
-  selectedItem:{
-    color:'#4C82FF'
+  selectedItem: {
+    color: '#4C82FF'
   },
-  itemsState:{
-    marginTop:10,
+  itemsState: {
+    marginTop: 10,
   },
-  itemStateText:{
-    fontSize:20,
+  itemStateText: {
+    fontSize: 20,
   },
-  addController:{
-    marginTop:20,
+  addController: {
+    marginTop: 20,
   },
-  addControllerText:{
-    color:'#8B8B8B',
-    textDecorationLine:"underline",
+  addControllerText: {
+    color: '#8B8B8B',
+    textDecorationLine: "underline",
   },
-  emptyList:{
-    textAlign:'center',
-    marginTop:20,
+  emptyList: {
+    textAlign: 'center',
+    marginTop: 20,
   },
-  btnBlock:{
-    marginTop:20,
+  btnBlock: {
+    marginTop: 20,
   },
-  btn:{
-    borderRadius:16,
-    backgroundColor:'#4C82FF',
+  btn: {
+    borderRadius: 16,
+    backgroundColor: '#4C82FF',
 
-    paddingHorizontal:60,
-    paddingVertical:15,
-    marginVertical:10
+    paddingHorizontal: 60,
+    paddingVertical: 15,
+    marginVertical: 10
   },
-  btnText:{
-    color:'white',
-    fontSize:16,
-    margin:'auto'
-    
+  btnText: {
+    color: 'white',
+    fontSize: 16,
+    margin: 'auto'
+
   },
-  viewConroller:{
-    paddingHorizontal:10,
-    marginVertical:5
+  viewConroller: {
+    paddingHorizontal: 10,
+    marginVertical: 5
   },
-  titleController:{
-    fontSize:18
+  titleController: {
+    fontSize: 18
   },
-  infoView:{
-    marginLeft:10,
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center',
+  infoView: {
+    marginLeft: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  commandView:{
-    marginVertical:10
+  commandView: {
+    marginVertical: 10
   }
 });

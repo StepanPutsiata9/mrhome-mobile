@@ -20,10 +20,10 @@ export default function ControllerInfo() {
 
   const controllerData = findDeviceById(data, id);
 
-  console.log('====================================');
-  console.log("id ", id);
-  console.log("controllerData ", controllerData);
-  console.log('====================================');
+  // console.log('====================================');
+  // console.log("id ", id);
+  // console.log("controllerData ", controllerData);
+  // console.log('====================================');
 
   const renderComponent = () => {
     if (!controllerData) {

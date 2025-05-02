@@ -103,7 +103,10 @@ export function ModalScen({ item }) {
                         })}
                 </View>
                 <View style={styles.trashView}>
-                    <Pressable onPress={() =>
+                    <Pressable 
+                    hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+                    onPress={() =>
+
                         Alert.alert(
                             'Удаление сценария',
                             'Вы точно хотите удалить этот сценарий?',
@@ -137,6 +140,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0,0.5)',
+        width:"100%",
+      
     },
     modalContainer: {
         width: '85%',
@@ -166,7 +171,6 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     infoView: {
-        // marginLeft: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -188,7 +192,7 @@ const styles = StyleSheet.create({
     scenView: {
         margin: 'auto',
         marginTop: 20,
-        width: 296,
+        width: 328,
         paddingHorizontal: 16,
         paddingVertical: 20,
         backgroundColor: '#fff',

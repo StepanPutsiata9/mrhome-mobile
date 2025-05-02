@@ -111,31 +111,8 @@ export const SmartLight = ({ data, socket }) => {
           thumbTintColor="#4C82FF" // Цвет ползунка
         />
       </View>
-      <View style={{ margin: "auto" }}>
-        <TouchableOpacity
-          style={styles.btn}
-          activeOpacity={0.7}
-          onPress={async () => {
-            await socket.current.send(JSON.stringify(
-              {
-                deviceId: data.deviceId,
-                deviceType: data.deviceType,
-                command: 'set_params',
-                params: {
-                  color: color,
-                  brightness: sliderValue,
-                  glow: selectedItem
-                }
-              }
-            ));
-            setOn(!on);
-            setOff(!off)
-          }}
-        >
-          <Text style={styles.btnText}>Изменить параметры</Text>
-        </TouchableOpacity>
-      </View>
-      <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 45 }}>Состояние:</Text>
+    
+      <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 15 }}>Состояние:</Text>
       <View style={styles.onOff}>
         <View style={{ alignItems: 'center' }}>
           <Pressable disabled={on} onPress={async () => {
@@ -171,6 +148,30 @@ export const SmartLight = ({ data, socket }) => {
           {off ? <Text style={{ color: '#4C82FF' }}>Выключена</Text> : <Text style={{ color: '#8B8B8B' }}>Выключена</Text>}
 
         </View>
+      </View>
+      <View style={{ margin: "auto" ,marginBottom:45}}>
+        <TouchableOpacity
+          style={styles.btn}
+          activeOpacity={0.7}
+          onPress={async () => {
+            await socket.current.send(JSON.stringify(
+              {
+                deviceId: data.deviceId,
+                deviceType: data.deviceType,
+                command: 'set_params',
+                params: {
+                  color: color,
+                  brightness: sliderValue,
+                  glow: selectedItem
+                }
+              }
+            ));
+            setOn(!on);
+            setOff(!off)
+          }}
+        >
+          <Text style={styles.btnText}>Изменить параметры</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
 

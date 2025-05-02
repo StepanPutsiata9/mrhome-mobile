@@ -7,10 +7,10 @@ import { SocketContext } from '../_layout';
 export default function HomeScreen() {
   const { socket, data } = useContext(SocketContext);
 
-  console.log('SocketContext data:', data);
-  console.log('====================================');
-  console.log("Socket: ", socket.current);
-  console.log('====================================');
+  // console.log('SocketContext data:', data);
+  // console.log('====================================');
+  // console.log("Socket: ", socket.current);
+  // console.log('====================================');
 
   return (
     <ImageBackground
