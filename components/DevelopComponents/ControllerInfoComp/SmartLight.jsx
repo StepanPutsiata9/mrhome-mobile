@@ -41,7 +41,6 @@ export const SmartLight = ({ data, socket }) => {
         </View>
         <Pressable onPress={() => {
           router.back()
-          console.log(color)
         }
         }>
           <Back />

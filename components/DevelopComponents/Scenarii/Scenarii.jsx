@@ -69,7 +69,7 @@ export function ModalScen({ item }) {
                 <View style={styles.titleBlock}>
                     <View style={styles.title}>
                         <View>
-                            <Text style={{ fontSize: 24, color: '#4C82FF' }}>{item.title}</Text>
+                            <Text style={{ fontSize: 22, color: '#4C82FF',maxWidth:300 }}>{item.title}</Text>
                         </View>
                         {/* <View>{item.icon}</View> */}
                     </View>

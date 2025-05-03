@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet } from "react-native"
+import { View, Text, StyleSheet,Platform} from "react-native"
 import LogoSmall from "./PhotosComponents/LogoSmallSvg"
 
 export function Header() {
     return (
-        <View style={styles.header}>
+        <View style={Platform.OS !== 'ios'?styles.header:styles.headerIOS}>
             <View>
                 <LogoSmall />
             </View>
@@ -22,6 +22,15 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 20,
         paddingTop: 30,
+        marginBottom: 10,
+    },
+    headerIOS:{
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        paddingHorizontal: 20,
+        paddingTop: 50,
         marginBottom: 10,
     },
     headerText: {

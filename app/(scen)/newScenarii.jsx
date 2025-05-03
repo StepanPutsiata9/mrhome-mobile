@@ -1,6 +1,5 @@
 import { StyleSheet, View, Pressable, ScrollView, Text, TextInput, Modal, TouchableOpacity } from 'react-native';
 import { Header } from "../../components/DevelopComponents/Header"
-
 import { useRouter } from 'expo-router';
 import SunRise from "../../components/DevelopComponents/PhotosComponents/SunRise"
 import Moon from "../../components/DevelopComponents/PhotosComponents/Moon"
@@ -17,19 +16,7 @@ import Cup from "../../components/DevelopComponents/PhotosComponents/Cup"
 import CloudySun from "../../components/DevelopComponents/PhotosComponents/CloudySun"
 import CloudyMoon from "../../components/DevelopComponents/PhotosComponents/CloudyMoon"
 import CPU from "../../components/DevelopComponents/PhotosComponents/CPU"
-
-
-
-
-
-
-
-
 import ToArrow from "../../components/DevelopComponents/PhotosComponents/toArrow"
-
-
-
-
 import { useContext, useState } from 'react';
 import { SocketContext } from '../_layout';
 import { ScenariiContext } from '../(scen)/ScenariiContext';
@@ -44,19 +31,8 @@ export default function NewScen() {
   const [title, setTitle] = useState("");
   const [isOpen, setIsOpen] = useState(false)
   const icons = [
-    <SunRise />,
-    <Briefcase />,
-    <Lamp />,
-    <Balloon />,
-    <Moon />,
-    <Sun/>,
-    <SunSet/>,
-    <Lightning/>,
-    <Egg/>,
-    <Cup/>,
-    <CloudySun/>,
-    <CloudyMoon/>,
-    <CPU/>
+    <SunRise />, <Briefcase />, <Lamp />, <Balloon />, <Moon />, <Sun />,
+    <SunSet />, <Lightning />, <Egg />, <Cup />, <CloudySun />, <CloudyMoon />, <CPU />
   ];
   const [selectedItem, setSelectedItem] = useState("");
   const router = useRouter();
@@ -81,18 +57,18 @@ export default function NewScen() {
         />
         <View style={styles.iconBlock}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Pressable 
-            style={{flexDirection:'row',alignItems:'center'}}
-            onPress={() => {
-              setIsOpen(true)
-            }}>
-            <Text>Иконка</Text>
+            <Pressable
+              style={{ flexDirection: 'row', alignItems: 'center' }}
+              onPress={() => {
+                setIsOpen(true)
+              }}>
+              <Text>Иконка</Text>
 
               <Modal visible={isOpen} transparent={true} animationType="fade">
                 <Pressable style={styles.modalOverlay} onPress={() => setIsOpen(false)}>
                   <View style={styles.dropdownList}>
                     {icons.map((item, index) => (
-                    <Pressable
+                      <Pressable
                         key={index}
                         style={styles.item}
                         onPress={() => {
@@ -123,7 +99,7 @@ export default function NewScen() {
             :
             controllerState.map((item, key) => {
               const keys = Object.keys(item.payload);
-              const values=Object.values(item.payload);
+              const values = Object.values(item.payload);
               return (
                 <View style={styles.viewConroller} key={key}>
                   <Text style={styles.titleController}>{item.title}</Text>
@@ -145,11 +121,11 @@ export default function NewScen() {
           }
         </View>
         <View style={styles.addController}>
-          <TouchableOpacity 
-          hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-          onPress={() => {
-            router.push('/(scen)/AddControllersToScenarii')
-          }}>
+          <TouchableOpacity
+            hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+            onPress={() => {
+              router.push('/(scen)/AddControllersToScenarii')
+            }}>
             <Text style={styles.addControllerText}>Добавить элемент</Text>
           </TouchableOpacity>
         </View>
@@ -158,13 +134,13 @@ export default function NewScen() {
             <TouchableOpacity
               style={styles.btn}
               activeOpacity={0.7}
-              
+
               onPress={() => {
                 setScenariiState(prev => [...prev,
                 {
                   title: title || "Без названия",
                   state: controllerState,
-                  icon: selectedItem||<Default/>,
+                  icon: selectedItem || <Default />,
                   id: scenCount,
                   modalVisible: false,
                 }
@@ -221,8 +197,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
 
     width: 320,
-    flexDirection:'row',
-    flexWrap:'wrap',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     borderRadius: 5,
     padding: 10,
   },
