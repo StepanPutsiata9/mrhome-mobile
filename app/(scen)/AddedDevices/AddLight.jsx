@@ -22,7 +22,11 @@ export default function AddCurtain() {
     const [color, setColor] = useState("");
     const items = ['Свечение', 'Мерцание', 'Затухание', 'Сплошной цвет'];
     const [selectedGlow, setSelectedGlow] = useState("");
-
+    const labels = {
+        state: 'Состояние',
+        glowType: 'Тип свечения',
+        color: 'Цвет подсветки'
+    };
     const handleColorChange = (colorObj) => {
         if (typeof colorObj === 'string') {
             setColor(colorObj);
@@ -162,12 +166,6 @@ export default function AddCurtain() {
                                                 row={false}
                                                 style={styles.wheel}
                                             />
-                                            {/* <ColorWheel
-                                                    initialColor="#FF0000"
-                                                    onColorChange={handleColorChange}
-                                                    style={styles.wheel}
-                                                    thumbSize={20}
-                                                /> */}
                                             <Text style={styles.text}>Цвет: {color}</Text>
 
                                         </View>
@@ -191,14 +189,19 @@ export default function AddCurtain() {
                         addController(
                             {
                                 title: 'Умная подсветка',
-                                commands: [
-                                    state ? "Состояние" : null,
-                                    selectedGlow ? "Тип свечения" : null,
-                                    color ? "Цвет подсветки" : null
-                                ],
-                                state: [
-                                    state || null, selectedGlow || null, color || null
-                                ]
+                                payload: {
+                                    [labels.state]: state || null,
+                                    [labels.glowType]: selectedGlow || null,
+                                    [labels.color]: color || null
+                                }
+                                // [
+                                //     state ? "Состояние" : null,
+                                //     selectedGlow ? "Тип свечения" : null,
+                                //     color ? "Цвет подсветки" : null
+                                // ],
+                                // state: [
+                                //     state || null, selectedGlow || null, color || null
+                                // ]
                             });
                         router.back();
                     }}>

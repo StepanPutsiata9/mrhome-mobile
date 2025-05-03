@@ -1,5 +1,5 @@
 
-import { StyleSheet, Text, View, TouchableOpacity, Modal, Pressable,Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, Pressable, Alert } from 'react-native';
 import { useContext } from 'react';
 import { ScenariiContext } from '@/app/(scen)/ScenariiContext';
 import Close from "../PhotosComponents/Close"
@@ -63,6 +63,9 @@ export default function Scenarii({ item }) {
 export function ModalScen({ item }) {
     const { scenariiState, setScenariiState } = useContext(ScenariiContext);
 
+    console.log('====================================');
+    console.log(item.state);
+    console.log('====================================');
     return (
         <TouchableOpacity style={styles.modalOverlay} onPress={() => toggleModal(item.id, scenariiState, setScenariiState)}>
             <View style={styles.modalContainer}>
@@ -83,46 +86,50 @@ export function ModalScen({ item }) {
                 <View>
                     {
                         item.state.map((st, key) => {
+                            const keys = Object.keys(st.payload);
+                            const values=Object.values(st.payload);
                             return (
                                 <View style={styles.viewConroller} key={key}>
                                     <Text style={styles.titleController}>{st.title}</Text>
                                     <View style={styles.infoView}>
                                         <View style={styles.commandView}>
-                                            {st.commands.map((i, index) => {
+                                        
+                                            {keys.map((i, index) => {
                                                 if (i != null) return <Text style={{ marginBottom: 5 }} key={index}>{i}</Text>
                                             })}
                                         </View>
                                         <View style={styles.stateView}>
-                                            {st.state.map((i, index) => {
+                                            {values.map((i, index) => {
                                                 if (i != null) return <Text style={{ color: '#8b8b8b', textAlign: 'right', marginBottom: 5 }} key={index}>{i}</Text>
                                             })}
                                         </View>
                                     </View>
                                 </View>
                             )
-                        })}
+                        })
+                    }
                 </View>
                 <View style={styles.trashView}>
-                    <Pressable 
-                    hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-                    onPress={() =>
+                    <Pressable
+                        hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+                        onPress={() =>
 
-                        Alert.alert(
-                            'Удаление сценария',
-                            'Вы точно хотите удалить этот сценарий?',
-                            [
-                                {
-                                    text: 'Отмена',
-                                    style: 'cancel',
-                                },
-                                {
-                                    text: 'Удалить',
-                                    onPress: () => deleteScenario(item.id, scenariiState, setScenariiState),
-                                    style: 'destructive',
-                                },
-                            ]
-                        )
-                    }>
+                            Alert.alert(
+                                'Удаление сценария',
+                                'Вы точно хотите удалить этот сценарий?',
+                                [
+                                    {
+                                        text: 'Отмена',
+                                        style: 'cancel',
+                                    },
+                                    {
+                                        text: 'Удалить',
+                                        onPress: () => deleteScenario(item.id, scenariiState, setScenariiState),
+                                        style: 'destructive',
+                                    },
+                                ]
+                            )
+                        }>
                         <TrashBin />
                     </Pressable>
                 </View>
@@ -140,8 +147,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0,0.5)',
-        width:"100%",
-      
+        width: "100%",
+
     },
     modalContainer: {
         width: '85%',

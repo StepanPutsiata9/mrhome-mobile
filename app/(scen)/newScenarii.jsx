@@ -39,6 +39,8 @@ export default function NewScen() {
   const { socket, data } = useContext(SocketContext);
   const { isListEmpty, setIsListEmpty, controllerState,
     setControllerState, scenariiState, setScenariiState, scenCount, setScenCount } = useContext(ScenariiContext);
+
+
   const [title, setTitle] = useState("");
   const [isOpen, setIsOpen] = useState(false)
   const icons = [
@@ -119,17 +121,19 @@ export default function NewScen() {
             <Text style={styles.emptyList}>Добавленных элементов пока нет</Text>
             :
             controllerState.map((item, key) => {
+              const keys = Object.keys(item.payload);
+              const values=Object.values(item.payload);
               return (
                 <View style={styles.viewConroller} key={key}>
                   <Text style={styles.titleController}>{item.title}</Text>
                   <View style={styles.infoView}>
                     <View style={styles.commandView}>
-                      {item.commands.map((i, index) => {
+                      {keys.map((i, index) => {
                         if (i != null) return <Text style={{ marginBottom: 5 }} key={index}>{i}</Text>
                       })}
                     </View>
                     <View style={styles.stateView}>
-                      {item.state.map((i, index) => {
+                      {values.map((i, index) => {
                         if (i != null) return <Text style={{ color: '#8b8b8b', textAlign: 'right', marginBottom: 5 }} key={index}>{i}</Text>
                       })}
                     </View>

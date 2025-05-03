@@ -14,6 +14,9 @@ export default function AddCurtain() {
     const [on, setOn] = useState(true);
     const [off, setOff] = useState(!on);
     const {controllerState,setControllerState}=useContext(ScenariiContext);
+    const labels = {
+        state: 'Состояние',
+    };
     const addController = (newItem) => {
         setControllerState(prevItems => {
           // Проверяем, есть ли элемент с таким же title
@@ -71,9 +74,13 @@ export default function AddCurtain() {
                     style={styles.btn}
                     activeOpacity={0.7}
                     onPress={() => {
-                        addController({title:"Умный выключатель",
-                            commands:["Состояние"],
-                            state:[on?"Включать":"Выключать"]
+                        addController(
+                            {
+                                title:"Умный выключатель",
+                                payload:{
+                                    [labels.state]:(on?"Включать":"Выключать")
+                                  }
+                                 
                           });
                         router.back();
                     }}>
