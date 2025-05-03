@@ -81,12 +81,13 @@ export default function NewScen() {
         />
         <View style={styles.iconBlock}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text>Иконка</Text>
             <Pressable 
-          
+            style={{flexDirection:'row',alignItems:'center'}}
             onPress={() => {
               setIsOpen(true)
             }}>
+            <Text>Иконка</Text>
+
               <Modal visible={isOpen} transparent={true} animationType="fade">
                 <Pressable style={styles.modalOverlay} onPress={() => setIsOpen(false)}>
                   <View style={styles.dropdownList}>

@@ -33,16 +33,16 @@ export default function AddControllersToScenarii(){
         <View>
             {electroList.map((item,key)=>{
                 return(
-                    <View key={key} style={{flexDirection:'row',justifyContent:'space-between',
+                    <View key={key} >
+                        <Pressable style={{flexDirection:'row',justifyContent:'space-between',
                         marginBottom:20,
-                    }}>
-                        <Text style={{}}>{item.title}</Text>
-                        <Pressable onPress={()=>{
+                    }} onPress={()=>{
                             router.push({
                                 pathname:"/(scen)/AddSpecificController",
                                 params:item,
                             })
                         }}>
+                            <Text style={{}}>{item.title}</Text>
                             <ToArrow/>
                         </Pressable>
                     </View>

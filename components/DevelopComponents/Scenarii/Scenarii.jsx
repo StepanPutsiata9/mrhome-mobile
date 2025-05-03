@@ -63,9 +63,6 @@ export default function Scenarii({ item }) {
 export function ModalScen({ item }) {
     const { scenariiState, setScenariiState } = useContext(ScenariiContext);
 
-    console.log('====================================');
-    console.log(item.state);
-    console.log('====================================');
     return (
         <TouchableOpacity style={styles.modalOverlay} onPress={() => toggleModal(item.id, scenariiState, setScenariiState)}>
             <View style={styles.modalContainer}>

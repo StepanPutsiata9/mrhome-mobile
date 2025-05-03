@@ -63,6 +63,8 @@ const styles = StyleSheet.create({
   },
   scenText: {
     fontSize: 28,
+    fontWeight:700,
+    letterSpacing:1,
   },
   plusContainer: {
     position: 'absolute',

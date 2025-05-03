@@ -69,11 +69,12 @@ export default function AddCurtain() {
             </View>
 
             <View style={styles.itemsBlock}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text>Состояние</Text>
-                    <Pressable onPress={() => {
+                <View >
+                    <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
                         setIsOpenState(true)
                     }}>
+                    <Text>Состояние</Text>
+
                         <Modal visible={isOpenState} transparent={true} animationType="fade">
                             <Pressable style={styles.modalOverlay} onPress={() => setIsOpenState(false)}>
                                 <View style={styles.dropdownList}>
@@ -109,11 +110,11 @@ export default function AddCurtain() {
                 </View>
             </View>
             <View style={styles.itemsBlock}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text>Тип свечения</Text>
-                    <Pressable onPress={() => {
+                <View >
+                    <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
                         setIsOpenGlow(true)
                     }}>
+                        <Text>Тип свечения</Text>
                         <Modal visible={isOpenGlow} transparent={true} animationType="fade">
                             <Pressable style={styles.modalOverlay} onPress={() => setIsOpenGlow(false)}>
                                 <View style={styles.dropdownList}>
@@ -142,11 +143,12 @@ export default function AddCurtain() {
                 </View>
             </View>
             <View style={styles.itemsBlock}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text>Цвет подсветки</Text>
-                    <Pressable onPress={() => {
+                <View >
+                    <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
                         setIsOpenCircle(true)
                     }}>
+                    <Text>Цвет подсветки</Text>
+
                         <Modal visible={isOpenCircle} transparent={true} animationType="fade">
                             <Pressable style={styles.modalOverlay} onPress={() => setIsOpenCircle(false)}>
                                 <View style={styles.container}>
