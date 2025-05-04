@@ -16,7 +16,6 @@ function LayoutContent() {
   const socket = useRef(null);
   const  user = true;
 
-
   const updateDevices = (devices, updatedDevice) => {
     return devices.map(device =>
       device.id === updatedDevice.id ? { ...device, ...updatedDevice } : device
@@ -80,7 +79,6 @@ function LayoutContent() {
     </SocketContext.Provider>
   );
 }
-
 export default function RootLayout() {
   return (
     <AuthProvider>
@@ -90,5 +88,4 @@ export default function RootLayout() {
     </AuthProvider>
   );
 }
-
 export { SocketContext };
