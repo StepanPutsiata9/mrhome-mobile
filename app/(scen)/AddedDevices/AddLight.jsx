@@ -10,6 +10,8 @@ import Close from "../../../components/DevelopComponents/PhotosComponents/Close"
 import { ScenariiContext } from "../ScenariiContext";
 
 import ColorPicker from 'react-native-wheel-color-picker';
+import Slider from '@react-native-community/slider';
+
 
 
 export default function AddCurtain() {
@@ -17,15 +19,20 @@ export default function AddCurtain() {
     const [isOpenGlow, setIsOpenGlow] = useState(false);
     const [isOpenCircle, setIsOpenCircle] = useState(false);
     const [isOpenState, setIsOpenState] = useState(false);
+    const [isOpenSlider, setIsOpenSlider] = useState(false);
+
     const [state, setState] = useState("Выключить");
     const { controllerState, setControllerState } = useContext(ScenariiContext);
     const [color, setColor] = useState("");
     const items = ['Свечение', 'Мерцание', 'Затухание', 'Сплошной цвет'];
+    const [sliderValue, setSliderValue] = useState();
+
     const [selectedGlow, setSelectedGlow] = useState("");
     const labels = {
         state: 'Состояние',
         glowType: 'Тип свечения',
-        color: 'Цвет подсветки'
+        color: 'Цвет подсветки',
+        brightness: "Яркость"
     };
     const handleColorChange = (colorObj) => {
         if (typeof colorObj === 'string') {
@@ -36,7 +43,6 @@ export default function AddCurtain() {
             const hex = hsvToHex(colorObj);
             setColor(hex);
             setState("Включить");
-
         }
     };
 
@@ -73,8 +79,7 @@ export default function AddCurtain() {
                     <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
                         setIsOpenState(true)
                     }}>
-                    <Text>Состояние</Text>
-
+                        <Text>Состояние</Text>
                         <Modal visible={isOpenState} transparent={true} animationType="fade">
                             <Pressable style={styles.modalOverlay} onPress={() => setIsOpenState(false)}>
                                 <View style={styles.dropdownList}>
@@ -147,7 +152,7 @@ export default function AddCurtain() {
                     <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
                         setIsOpenCircle(true)
                     }}>
-                    <Text>Цвет подсветки</Text>
+                        <Text>Цвет подсветки</Text>
 
                         <Modal visible={isOpenCircle} transparent={true} animationType="fade">
                             <Pressable style={styles.modalOverlay} onPress={() => setIsOpenCircle(false)}>
@@ -177,10 +182,43 @@ export default function AddCurtain() {
                         </Modal>
                         <ToArrow />
                     </Pressable>
-
                 </View>
                 <View>
                     <Text style={{ color: '#8B8B8B' }}>{color}</Text>
+                </View>
+            </View>
+            <View style={styles.itemsBlock}>
+                <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
+                    setIsOpenSlider(true)
+                }}>
+                    <Text>Яркость</Text>
+                    <Modal visible={isOpenSlider} transparent={true} animationType="fade">
+                        <Pressable style={styles.modalOverlay} onPress={() => setIsOpenSlider(false)}>
+                            <View style={styles.container}>
+                                <View style={styles.previewSlider}>
+                                    <Slider
+                                        minimumValue={1}
+                                        maximumValue={100}
+                                        step={1}
+                                        value={sliderValue}
+                                        onValueChange={(value) => {
+                                            setState("Включить");
+                                            setSliderValue(Math.round(value));
+                                        }
+                                        }
+                                        minimumTrackTintColor="#4C82FF"
+                                        maximumTrackTintColor="#000000"
+                                        thumbTintColor="#4C82FF"
+                                    />
+                                    <Text style={styles.text}>Яркость: {sliderValue}</Text>
+                                </View>
+                            </View>
+                        </Pressable>
+                    </Modal>
+                    <ToArrow />
+                </Pressable>
+                <View>
+                    <Text style={{ color: '#8B8B8B' }}>{sliderValue}</Text>
                 </View>
             </View>
             <View style={styles.btnBlock}>
@@ -194,7 +232,9 @@ export default function AddCurtain() {
                                 payload: {
                                     [labels.state]: state || null,
                                     [labels.glowType]: selectedGlow || null,
-                                    [labels.color]: color || null
+                                    [labels.color]: color || null,
+                                    [labels.brightness]: sliderValue || null,
+
                                 }
                                 // [
                                 //     state ? "Состояние" : null,
@@ -299,6 +339,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0,0.5)',
+        zIndex: 2,
     },
     item: {
         padding: 10,
@@ -343,6 +384,17 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#8b8b8b',
         backgroundColor: 'white',
+        zIndex: -2,
+    },
+    previewSlider: {
+        paddingVertical: 15,
+        width: 300,
+        height: 70,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: '#8b8b8b',
+        backgroundColor: 'white',
+
         zIndex: -2,
     },
     text: {

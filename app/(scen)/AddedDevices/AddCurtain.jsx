@@ -19,16 +19,15 @@ export default function AddCurtain(){
     };
       const addController = (newItem) => {
         setControllerState(prevItems => {
-          // Проверяем, есть ли элемент с таким же title
           const itemIndex = prevItems.findIndex(item => item.title === newItem.title);
           
           if (itemIndex >= 0) {
-            // Если нашли - создаем новый массив с замененным элементом
+           
             const updatedItems = [...prevItems];
             updatedItems[itemIndex] = newItem;
             return updatedItems;
           } else {
-            // Если не нашли - добавляем новый элемент
+       
             return [...prevItems, newItem];
           }
         });

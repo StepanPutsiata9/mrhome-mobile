@@ -42,24 +42,7 @@ export default function ControllerItem({ data,socket }) {
   //     break;
   // }
  
-  
-  // if (data.deviceType =="light") {
-  //   photo = <Light color={"#4C82FF"} />
-
-  // } else if (data.title == "switch") {
-  //   photo = <SwitchOutline color={"#4C82FF"} />
-
-  // } else if (data.deviceType == "curtain") {
-  //   photo = <Shtora color={"#4C82FF"} />
-
-  // } else if (data.deviceType == "temp") {
-  //   photo = <Temp color={"#4C82FF"} />
-
-  // } else if (data.deviceType == "move") {
-  //   photo = <Snickers color={"#4C82FF"} />
-  // }
-  const router = useRouter();
-  // EXMPL FOR SEND DEVICE 
+    // EXMPL FOR SEND DEVICE 
   // {
   //   "deviceId": "curtain1",
   //   "deviceType": "curtain",
@@ -68,6 +51,9 @@ export default function ControllerItem({ data,socket }) {
   //     "position": 80
   //   }
   // }
+
+  const router = useRouter();
+
   return (
     <TouchableOpacity
       onPress={() => {
@@ -98,7 +84,6 @@ const styles = StyleSheet.create({
     width: 150,
     height: 97,
     padding: 15,
-    // marginHorizontal: 15,
     marginVertical: 10,
     borderRadius: 16,
     backgroundColor: 'white',
