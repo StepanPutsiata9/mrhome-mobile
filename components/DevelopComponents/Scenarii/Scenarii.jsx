@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     titleName: {
         marginLeft: 10,
         fontSize: 22,
-        fontWeight: 600,
+        fontWeight: 500,
     },
     controllerView: {
         flexDirection: 'row',
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     controllerName: {
         color: '#8b8b8b',
         marginBottom: 7,
-        fontWeight: 300,
+        fontWeight: 400,
     },
     infoTitle: {
         flexDirection: 'row',
@@ -233,6 +233,7 @@ const styles = StyleSheet.create({
     },
     addedControllersText: {
         fontSize: 16,
+        fontWeight:400,
     },
     iconsBlock: {
         flexDirection: 'row',

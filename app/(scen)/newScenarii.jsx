@@ -215,6 +215,7 @@ const styles = StyleSheet.create({
   },
   itemStateText: {
     fontSize: 20,
+    fontWeight:500,
   },
   addController: {
     marginTop: 20,
@@ -249,7 +250,8 @@ const styles = StyleSheet.create({
     marginVertical: 5
   },
   titleController: {
-    fontSize: 18
+    fontSize: 18,
+    fontWeight:400,
   },
   infoView: {
     marginLeft: 10,

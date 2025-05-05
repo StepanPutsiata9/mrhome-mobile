@@ -48,7 +48,6 @@ export default function MoveSensor({data,socket}){
               deviceType:data.deviceType,
               command:'turn_on'
           }));
-            console.log("успешно on");
             setOn(!on);
             setOff(!off);
           }}>

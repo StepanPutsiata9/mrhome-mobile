@@ -28,8 +28,9 @@ const styles = StyleSheet.create({
         marginLeft:20,
       },
       controllersBlock:{
-        width:"100%",
-        paddingHorizontal:20,
+        width:"87%",
+        marginHorizontal:'auto',
+        // paddingHorizontal:20,
         marginTop:10,
         padding:0,
         flex:1,
