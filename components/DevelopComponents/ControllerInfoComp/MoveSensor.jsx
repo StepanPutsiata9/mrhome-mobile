@@ -8,9 +8,9 @@ import { useState } from "react";
 import Snickers from "../PhotosComponents/Snickers";
 import MoveOn from "../PhotosComponents/MoveOn"
 import MoveOff from "../PhotosComponents/MoveOff"
-export default function MoveSensor({data,socket}){
+export default function MoveSensor({ data, socket }) {
   const router = useRouter();
-  const [on, setOn] = useState(data.state == "Включен" ? true : false);
+  const [on, setOn] = useState(data.payload.state == "on" ? true : false);
   const [off, setOff] = useState(!on);
   return (
     <ScrollView style={styles.switch}>
@@ -29,25 +29,25 @@ export default function MoveSensor({data,socket}){
       <View style={styles.info}>
         <View style={styles.infoLine}>
           <Text style={styles.infoText}>Фиксирует любое движение в помещении и мгновенно сообщает об этом в приложение,
-             помогая обеспечить безопасность и автоматизацию.</Text>
+            помогая обеспечить безопасность и автоматизацию.</Text>
         </View>
         <View style={styles.infoLine}>
           <Text style={styles.infoLineText}>Состояние</Text>
-          <Text style={styles.status}>{data.state}</Text>
+          <Text style={styles.status}>{data.payload.state}</Text>
         </View>
         <View style={styles.infoLine}>
           <Text style={styles.infoLineText}>Последние движение</Text>
-          <Text style={styles.status}>{data.lastMove}</Text>
+          <Text style={styles.status}>{data.payload.lastMove}</Text>
         </View>
       </View>
       <View style={styles.onOff}>
         <View style={{ alignItems: 'center' }}>
           <Pressable disabled={on} onPress={async () => {
             await socket.current.send(JSON.stringify({
-              deviceId:data.deviceId,
-              deviceType:data.deviceType,
-              command:'turn_on'
-          }));
+              topic: data.topic,
+              deviceType: data.payload.deviceType,
+              command: 'turn_on'
+            }));
             setOn(!on);
             setOff(!off);
           }}>
@@ -59,11 +59,11 @@ export default function MoveSensor({data,socket}){
         <View style={{ alignItems: 'center' }}>
           <Pressable disabled={off} onPress={async () => {
             await socket.current.send(JSON.stringify({
-              deviceId:data.deviceId,
-              deviceType:data.deviceType,
-              command:'turn_off'
-          }));
-            console.log("успешно off");
+              topic: data.topic,
+              deviceType: data.payload.deviceType,
+              command: 'turn_off'
+            }));
+
             setOn(!on);
             setOff(!off)
           }}>
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   switch: {
     backgroundColor: "white",
     width: "100%",
+    paddingTop: 50,
     // height:"100%"
   },
   title: {
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 25,
     marginVertical: 5,
-    marginBottom:10
+    marginBottom: 10
 
   },
   infoLineText: {
@@ -115,9 +116,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 50
   },
-  infoText:{
-    fontFamily:"Roboto",
-    fontSize:16,
-    color:"#8B8B8B"
+  infoText: {
+    fontFamily: "Roboto",
+    fontSize: 16,
+    color: "#8B8B8B"
   },
 });

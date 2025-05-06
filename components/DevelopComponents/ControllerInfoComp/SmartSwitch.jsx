@@ -10,7 +10,7 @@ import SwitchOn from "../PhotosComponents/SwitchOn"
 import SwitchOff from "../PhotosComponents/SwitchOff"
 export default function SmartSwitch({ data, socket }) {
   const router = useRouter();
-  const [on, setOn] = useState(data.state == "Включен" ? true : false);
+  const [on, setOn] = useState(data.payload.state == "on" ? true : false);
   const [off, setOff] = useState(!on);
   return (
     <ScrollView style={styles.switch}>
@@ -29,11 +29,11 @@ export default function SmartSwitch({ data, socket }) {
       <View style={styles.info}>
         <View style={styles.infoLine}>
           <Text style={styles.infoText}>Включайте и выключайте свет, розетки и другие устройства удалённо
-             — через смартфон или с помощью голосового помощника.</Text>
+            — через смартфон или с помощью голосового помощника.</Text>
         </View>
         <View style={styles.infoLine}>
           <Text style={styles.infoLineText}>Состояние</Text>
-          <Text style={styles.status}>{data.state}</Text>
+          <Text style={styles.status}>{data.payload.state}</Text>
         </View>
       </View>
       <View style={styles.onOff}>
@@ -41,10 +41,10 @@ export default function SmartSwitch({ data, socket }) {
           <Pressable disabled={on} onPress={async () => {
             await socket.current.send(JSON.stringify(
               {
-                deviceId:data.deviceId,
-                deviceType:data.deviceType,
-                command:'turn_on'
-            }
+                topic: data.topic,
+                deviceType: data.payload.deviceType,
+                command: 'turn_on'
+              }
             ));
             setOn(!on);
             setOff(!off)
@@ -57,10 +57,10 @@ export default function SmartSwitch({ data, socket }) {
           <Pressable disabled={off} onPress={async () => {
             await socket.current.send(JSON.stringify(
               {
-                deviceId:data.deviceId,
-                deviceType:data.deviceType,
-                command:'turn_off'
-            }
+                topic: data.topic,
+                deviceType: data.payload.deviceType,
+                command: 'turn_off'
+              }
             ));
             setOn(!on);
             setOff(!off)
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
   switch: {
     backgroundColor: "white",
     width: "100%",
+    paddingTop: 50,
     // height:"100%"
   },
   title: {
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 25,
     marginVertical: 5,
-    marginBottom:20
+    marginBottom: 20
   },
   infoLineText: {
     fontSize: 16,
@@ -112,9 +113,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 50
   },
-  infoText:{
-    fontFamily:"Roboto",
-    fontSize:16,
-    color:"#8B8B8B"
+  infoText: {
+    fontFamily: "Roboto",
+    fontSize: 16,
+    color: "#8B8B8B"
   },
 });

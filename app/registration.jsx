@@ -33,7 +33,7 @@ const RegistrationScreen = () => {
   };
 
   return (
-    <View>
+    <View style={{backgroundColor:'white'}}>
         <Header/>
         <View style={styles.conatiner}>
         <Text style={styles.regist}>Регистрация</Text>
@@ -104,7 +104,9 @@ const RegistrationScreen = () => {
 };
 const styles = StyleSheet.create({
     conatiner:{
-        padding:20
+        padding:20,
+        height:"100%"
+        // backgroundColor:'white',
     },
     regist:{
         fontSize:28,

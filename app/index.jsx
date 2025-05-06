@@ -31,7 +31,7 @@ const LoginScreen = () => {
   };
 
   return (
-    <View>
+    <View style={{backgroundColor:'white',}}>
         <Header/>
         <View style={styles.conatiner}>
         <Text style={styles.enter}>Войти</Text>
@@ -85,6 +85,8 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
     conatiner:{
         padding:20,
+        height:"100%",
+
     },
     enter:{
         fontSize:30,

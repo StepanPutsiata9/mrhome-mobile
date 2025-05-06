@@ -7,24 +7,7 @@ import Shtora from "../PhotosComponents/Shtora"
 import SwitchOutline from "../PhotosComponents/SwitchOutline"
 export default function ControllerItem({ data,socket }) {
   let photo;
-  switch(data.title){
-    case "Умная подсветка":
-      photo = <Light color={"#4C82FF"} />
-      break;
-    case "Умный выключатель":
-      photo = <SwitchOutline color={"#4C82FF"} />
-      break;
-    case "Умная роль-штора":
-      photo = <Shtora color={"#4C82FF"} />
-      break;
-    case "Датчик температуры":
-      photo = <Temp color={"#4C82FF"} />  
-      break;
-    case "Датчик движения":
-      photo = <Snickers color={"#4C82FF"} />
-      break;
-  }
-  // switch(data.deviceType){
+  // switch(data.title){
   //   case "Умная подсветка":
   //     photo = <Light color={"#4C82FF"} />
   //     break;
@@ -34,13 +17,30 @@ export default function ControllerItem({ data,socket }) {
   //   case "Умная роль-штора":
   //     photo = <Shtora color={"#4C82FF"} />
   //     break;
-  //   case "temp":
+  //   case "Датчик температуры":
   //     photo = <Temp color={"#4C82FF"} />  
   //     break;
-  //   case "move":
+  //   case "Датчик движения":
   //     photo = <Snickers color={"#4C82FF"} />
   //     break;
   // }
+  switch(data.deviceType){
+    case "light":
+      photo = <Light color={"#4C82FF"} />
+      break;
+    case "switch":
+      photo = <SwitchOutline color={"#4C82FF"} />
+      break;
+    case "curtain":
+      photo = <Shtora color={"#4C82FF"} />
+      break;
+    case "tempSensor":
+      photo = <Temp color={"#4C82FF"} />  
+      break;
+    case "moveSensor":
+      photo = <Snickers color={"#4C82FF"} />
+      break;
+  }
  
     // EXMPL FOR SEND DEVICE 
   // {

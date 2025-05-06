@@ -12,12 +12,12 @@ import ColorPicker from 'react-native-wheel-color-picker';
 
 
 export const SmartLight = ({ data, socket }) => {
-  const [color, setColor] = useState(data.color);
+  const [color, setColor] = useState(data.payload.color);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(data.glow);
+  const [selectedItem, setSelectedItem] = useState(data.payload.glow);
   const items = ['Свечение', 'Мерцание', 'Затухание', 'Сплошной цвет'];
-  const [sliderValue, setSliderValue] = useState(Number(data.brightness));
-  const [on, setOn] = useState(data.state == "Включена" ? true : false);
+  const [sliderValue, setSliderValue] = useState(Number(data.payload.brightness));
+  const [on, setOn] = useState(data.payload.state == "on" ? true : false);
   const [off, setOff] = useState(!on);
   const router = useRouter();
   const handleColorChange = (colorObj) => {
@@ -30,7 +30,8 @@ export const SmartLight = ({ data, socket }) => {
   };
 
   return (
-    <ScrollView style={{ backgroundColor: 'white' }}>
+
+    <ScrollView style={{ backgroundColor: 'white', paddingTop: 50, }}>
       <Header />
       <View style={styles.title}>
         <View style={{ flexDirection: 'row' }}>
@@ -53,7 +54,7 @@ export const SmartLight = ({ data, socket }) => {
         </View>
         <View style={styles.infoLine}>
           <Text style={styles.infoLineText}>Состояние</Text>
-          <Text style={styles.status}>{data.state}</Text>
+          <Text style={styles.status}>{data.payload.state}</Text>
         </View>
       </View>
       <View style={styles.container}>
@@ -110,15 +111,15 @@ export const SmartLight = ({ data, socket }) => {
           thumbTintColor="#4C82FF" // Цвет ползунка
         />
       </View>
-    
+
       <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 15 }}>Состояние:</Text>
       <View style={styles.onOff}>
         <View style={{ alignItems: 'center' }}>
           <Pressable disabled={on} onPress={async () => {
             await socket.current.send(JSON.stringify(
               {
-                deviceId: data.deviceId,
-                deviceType: data.deviceType,
+                topic: data.topic,
+                deviceType: data.payload.deviceType,
                 command: 'turn_on'
               }
             ));
@@ -134,8 +135,8 @@ export const SmartLight = ({ data, socket }) => {
           <Pressable disabled={off} onPress={async () => {
             await socket.current.send(JSON.stringify(
               {
-                deviceId: data.deviceId,
-                deviceType: data.deviceType,
+                topic: data.topic,
+                deviceType: data.payload.deviceType,
                 command: 'turn_off'
               }
             ));
@@ -148,15 +149,15 @@ export const SmartLight = ({ data, socket }) => {
 
         </View>
       </View>
-      <View style={{ margin: "auto" ,marginBottom:45}}>
+      <View style={{ margin: "auto", marginBottom: 45 }}>
         <TouchableOpacity
           style={styles.btn}
           activeOpacity={0.7}
           onPress={async () => {
             await socket.current.send(JSON.stringify(
               {
-                deviceId: data.deviceId,
-                deviceType: data.deviceType,
+                topic: data.topic,
+                deviceType: data.payload.deviceType,
                 command: 'set_params',
                 params: {
                   color: color,
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
   wheel: {
     width: 250,
     height: 250,
-    marginBottom:20
+    marginBottom: 20
   },
   preview: {
     width: 100,

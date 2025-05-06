@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, createContext, useContext } from 'react';
 import { AuthContext, AuthProvider} from '../Auth/AuthContext';
 import {ScenariiProvider} from "./(scen)/ScenariiContext"
 import LoadScreen from "../components/DevelopComponents/LoadScreen";
-
+import { usePathname } from 'expo-router';
 const SocketContext = createContext({
   socket: { current: null },
   data: {}
@@ -15,11 +15,20 @@ function LayoutContent() {
   const [data, setData] = useState({});
   const socket = useRef(null);
   const  user = true;
-
+  const pathname = usePathname(); 
   const updateDevices = (devices, updatedDevice) => {
-    return devices.map(device =>
-      device.id === updatedDevice.id ? { ...device, ...updatedDevice } : device
-    );
+    return devices.map(device => {
+      if (device.payload.id === updatedDevice.payload.id) {
+        return {
+          ...device,
+          payload: {
+            ...device.payload,
+            ...updatedDevice.payload
+          }
+        };
+      }
+      return device;
+    });
   };
   useEffect(() => {
     if (user) {
@@ -37,11 +46,13 @@ function LayoutContent() {
         if (dataApi.type === 'initial') {
           setData(dataApi.dataObj);
           setLoaded(true);
-        }else if (dataApi.type === 'update') {
+          // console.log(data);
+        } else if (dataApi.type === 'update') {
           setData(prev => ({
             electro: updateDevices(prev.electro, dataApi.dataObj),
-            sensors: updateDevices(prev.sensors, dataApi.dataObj),
+            sensors: updateDevices(prev.sensors, dataApi.dataObj)
           }));
+          console.log(dataApi.dataObj);
         }
       };
 
@@ -74,7 +85,9 @@ function LayoutContent() {
           <Stack.Screen name="(tabs)"/>
           <Stack.Screen name="(scen)" />
       </Stack>
-      <Redirect href="/(tabs)/" />
+      {pathname !== "/(tabs)/" && (
+        <Redirect href="/(tabs)/" />
+      )}
       <StatusBar style="auto" />
     </SocketContext.Provider>
   );

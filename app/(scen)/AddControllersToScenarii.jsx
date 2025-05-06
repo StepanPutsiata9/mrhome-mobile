@@ -15,13 +15,13 @@ export default function AddControllersToScenarii(){
           return [];
         }
         return data.electro.map(device => ({
-          title: device.title || 'Название не указано',
-          deviceType: device.deviceType || 'Тип не указан'
+          title: device.payload.title || 'Название не указано',
+          deviceType: device.payload.deviceType || 'Тип не указан'
         }));
       }
     const electroList=extractElectroDevices(data);
     return(
-        <ScrollView style={{backgroundColor:'white'}}>
+        <ScrollView style={{backgroundColor:'white',paddingTop:50,}}>
         <Header/>
          <View style={styles.container}>
         <View style={styles.title}>

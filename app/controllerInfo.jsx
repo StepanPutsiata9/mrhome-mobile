@@ -11,12 +11,14 @@ import { useLocalSearchParams } from 'expo-router';
 export default function ControllerInfo() {
   const { socket, data } = useContext(SocketContext);
   const { id } = useLocalSearchParams();
-
-  function findDeviceById(data, targetId) {
-    if (!data) return null;
-    const allDevices = Object.values(data).flat();
-    return allDevices.find(device => device.id == targetId);
-  }
+console.log('====================================');
+console.log(data);
+console.log('====================================');
+function findDeviceById(data, targetId) {
+  if (!data) return null;
+  const allDevices = Object.values(data).flat(); // Обратите внимание на data.dataObj!
+  return allDevices.find(device => device.payload.id == targetId);
+}
 
   const controllerData = findDeviceById(data, id);
 
@@ -30,16 +32,16 @@ export default function ControllerInfo() {
       return <Text style={styles.text}>Устройство не найдено</Text>;
     }
 
-    switch(controllerData.title) {
-      case "Умная подсветка":
+    switch(controllerData.payload.deviceType) {
+      case "light":
         return <SmartLight data={controllerData} socket={socket} />;
-      case "Умный выключатель":
+      case "switch":
         return <SmartSwitch data={controllerData} socket={socket} />;
-      case "Умная роль-штора":
+      case "curtain":
         return <SmartCurtain data={controllerData} socket={socket} />;
-      case "Датчик температуры":
+      case "tempSensor":
         return <TempSensor data={controllerData} socket={socket} />;
-      case "Датчик движения":
+      case "moveSensor":
         return <MoveSensor data={controllerData} socket={socket} />;
       default:
         return <Text style={styles.text}>Неизвестный тип устройства</Text>;

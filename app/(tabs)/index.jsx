@@ -18,7 +18,7 @@ export default function HomeScreen() {
       style={styles.background}
       resizeMode="cover"
     >
-      <ScrollView style={{marginTop:25}}>
+      <ScrollView style={{paddingTop:50}}>
       <Header />
         <Text style={styles.myGadgets}>Мои устройства</Text>
         <Category

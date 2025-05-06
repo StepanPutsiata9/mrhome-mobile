@@ -9,7 +9,7 @@ export default function Category({titleOfCategory,data,socket}){
                 
                 {data.map((elData)=>{
                   return(
-                    <ControllerItem data={elData} key={elData.id} socket={socket} />
+                    <ControllerItem data={elData.payload} key={elData.payload.id} socket={socket} />
                   )
                 })}
             </View>
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         marginLeft:20,
       },
       controllersBlock:{
-        width:"87%",
+        width:"90%",
         marginHorizontal:'auto',
         // paddingHorizontal:20,
         marginTop:10,
