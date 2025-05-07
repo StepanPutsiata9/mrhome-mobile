@@ -2,7 +2,7 @@ import { Stack, Redirect, usePathname, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef, useState, createContext, useContext, useMemo } from 'react';
 import { AuthContext, AuthProvider } from '../Auth/AuthContext';
-import { ScenariiProvider } from "./(scen)/ScenariiContext"
+import  ScenariiProvider  from "./(scen)/ScenariiContext"
 import LoadScreen from "../components/DevelopComponents/LoadScreen";
 
 const SocketContext = createContext({
