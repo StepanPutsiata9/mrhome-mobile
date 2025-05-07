@@ -32,7 +32,7 @@ export default function TempSensor({ data, socket }) {
         </View>
         <View style={styles.infoLine}>
           <Text style={styles.infoLineText}>Состояние</Text>
-          <Text style={styles.status}>{data.payload.state}</Text>
+          <Text style={styles.status}>{data.payload.state==="on"?"Включен":"Выключен"}</Text>
         </View>
         <View style={styles.infoLine}>
           <Text style={styles.infoLineText}>Температура</Text>

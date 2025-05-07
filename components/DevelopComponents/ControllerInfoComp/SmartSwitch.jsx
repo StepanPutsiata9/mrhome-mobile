@@ -33,7 +33,7 @@ export default function SmartSwitch({ data, socket }) {
         </View>
         <View style={styles.infoLine}>
           <Text style={styles.infoLineText}>Состояние</Text>
-          <Text style={styles.status}>{data.payload.state}</Text>
+          <Text style={styles.status}>{data.payload.state==="on"?"Включен":"Выключен"}</Text>
         </View>
       </View>
       <View style={styles.onOff}>

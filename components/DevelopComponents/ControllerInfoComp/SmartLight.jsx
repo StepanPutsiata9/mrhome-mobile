@@ -54,9 +54,47 @@ export const SmartLight = ({ data, socket }) => {
         </View>
         <View style={styles.infoLine}>
           <Text style={styles.infoLineText}>Состояние</Text>
-          <Text style={styles.status}>{data.payload.state}</Text>
+          <Text style={styles.status}>{data.payload.state==="on"?"Включена":"Выключена"}</Text>
         </View>
       </View>
+      {/* <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 15 }}>Состояние:</Text> */}
+      <View style={styles.onOff}>
+        <View style={{ alignItems: 'center' }}>
+          <Pressable disabled={on} onPress={async () => {
+            await socket.current.send(JSON.stringify(
+              {
+                topic: data.topic,
+                deviceType: data.payload.deviceType,
+                command: 'turn_on'
+              }
+            ));
+            setOn(!on);
+            setOff(!off);
+          }}>
+            <LightOn color={on ? "#4C82FF" : "#8B8B8B"} />
+          </Pressable>
+          {on ? <Text style={{ color: '#4C82FF' }}>Включена</Text> : <Text style={{ color: '#8B8B8B' }}>Включена</Text>}
+
+        </View>
+        <View style={{ alignItems: 'center' }}>
+          <Pressable disabled={off} onPress={async () => {
+            await socket.current.send(JSON.stringify(
+              {
+                topic: data.topic,
+                deviceType: data.payload.deviceType,
+                command: 'turn_off'
+              }
+            ));
+            setOn(!on);
+            setOff(!off);
+          }}>
+            <LightOff color={off ? "#4C82FF" : "#8B8B8B"} />
+          </Pressable>
+          {off ? <Text style={{ color: '#4C82FF' }}>Выключена</Text> : <Text style={{ color: '#8B8B8B' }}>Выключена</Text>}
+
+        </View>
+      </View>
+      <Text style={styles.settingsText}>Параметры настройки</Text>
       <View style={styles.container}>
         <ColorPicker
           color={color}
@@ -112,43 +150,7 @@ export const SmartLight = ({ data, socket }) => {
         />
       </View>
 
-      <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 15 }}>Состояние:</Text>
-      <View style={styles.onOff}>
-        <View style={{ alignItems: 'center' }}>
-          <Pressable disabled={on} onPress={async () => {
-            await socket.current.send(JSON.stringify(
-              {
-                topic: data.topic,
-                deviceType: data.payload.deviceType,
-                command: 'turn_on'
-              }
-            ));
-            setOn(!on);
-            setOff(!off);
-          }}>
-            <LightOn color={on ? "#4C82FF" : "#8B8B8B"} />
-          </Pressable>
-          {on ? <Text style={{ color: '#4C82FF' }}>Включена</Text> : <Text style={{ color: '#8B8B8B' }}>Включена</Text>}
-
-        </View>
-        <View style={{ alignItems: 'center' }}>
-          <Pressable disabled={off} onPress={async () => {
-            await socket.current.send(JSON.stringify(
-              {
-                topic: data.topic,
-                deviceType: data.payload.deviceType,
-                command: 'turn_off'
-              }
-            ));
-            setOn(!on);
-            setOff(!off);
-          }}>
-            <LightOff color={off ? "#4C82FF" : "#8B8B8B"} />
-          </Pressable>
-          {off ? <Text style={{ color: '#4C82FF' }}>Выключена</Text> : <Text style={{ color: '#8B8B8B' }}>Выключена</Text>}
-
-        </View>
-      </View>
+     
       <View style={{ margin: "auto", marginBottom: 45 }}>
         <TouchableOpacity
           style={styles.btn}
@@ -170,7 +172,7 @@ export const SmartLight = ({ data, socket }) => {
             setOff(false)
           }}
         >
-          <Text style={styles.btnText}>Изменить параметры</Text>
+          <Text style={styles.btnText}>Изменить параметры настройки</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -289,15 +291,24 @@ const styles = StyleSheet.create({
   },
   onOff: {
     marginTop: 30,
-    marginBottom: 30,
+    marginBottom: 15,
+    paddingBottom:25,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 50
+    paddingHorizontal: 50,
+    borderBottomWidth:1,
+    borderBottomColor:'#8b8b8b',
   },
   infoText: {
     fontFamily: "Roboto",
     fontSize: 16,
     color: "#8B8B8B"
   },
+  settingsText:{
+    marginLeft:20,
+    fontSize:20,
+    fontFamily:'Roboto',
+    fontWeight:600,
 
+  }
 });

@@ -92,7 +92,9 @@ function LayoutContent() {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="controllerInfo" />
         <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="(scen)" />
+        <Stack.Screen name="(scen)/NewScenarii" />
+      <Stack.Screen name="(scen)/AddControllersToScenarii" />
+      <Stack.Screen name="(scen)/AddSpecificController" />
       </Stack>
       <StatusBar style="auto" />
     </SocketContext.Provider>
