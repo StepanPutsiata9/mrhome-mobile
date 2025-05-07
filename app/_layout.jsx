@@ -49,13 +49,13 @@ function LayoutContent() {
         if (dataApi.type === 'initial') {
           setData(dataApi.dataObj);
           setLoaded(true);
-          console.log(data);
+          console.log("initial data: ",data);
         } else if (dataApi.type === 'update') {
           setData(prev => ({
             electro: updateDevices(prev.electro, dataApi.dataObj),
             sensors: updateDevices(prev.sensors, dataApi.dataObj),
           }));
-          console.log(data);
+          console.log("update ",data);
 
         }
       };

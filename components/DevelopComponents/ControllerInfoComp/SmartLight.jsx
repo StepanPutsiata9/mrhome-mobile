@@ -18,7 +18,7 @@ export const SmartLight = ({ data, socket }) => {
   const items = ['Свечение', 'Мерцание', 'Затухание', 'Сплошной цвет'];
   const [sliderValue, setSliderValue] = useState(Number(data.payload.brightness));
   const [on, setOn] = useState(data.payload.state == "on" ? true : false);
-  const [off, setOff] = useState(!on);
+  const [off, setOff] = useState(data.payload.state == "off" ? true : false);
   const router = useRouter();
   const handleColorChange = (colorObj) => {
     if (typeof colorObj === 'string') {
@@ -124,7 +124,7 @@ export const SmartLight = ({ data, socket }) => {
               }
             ));
             setOn(!on);
-            setOff(!off)
+            setOff(!false);
           }}>
             <LightOn color={on ? "#4C82FF" : "#8B8B8B"} />
           </Pressable>
@@ -141,7 +141,7 @@ export const SmartLight = ({ data, socket }) => {
               }
             ));
             setOn(!on);
-            setOff(!off)
+            setOff(!off);
           }}>
             <LightOff color={off ? "#4C82FF" : "#8B8B8B"} />
           </Pressable>
@@ -166,8 +166,8 @@ export const SmartLight = ({ data, socket }) => {
                 }
               }
             ));
-            setOn(!on);
-            setOff(!off)
+            setOn(true);
+            setOff(false)
           }}
         >
           <Text style={styles.btnText}>Изменить параметры</Text>

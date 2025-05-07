@@ -11,12 +11,9 @@ import { useLocalSearchParams } from 'expo-router';
 export default function ControllerInfo() {
   const { socket, data } = useContext(SocketContext);
   const { id } = useLocalSearchParams();
-console.log('====================================');
-console.log(data);
-console.log('====================================');
 function findDeviceById(data, targetId) {
   if (!data) return null;
-  const allDevices = Object.values(data).flat(); // Обратите внимание на data.dataObj!
+  const allDevices = Object.values(data).flat(); 
   return allDevices.find(device => device.payload.id == targetId);
 }
 
