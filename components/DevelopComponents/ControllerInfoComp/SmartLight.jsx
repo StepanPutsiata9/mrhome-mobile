@@ -124,7 +124,7 @@ export const SmartLight = ({ data, socket }) => {
               }
             ));
             setOn(!on);
-            setOff(!false);
+            setOff(!off);
           }}>
             <LightOn color={on ? "#4C82FF" : "#8B8B8B"} />
           </Pressable>

@@ -49,14 +49,11 @@ function LayoutContent() {
         if (dataApi.type === 'initial') {
           setData(dataApi.dataObj);
           setLoaded(true);
-          console.log("initial data: ",data);
         } else if (dataApi.type === 'update') {
           setData(prev => ({
             electro: updateDevices(prev.electro, dataApi.dataObj),
             sensors: updateDevices(prev.sensors, dataApi.dataObj),
           }));
-          console.log("update ",data);
-
         }
       };
 
@@ -97,7 +94,6 @@ function LayoutContent() {
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="(scen)" />
       </Stack>
-      {/* <Redirect href="/(tabs)/" /> */}
       <StatusBar style="auto" />
     </SocketContext.Provider>
   );
