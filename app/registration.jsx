@@ -8,11 +8,10 @@ import EyeOpen from "../components/DevelopComponents/PhotosComponents/EyeOpen"
 import EyeClosed from "../components/DevelopComponents/PhotosComponents/EyeClosed"
 import { useRouter } from 'expo-router';
 const RegistrationScreen = () => {
-  const [email, setEmail] = useState('');
+  const [loginInput, setLoginInput] = useState('');
   const [password, setPassword] = useState('');
   const [broker, setBroker] = useState('');
   const [ws, setWs] = useState('');
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { login } = useContext(AuthContext);
@@ -22,7 +21,7 @@ const RegistrationScreen = () => {
     setLoading(true);
     setError('');
     try {
-      const response = await api.post('/auth/registration', { email, password,broker,socket });
+      const response = await api.post('/auth/registration', { login:loginInput, password,broker,socket });
       const { accessToken, refreshToken } = response.data;
       login(accessToken, refreshToken);
     } catch (err) {
@@ -38,10 +37,10 @@ const RegistrationScreen = () => {
         <View style={styles.conatiner}>
         <Text style={styles.regist}>Регистрация</Text>
         <TextInput
-            value={email}
+            value={loginInput}
             placeholder='Логин'
             style={styles.input}
-            onChangeText={setEmail}
+            onChangeText={setLoginInput}
             keyboardType="email-address"
             autoCapitalize="none"
             placeholderTextColor="#999"

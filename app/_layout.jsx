@@ -14,7 +14,7 @@ function LayoutContent() {
   const [loaded, setLoaded] = useState(false);
   const [data, setData] = useState({});
   const socket = useRef(null);
-  const user = true;
+  const user = false;
   const pathname = usePathname();
   const router = useRouter();
 

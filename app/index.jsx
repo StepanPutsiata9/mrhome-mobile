@@ -9,7 +9,7 @@ import EyeClosed from "../components/DevelopComponents/PhotosComponents/EyeClose
 import { useRouter } from 'expo-router';
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState('');
+  const [loginInput, setLoginInput] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -20,7 +20,7 @@ const LoginScreen = () => {
     setLoading(true);
     setError('');
     try {
-      const response = await api.post('/auth/login', { email, password });
+      const response = await api.post('/auth/login', { login:loginInput, password:password });
       const { accessToken, refreshToken } = response.data;
       login(accessToken, refreshToken);
     } catch (err) {
@@ -36,10 +36,10 @@ const LoginScreen = () => {
         <View style={styles.conatiner}>
         <Text style={styles.enter}>Войти</Text>
         <TextInput
-            value={email}
+            value={loginInput}
             placeholder='Логин'
             style={styles.input}
-            onChangeText={setEmail}
+            onChangeText={setLoginInput}
             keyboardType="email-address"
             autoCapitalize="none"
             placeholderTextColor="#999"

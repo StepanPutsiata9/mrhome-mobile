@@ -253,12 +253,14 @@ const styles = StyleSheet.create({
 
     paddingHorizontal: 60,
     paddingVertical: 10,
-    marginVertical: 10
+    marginVertical: 10,
+    marginBottom:50,
+
   },
   btnText: {
     color: 'white',
     fontSize: 16,
-    paddingVertical: 3
+    paddingVertical: 3,
   },
   dropdownButton: {
     paddingHorizontal: 50,
