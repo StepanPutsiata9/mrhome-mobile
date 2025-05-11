@@ -1,7 +1,7 @@
 import { Stack, Redirect, usePathname, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useRef, useState, createContext, useContext, useMemo } from 'react';
-import { AuthContext, AuthProvider } from '../Auth/AuthContext';
+import { useEffect, useRef, useState, createContext, useMemo, useContext } from 'react';
+import {AuthContext, AuthProvider } from '../Auth/AuthContext';
 import  ScenariiProvider  from "./(scen)/ScenariiContext"
 import LoadScreen from "../components/DevelopComponents/LoadScreen";
 
@@ -14,9 +14,9 @@ function LayoutContent() {
   const [loaded, setLoaded] = useState(false);
   const [data, setData] = useState({});
   const socket = useRef(null);
-  const user = false;
   const pathname = usePathname();
   const router = useRouter();
+    const {user,token}=useContext(AuthContext);
 
 
   const updateDevices = (devices, updatedDevice) => {
@@ -35,13 +35,13 @@ function LayoutContent() {
   };
   useEffect(() => {
     if (user) {
-      const ws = new WebSocket('ws://testyandex.onrender.com');
+      console.log('====================================');
+      console.log(token);
+      console.log('====================================');
+      const ws = new WebSocket(`ws://testyandex.onrender.com?token=${token}`);
       ws.onopen = () => {
         console.log('Connected');
         socket.current = ws;
-        // if (user?.token) {
-        //  ws.send(JSON.stringify({ type: 'auth', token: user.token }));
-        // }
       };
 
       ws.onmessage = (event) => {

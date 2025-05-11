@@ -21,8 +21,11 @@ const RegistrationScreen = () => {
     setLoading(true);
     setError('');
     try {
-      const response = await api.post('/auth/registration', { login:loginInput, password,broker,socket });
+      const response = await api.post('/register', { username:loginInput, password,url:broker,port:ws });
       const { accessToken, refreshToken } = response.data;
+      console.log('====================================');
+      console.log(accessToken,"/",refreshToken);
+      console.log('====================================');
       login(accessToken, refreshToken);
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');

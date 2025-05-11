@@ -3,9 +3,11 @@ import { Header } from "../../components/DevelopComponents/Header";
 import Category from "../../components/DevelopComponents/Category/Category";
 import { useContext } from 'react';
 import { SocketContext } from '../_layout'; 
+import { AuthContext } from '../../Auth/AuthContext';
 
 export default function HomeScreen() {
   const { socket, data } = useContext(SocketContext);
+  const {user}=useContext(AuthContext);
 
   // console.log('SocketContext data:', data);
   // console.log('====================================');

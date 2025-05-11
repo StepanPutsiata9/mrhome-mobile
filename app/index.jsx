@@ -13,18 +13,42 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+  
   const { login } = useContext(AuthContext);
-  const [isVisible,setIsVisible]=useState(false);
-  const router=useRouter();
+  const router = useRouter();
+
   const handleLogin = async () => {
     setLoading(true);
     setError('');
+    
     try {
-      const response = await api.post('/auth/login', { login:loginInput, password:password });
+      const response = await api.post('/login', { 
+        username: loginInput, 
+        password: password 
+      });
+      
       const { accessToken, refreshToken } = response.data;
-      login(accessToken, refreshToken);
+      
+      if (!accessToken || !refreshToken) {
+        throw new Error('Не получили токены от сервера');
+      }
+      
+      console.log('Пытаемся войти с токенами:', { 
+        access: accessToken.slice(0, 10) + '...',
+        refresh: refreshToken.slice(0, 10) + '...'
+      });
+      
+      await login(accessToken, refreshToken);
+      router.replace('/(tabs)');
+      
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      console.error('Ошибка входа:', err);
+      setError(
+        err.response?.data?.message || 
+        err.message || 
+        'Произошла ошибка при входе'
+      );
     } finally {
       setLoading(false);
     }

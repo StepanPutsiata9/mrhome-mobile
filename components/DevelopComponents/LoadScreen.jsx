@@ -1,7 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { View, Text, ActivityIndicator, ImageBackground } from 'react-native';
 import SvgComponentLogo from "./PhotosComponents/LogoSVG"
+import { AuthContext } from '@/Auth/AuthContext';
+import { useContext } from 'react';
 export default function LoadScreen() {
+  
   return (
     <ImageBackground
       source={require("../../assets/images/Background.png")}
@@ -17,6 +20,8 @@ export default function LoadScreen() {
   );
 }
 const LoadingSpinner = () => {
+    const {user}=useContext(AuthContext);
+
   return (
     <View>
       <ActivityIndicator
@@ -24,7 +29,7 @@ const LoadingSpinner = () => {
         color="#4C82FF"
         animating={true}
       />
-      <Text style={styles.loadText}>Загрузка...</Text>
+      <Text style={styles.loadText}>Здравствуйте, {user.username}</Text>
     </View>
   );
 };

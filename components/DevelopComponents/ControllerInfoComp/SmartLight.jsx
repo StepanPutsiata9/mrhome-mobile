@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Pressable, TouchableOpacity, ScrollView, Modal } from 'react-native';
+import { View, Text, StyleSheet, Pressable, TouchableOpacity, ScrollView, Modal,Alert } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { ColorWheel } from 'react-native-color-wheel';
 import Light from "../PhotosComponents/Light"
@@ -28,9 +28,7 @@ export const SmartLight = ({ data, socket }) => {
       setColor(hex);
     }
   };
-
   return (
-
     <ScrollView style={{ backgroundColor: 'white', paddingTop: 50, }}>
       <Header />
       <View style={styles.title}>
@@ -54,7 +52,7 @@ export const SmartLight = ({ data, socket }) => {
         </View>
         <View style={styles.infoLine}>
           <Text style={styles.infoLineText}>Состояние</Text>
-          <Text style={styles.status}>{data.payload.state==="on"?"Включена":"Выключена"}</Text>
+          <Text style={styles.status}>{data.payload.state === "on" ? "Включена" : "Выключена"}</Text>
         </View>
       </View>
       {/* <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 15 }}>Состояние:</Text> */}
@@ -106,9 +104,7 @@ export const SmartLight = ({ data, socket }) => {
           style={styles.wheel}
         />
         <Text style={styles.text}>Цвет: {color}</Text>
-
       </View>
-
       <View style={styles.container}>
         <Pressable
           style={styles.dropdownButton}
@@ -141,16 +137,16 @@ export const SmartLight = ({ data, socket }) => {
         <Slider
           minimumValue={1}
           maximumValue={100}
-          step={1} // Шаг изменения (можно убрать для плавного изменения)
+          step={1} 
           value={sliderValue}
-          onValueChange={(value) => setSliderValue(Math.round(value))} // Округляем значение
-          minimumTrackTintColor="#4C82FF" // Цвет заполненной части
-          maximumTrackTintColor="#000000" // Цвет незаполненной части
-          thumbTintColor="#4C82FF" // Цвет ползунка
+          onValueChange={(value) => setSliderValue(Math.round(value))} 
+          minimumTrackTintColor="#4C82FF" 
+          maximumTrackTintColor="#000000" 
+          thumbTintColor="#4C82FF" 
         />
       </View>
 
-     
+
       <View style={{ margin: "auto", marginBottom: 45 }}>
         <TouchableOpacity
           style={styles.btn}
@@ -169,7 +165,7 @@ export const SmartLight = ({ data, socket }) => {
               }
             ));
             setOn(true);
-            setOff(false)
+            setOff(false);
           }}
         >
           <Text style={styles.btnText}>Изменить параметры настройки</Text>
@@ -180,9 +176,7 @@ export const SmartLight = ({ data, socket }) => {
   );
 };
 
-// Вспомогательная функция для конвертации HSV в HEX
 const hsvToHex = (hsv) => {
-  // Простая конвертация (можно использовать библиотеку 'tinycolor2')
   const { h, s, v } = hsv;
   const f = (n, k = (n + h / 60) % 6) =>
     v - v * s * Math.max(Math.min(k, 4 - k, 1), 0);
@@ -254,7 +248,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 60,
     paddingVertical: 10,
     marginVertical: 10,
-    marginBottom:50,
+    marginBottom: 50,
 
   },
   btnText: {
@@ -294,23 +288,23 @@ const styles = StyleSheet.create({
   onOff: {
     marginTop: 30,
     marginBottom: 15,
-    paddingBottom:25,
+    paddingBottom: 25,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 50,
-    borderBottomWidth:1,
-    borderBottomColor:'#8b8b8b',
+    borderBottomWidth: 1,
+    borderBottomColor: '#8b8b8b',
   },
   infoText: {
     fontFamily: "Roboto",
     fontSize: 16,
     color: "#8B8B8B"
   },
-  settingsText:{
-    marginLeft:20,
-    fontSize:20,
-    fontFamily:'Roboto',
-    fontWeight:600,
+  settingsText: {
+    marginLeft: 20,
+    fontSize: 20,
+    fontFamily: 'Roboto',
+    fontWeight: 600,
 
   }
 });

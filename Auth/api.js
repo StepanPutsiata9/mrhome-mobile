@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getTokens, storeTokens } from './authStorage';
 
 const api = axios.create({
-  baseURL: 'url',
+  baseURL: 'http://testyandex.onrender.com/',
 });
 
 api.interceptors.request.use(async (config) => {
@@ -28,7 +28,7 @@ api.interceptors.response.use(
 
       try {
         const response = await axios.post(
-          'https://your-api-url.com/api/auth/refresh',
+          'http://testyandex.onrender.com/refresh',
           { refreshToken: tokens.refreshToken }
         );
 

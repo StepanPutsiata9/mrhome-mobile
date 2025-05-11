@@ -1,26 +1,32 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getTokens, clearTokens } from './authStorage';
-import jwtDecode from 'jwt-decode';
+import { getTokens, clearTokens, storeTokens } from './authStorage';
+import { jwtDecode } from 'jwt-decode'; // Используем именованный импорт
 
 const AuthContext = createContext();
 
-export  const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [token,setToken]=useState("");
   const checkTokenExpiration = (token) => {
     if (!token) return false;
-    const decoded = jwtDecode(token);
-    return decoded.exp * 1000 > Date.now();
+    try {
+      const decoded = jwtDecode(token);
+      return decoded.exp * 1000 > Date.now();
+    } catch (error) {
+      console.error('Token decode error:', error);
+      return false;
+    }
   };
 
   const loadUser = async () => {
     setIsLoading(true);
     try {
       const tokens = await getTokens();
-      if (tokens && tokens.accessToken && checkTokenExpiration(tokens.accessToken)) {
+      if (tokens?.accessToken && checkTokenExpiration(tokens.accessToken)) {
         const decoded = jwtDecode(tokens.accessToken);
         setUser(decoded);
+        setToken(tokens.accessToken);
       } else {
         setUser(null);
       }
@@ -32,15 +38,25 @@ export  const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = (accessToken, refreshToken) => {
-    const decoded = jwtDecode(accessToken);
-    setUser(decoded);
-    storeTokens(accessToken, refreshToken);
+  const login = async (accessToken, refreshToken) => {
+    try {
+      const decoded = jwtDecode(accessToken);
+      console.log('Decoded token:', decoded);
+      setUser(decoded);
+      await storeTokens(accessToken, refreshToken);
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
+    }
   };
 
   const logout = async () => {
-    await clearTokens();
-    setUser(null);
+    try {
+      await clearTokens();
+      setUser(null);
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   };
 
   useEffect(() => {
@@ -48,10 +64,10 @@ export  const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ user,token, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export {AuthContext};
+export { AuthContext };
