@@ -38,17 +38,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (accessToken, refreshToken) => {
-    try {
-      const decoded = jwtDecode(accessToken);
-      console.log('Decoded token:', decoded);
-      setUser(decoded);
-      await storeTokens(accessToken, refreshToken);
-    } catch (error) {
-      console.error('Login error:', error);
-      throw error;
-    }
-  };
+const login = async (accessToken, refreshToken) => {
+  try {
+    const decoded = jwtDecode(accessToken);
+    setUser(decoded);
+    setToken(accessToken);
+    await storeTokens(accessToken, refreshToken);
+  } catch (error) {
+    console.error('Login error:', error);
+    throw error;
+  }
+};
 
   const logout = async () => {
     try {
