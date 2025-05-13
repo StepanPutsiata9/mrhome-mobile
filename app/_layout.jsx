@@ -16,7 +16,7 @@ function LayoutContent() {
   const socket = useRef(null);
   const pathname = usePathname();
   const router = useRouter();
-    const {user,token}=useContext(AuthContext);
+  const {user,token}=useContext(AuthContext);
 
 
   const updateDevices = (devices, updatedDevice) => {
@@ -36,17 +36,23 @@ function LayoutContent() {
   useEffect(() => {
     if (user) {
       console.log('====================================');
-      console.log(token);
+      console.log("user ",user," token ",token);
       console.log('====================================');
       const ws = new WebSocket(`ws://testyandex.onrender.com?token=${token}`);
       ws.onopen = () => {
         console.log('Connected');
+        console.log('====================================');
+        console.log(token);
+        console.log('====================================');
         socket.current = ws;
       };
 
       ws.onmessage = (event) => {
         const dataApi = JSON.parse(event.data);
         if (dataApi.type === 'initial') {
+          console.log('====================================');
+          console.log("initial");
+          console.log('====================================');
           setData(dataApi.dataObj);
           setLoaded(true);
         } else if (dataApi.type === 'update') {
@@ -70,7 +76,7 @@ function LayoutContent() {
     socket,
     data
   }), [socket.current, data.electro, data.sensors]);
-  if (!user) {
+  if (!user&&!loaded) {
     return (
       <>
         <Stack screenOptions={{ headerShown: false }}>
@@ -83,10 +89,10 @@ function LayoutContent() {
     );
   }
 
-  if (!loaded) {
+  if (!loaded&&user) {
     return <LoadScreen />;
   }
-
+  if(loaded&&user){
   return (
     <SocketContext.Provider value={contextValue}>
       <Stack screenOptions={{ headerShown: false }}>
@@ -99,6 +105,7 @@ function LayoutContent() {
       <StatusBar style="auto" />
     </SocketContext.Provider>
   );
+}
 }
 export default function RootLayout() {
   return (

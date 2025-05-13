@@ -68,7 +68,7 @@ const RegistrationScreen = () => {
      </View>
      <TextInput
             value={broker}
-            placeholder='Адерс брокера'
+            placeholder='Адрес брокера'
             style={styles.input}
             onChangeText={setBroker}
             keyboardType="email-address"

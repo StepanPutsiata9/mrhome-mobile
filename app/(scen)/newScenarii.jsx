@@ -36,6 +36,9 @@ export default function NewScen() {
   ];
   const [selectedItem, setSelectedItem] = useState("");
   const router = useRouter();
+  console.log('====================================');
+  console.log("Scen: ",controllerState);
+  console.log('====================================');
   return (
     <ScrollView style={{ paddingTop:50,}}>
       <Header />
