@@ -27,7 +27,6 @@ export default function NewScen() {
   const { isListEmpty, setIsListEmpty, controllerState,
     setControllerState, scenariiState, setScenariiState, scenCount, setScenCount } = useContext(ScenariiContext);
 
-
   const [title, setTitle] = useState("");
   const [isOpen, setIsOpen] = useState(false)
   const icons = [
@@ -37,7 +36,7 @@ export default function NewScen() {
   const [selectedItem, setSelectedItem] = useState("");
   const router = useRouter();
   return (
-    <ScrollView style={{ paddingTop:50,}}>
+    <ScrollView style={{ paddingTop: 50, }}>
       <Header />
       <View style={styles.container}>
         <View style={styles.title}>
@@ -215,7 +214,7 @@ const styles = StyleSheet.create({
   },
   itemStateText: {
     fontSize: 20,
-    fontWeight:500,
+    fontWeight: 500,
   },
   addController: {
     marginTop: 20,
@@ -251,7 +250,7 @@ const styles = StyleSheet.create({
   },
   titleController: {
     fontSize: 18,
-    fontWeight:400,
+    fontWeight: 400,
   },
   infoView: {
     marginLeft: 10,

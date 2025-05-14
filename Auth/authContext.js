@@ -40,12 +40,44 @@ export const AuthProvider = ({ children }) => {
 
 const login = async (accessToken, refreshToken) => {
   try {
-    const decoded = jwtDecode(accessToken);
+    // 1. Валидация входных параметров
+    if (!accessToken || !refreshToken) {
+      throw new Error("Access token and refresh token are required");
+    }
+
+    // 2. Декодирование токена с обработкой ошибок
+    let decoded;
+    try {
+      decoded = jwtDecode(accessToken);
+    } catch (decodeError) {
+      console.error('Token decode failed:', decodeError);
+      throw new Error("Invalid token format");
+    }
+
+    // 3. Проверка срока действия токена
+    if (decoded.exp * 1000 <= Date.now()) {
+      throw new Error("Token has expired");
+    }
+
+    // 4. Обновление состояния
     setUser(decoded);
     setToken(accessToken);
-    await storeTokens(accessToken, refreshToken);
+
+    // 5. Сохранение токенов с обработкой ошибок
+    try {
+      await storeTokens(accessToken, refreshToken);
+    } catch (storageError) {
+      console.error('Failed to store tokens:', storageError);
+      // Откатываем состояние, если не удалось сохранить токены
+      setUser(null);
+      setToken("");
+      throw new Error("Failed to save authentication data");
+    }
+
+    return true; // Успешный логин
   } catch (error) {
     console.error('Login error:', error);
+    // Перебрасываем ошибку для обработки в компоненте
     throw error;
   }
 };
