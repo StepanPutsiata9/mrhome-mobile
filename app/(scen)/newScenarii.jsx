@@ -19,7 +19,7 @@ import CPU from "../../components/DevelopComponents/PhotosComponents/CPU"
 import ToArrow from "../../components/DevelopComponents/PhotosComponents/toArrow"
 import { useContext, useState } from 'react';
 import { SocketContext } from '../_layout';
-import { ScenariiContext } from '../(scen)/ScenariiContext';
+import { ScenariiContext } from './ScenariiContext';
 
 export default function NewScen() {
 
@@ -36,9 +36,6 @@ export default function NewScen() {
   ];
   const [selectedItem, setSelectedItem] = useState("");
   const router = useRouter();
-  console.log('====================================');
-  console.log("Scen: ",controllerState);
-  console.log('====================================');
   return (
     <ScrollView style={{ paddingTop:50,}}>
       <Header />
