@@ -34,7 +34,7 @@ function LayoutContent() {
     });
   };
   useEffect(() => {
-    if (user) {
+    if (user&&token) {
       console.log('====================================');
       console.log("user ",user," token ",token);
       console.log('====================================');
@@ -76,7 +76,7 @@ function LayoutContent() {
     socket,
     data
   }), [socket.current, data.electro, data.sensors]);
-  if (!user&&!loaded) {
+  if (!user&&!loaded&&!token) {
     return (
       <>
         <Stack screenOptions={{ headerShown: false }}>
@@ -89,10 +89,10 @@ function LayoutContent() {
     );
   }
 
-  if (!loaded&&user) {
+  if (!loaded&&user&&token) {
     return <LoadScreen />;
   }
-  if(loaded&&user){
+  if(loaded&&user&&token){
   return (
     <SocketContext.Provider value={contextValue}>
       <Stack screenOptions={{ headerShown: false }}>
