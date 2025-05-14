@@ -29,10 +29,14 @@ export const AuthProvider = ({ children }) => {
         setToken(tokens.accessToken);
       } else {
         setUser(null);
+        setToken(null);
+
       }
     } catch (error) {
       console.error('Error loading user:', error);
       setUser(null);
+      setToken(null);
+
     } finally {
       setIsLoading(false);
     }
@@ -44,40 +48,33 @@ const login = async (accessToken, refreshToken) => {
     if (!accessToken || !refreshToken) {
       throw new Error("Access token and refresh token are required");
     }
-
-    // 2. Декодирование токена с обработкой ошибок
-    let decoded;
-    try {
-      decoded = jwtDecode(accessToken);
-    } catch (decodeError) {
-      console.error('Token decode failed:', decodeError);
-      throw new Error("Invalid token format");
-    }
-
-    // 3. Проверка срока действия токена
-    if (decoded.exp * 1000 <= Date.now()) {
-      throw new Error("Token has expired");
-    }
-
-    // 4. Обновление состояния
-    setUser(decoded);
-    setToken(accessToken);
-
-    // 5. Сохранение токенов с обработкой ошибок
     try {
       await storeTokens(accessToken, refreshToken);
     } catch (storageError) {
       console.error('Failed to store tokens:', storageError);
-      // Откатываем состояние, если не удалось сохранить токены
-      setUser(null);
-      setToken("");
       throw new Error("Failed to save authentication data");
     }
-
-    return true; // Успешный логин
+     try {
+      const tokens = await getTokens();
+      if (tokens?.accessToken && checkTokenExpiration(tokens.accessToken)) {
+        const decoded = jwtDecode(tokens.accessToken);
+        setUser(decoded);
+        setToken(tokens.accessToken);
+      } else {
+        setUser(null);
+        setToken(null);
+      }
+    } catch(error){
+    console.error('Login error:', error);
+setUser(null);
+    setToken(null);
+    }
+    return true;
   } catch (error) {
     console.error('Login error:', error);
-    // Перебрасываем ошибку для обработки в компоненте
+    // Сбрасываем состояние при ошибке
+    setUser(null);
+    setToken(null);
     throw error;
   }
 };
@@ -86,6 +83,7 @@ const login = async (accessToken, refreshToken) => {
     try {
       await clearTokens();
       setUser(null);
+      setToken(null);
     } catch (error) {
       console.error('Logout error:', error);
     }

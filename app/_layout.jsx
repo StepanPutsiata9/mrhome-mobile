@@ -1,8 +1,8 @@
 import { Stack, Redirect, usePathname, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef, useState, createContext, useMemo, useContext } from 'react';
-import {AuthContext, AuthProvider } from '../Auth/AuthContext';
-import  ScenariiProvider  from "./(scen)/ScenariiContext"
+import { AuthContext, AuthProvider } from '../Auth/AuthContext';
+import ScenariiProvider from "./(scen)/ScenariiContext"
 import LoadScreen from "../components/DevelopComponents/LoadScreen";
 
 const SocketContext = createContext({
@@ -16,7 +16,7 @@ function LayoutContent() {
   const socket = useRef(null);
   const pathname = usePathname();
   const router = useRouter();
-  const {user,token}=useContext(AuthContext);
+  const { user, token } = useContext(AuthContext);
 
 
   const updateDevices = (devices, updatedDevice) => {
@@ -34,9 +34,10 @@ function LayoutContent() {
     });
   };
   useEffect(() => {
-    if (user&&token) {
+    // fetch data from API
+    if (user && token) {
       console.log('====================================');
-      console.log("user ",user," token ",token);
+      console.log("user ", user, " token ", token);
       console.log('====================================');
       const ws = new WebSocket(`ws://testyandex.onrender.com?token=${token}`);
       ws.onopen = () => {
@@ -62,10 +63,9 @@ function LayoutContent() {
           }));
         }
       };
-
       return () => ws.close();
     }
-  }, [user]);
+  }, [user, token]);
 
   useEffect(() => {
     if (loaded && pathname !== "/(tabs)/") {
@@ -76,36 +76,35 @@ function LayoutContent() {
     socket,
     data
   }), [socket.current, data.electro, data.sensors]);
-  if (!user&&!loaded&&!token) {
+  if (!user && !loaded) {
     return (
       <>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="index" />
           <Stack.Screen name="registration" />
-          {/* <Redirect href="/index" /> */}
         </Stack>
-        {/* <Redirect href="/(tabs)" /> */}
       </>
     );
   }
-
-  if (!loaded&&user&&token) {
-    return <LoadScreen />;
+  if (!loaded && user) {
+    if (!data?.electro || !data?.sensors) {
+      return <LoadScreen />;
+    }
   }
-  if(loaded&&user&&token){
-  return (
-    <SocketContext.Provider value={contextValue}>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="controllerInfo" />
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="(scen)/NewScenarii" />
-      <Stack.Screen name="(scen)/AddControllersToScenarii" />
-      <Stack.Screen name="(scen)/AddSpecificController" />
-      </Stack>
-      <StatusBar style="auto" />
-    </SocketContext.Provider>
-  );
-}
+  if (loaded && user) {
+    return (
+      <SocketContext.Provider value={contextValue}>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="controllerInfo" />
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="(scen)/NewScenarii" />
+          <Stack.Screen name="(scen)/AddControllersToScenarii" />
+          <Stack.Screen name="(scen)/AddSpecificController" />
+        </Stack>
+        <StatusBar style="auto" />
+      </SocketContext.Provider>
+    );
+  }
 }
 export default function RootLayout() {
   return (
