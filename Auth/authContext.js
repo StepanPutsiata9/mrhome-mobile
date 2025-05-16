@@ -1,13 +1,13 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { getTokens, clearTokens, storeTokens } from './authStorage';
-import { jwtDecode } from 'jwt-decode'; // Используем именованный импорт
+import { jwtDecode } from 'jwt-decode'; 
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [token,setToken]=useState("");
+  const [token, setToken] = useState("");
   const checkTokenExpiration = (token) => {
     if (!token) return false;
     try {
@@ -18,7 +18,6 @@ export const AuthProvider = ({ children }) => {
       return false;
     }
   };
-
   const loadUser = async () => {
     setIsLoading(true);
     try {
@@ -30,54 +29,52 @@ export const AuthProvider = ({ children }) => {
       } else {
         setUser(null);
         setToken(null);
-
       }
     } catch (error) {
       console.error('Error loading user:', error);
       setUser(null);
       setToken(null);
-
     } finally {
       setIsLoading(false);
     }
   };
 
-const login = async (accessToken, refreshToken) => {
-  try {
-    // 1. Валидация входных параметров
-    if (!accessToken || !refreshToken) {
-      throw new Error("Access token and refresh token are required");
-    }
+  const login = async (accessToken, refreshToken) => {
     try {
-      await storeTokens(accessToken, refreshToken);
-    } catch (storageError) {
-      console.error('Failed to store tokens:', storageError);
-      throw new Error("Failed to save authentication data");
-    }
-     try {
-      const tokens = await getTokens();
-      if (tokens?.accessToken && checkTokenExpiration(tokens.accessToken)) {
-        const decoded = jwtDecode(tokens.accessToken);
-        setUser(decoded);
-        setToken(tokens.accessToken);
-      } else {
+      // 1. Валидация входных параметров
+      if (!accessToken || !refreshToken) {
+        throw new Error("Access token and refresh token are required");
+      }
+      try {
+        await storeTokens(accessToken, refreshToken);
+      } catch (storageError) {
+        console.error('Failed to store tokens:', storageError);
+        throw new Error("Failed to save authentication data");
+      }
+      try {
+        const tokens = await getTokens();
+        if (tokens?.accessToken && checkTokenExpiration(tokens.accessToken)) {
+          const decoded = jwtDecode(tokens.accessToken);
+          setUser(decoded);
+          setToken(tokens.accessToken);
+        } else {
+          setUser(null);
+          setToken(null);
+        }
+      } catch (error) {
+        console.error('Login error:', error);
         setUser(null);
         setToken(null);
       }
-    } catch(error){
-    console.error('Login error:', error);
-setUser(null);
-    setToken(null);
+      return true;
+    } catch (error) {
+      console.error('Login error:', error);
+      // Сбрасываем состояние при ошибке
+      setUser(null);
+      setToken(null);
+      throw error;
     }
-    return true;
-  } catch (error) {
-    console.error('Login error:', error);
-    // Сбрасываем состояние при ошибке
-    setUser(null);
-    setToken(null);
-    throw error;
-  }
-};
+  };
 
   const logout = async () => {
     try {
@@ -94,7 +91,7 @@ setUser(null);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user,token, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, token, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

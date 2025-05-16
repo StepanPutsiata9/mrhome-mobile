@@ -262,3 +262,27 @@ const styles = StyleSheet.create({
     marginVertical: 10
   }
 });
+
+
+// {
+//   "name": "test-scenario",
+//   "description": "Включить свет → выключить через 3 секунды",
+//   "steps": [
+//     {
+//       "type": "command",
+//       "deviceTopic": "light_1",
+//       "deviceType": "light",
+//       "commandName": "on"
+//     },
+//     {
+//       "type": "delay",
+//       "delayMs": 3000
+//     },
+//     {
+//       "type": "command",
+//       "deviceTopic": "light_1",
+//       "deviceType": "light",
+//       "commandName": "off"
+//     }
+//   ]
+// }

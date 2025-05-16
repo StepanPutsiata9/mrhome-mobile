@@ -55,7 +55,7 @@ const LoginScreen = () => {
   };
 
   return (
-    <View style={{backgroundColor:'white',}}>
+    <View style={{backgroundColor:'white',paddingTop:50,}}>
         <Header/>
         <View style={styles.conatiner}>
         <Text style={styles.enter}>Войти</Text>
