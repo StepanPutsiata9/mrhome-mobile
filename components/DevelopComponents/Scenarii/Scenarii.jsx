@@ -5,10 +5,38 @@ import { ScenariiContext } from '@/app/(scen)/ScenariiContext';
 import Close from "../PhotosComponents/Close"
 import Points from "../PhotosComponents/Points"
 import TrashBin from "../PhotosComponents/TrashBin"
+import SunRise from "../PhotosComponents/SunRise"
+import Moon from "../PhotosComponents/Moon"
+import Lamp from "../PhotosComponents/Lamp"
+import Briefcase from "../PhotosComponents/Briefcase"
+import Balloon from "../PhotosComponents/Balloon"
+import Sun from "../PhotosComponents/Sun"
+import SunSet from "../PhotosComponents/SunSet"
+import Lightning from "../PhotosComponents/Lightning"
+import Egg from "../PhotosComponents/Egg"
+import Default from "../PhotosComponents/Default"
+import Cup from "../PhotosComponents/Cup"
+import CloudySun from "../PhotosComponents/CloudySun"
+import CloudyMoon from "../PhotosComponents/CloudyMoon"
+import CPU from "../PhotosComponents/CPU"
 
 
-
-
+const componentsIcon = {
+  sunrise: <SunRise />,
+  briefcase:<Briefcase/>,
+  lamp: <Lamp />, 
+  balloon:<Balloon />,
+  moon: <Moon />,
+  sun: <Sun />,
+  sunset:<SunSet />,
+  lightning:<Lightning />, 
+  egg:<Egg />,
+  cup: <Cup />, 
+  cloudySun:<CloudySun />,
+  cloudyMoon:<CloudyMoon />,
+  cpu:<CPU />,
+  default:<Default/>
+};
 
 const toggleModal = (id, data, callback) => {
     callback(data.map(scen =>
@@ -31,7 +59,7 @@ export default function Scenarii({ item }) {
             <View style={styles.scenView}>
                 <View style={styles.infoTitle}>
                     <View style={styles.titleView}>
-                        <View style={styles.icon}>{item.icon}</View>
+                        <View style={styles.icon}>{componentsIcon[item.icon]}</View>
                         <Text style={styles.titleName}>{item.title}</Text>
                     </View>
                     <View style={styles.points}>
@@ -50,7 +78,6 @@ export default function Scenarii({ item }) {
                         return <Text style={styles.controllerName} key={index}>{i.title}</Text>
                     }) : null}
                 </View>
-
             </View>
         </>
 

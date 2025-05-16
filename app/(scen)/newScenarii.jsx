@@ -25,9 +25,9 @@ export default function NewScen() {
 
   const { socket, data } = useContext(SocketContext);
   const { isListEmpty, setIsListEmpty, controllerState,
-    setControllerState, scenariiState, setScenariiState, scenCount, 
-    setScenCount,controllerStateScen,setControllerStateScen
-   } = useContext(ScenariiContext);
+    setControllerState, scenariiState, setScenariiState, scenCount,
+    setScenCount, controllerStateScen, setControllerStateScen
+  } = useContext(ScenariiContext);
 
   const [title, setTitle] = useState("");
   const [isOpen, setIsOpen] = useState(false)
@@ -35,6 +35,21 @@ export default function NewScen() {
     <SunRise />, <Briefcase />, <Lamp />, <Balloon />, <Moon />, <Sun />,
     <SunSet />, <Lightning />, <Egg />, <Cup />, <CloudySun />, <CloudyMoon />, <CPU />
   ];
+  const componentsIcon = {
+    sunrise: <SunRise />,
+    briefcase: <Briefcase />,
+    lamp: <Lamp />,
+    balloon: <Balloon />,
+    moon: <Moon />,
+    sun: <Sun />,
+    sunset: <SunSet />,
+    lightning: <Lightning />,
+    egg: <Egg />,
+    cup: <Cup />,
+    cloudySun: <CloudySun />,
+    cloudyMoon: <CloudyMoon />,
+    cpu: <CPU />,
+  };
   const [selectedItem, setSelectedItem] = useState("");
   const router = useRouter();
   return (
@@ -137,24 +152,24 @@ export default function NewScen() {
               activeOpacity={0.7}
 
               onPress={() => {
-                setScenariiState(prev => [...prev,
-                {
-                  title: title || "Без названия",
-                  state: controllerState,
-                  steps:controllerStateScen,
-                  icon: selectedItem || <Default />,
-                  id: scenCount,
-                  modalVisible: false,
-                }
+                setScenariiState(prev => [
+                  {
+                    title: title || "Без названия",
+                    state: controllerState,
+                    steps: controllerStateScen,
+                    icon: Object.keys(componentsIcon).find(
+                      key => componentsIcon[key].type === selectedItem.type
+                    ) || "default",
+                    id: scenCount,
+                    modalVisible: false,
+                  }
+                  , ...prev
                 ])
                 setScenCount(scenCount + 1);
-                console.log('controllerStateScen ');
-                console.log(controllerStateScen);
+              
                 setControllerState([]);
                 setControllerStateScen([]);
-
                 router.back();
-
               }}>
               <Text style={styles.btnText}>Добавить сценарий</Text>
             </TouchableOpacity>
