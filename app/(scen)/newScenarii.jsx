@@ -25,7 +25,9 @@ export default function NewScen() {
 
   const { socket, data } = useContext(SocketContext);
   const { isListEmpty, setIsListEmpty, controllerState,
-    setControllerState, scenariiState, setScenariiState, scenCount, setScenCount } = useContext(ScenariiContext);
+    setControllerState, scenariiState, setScenariiState, scenCount, 
+    setScenCount,controllerStateScen,setControllerStateScen
+   } = useContext(ScenariiContext);
 
   const [title, setTitle] = useState("");
   const [isOpen, setIsOpen] = useState(false)
@@ -139,14 +141,20 @@ export default function NewScen() {
                 {
                   title: title || "Без названия",
                   state: controllerState,
+                  steps:controllerStateScen,
                   icon: selectedItem || <Default />,
                   id: scenCount,
                   modalVisible: false,
                 }
                 ])
                 setScenCount(scenCount + 1);
+                console.log('controllerStateScen ');
+                console.log(controllerStateScen);
                 setControllerState([]);
+                setControllerStateScen([]);
+
                 router.back();
+
               }}>
               <Text style={styles.btnText}>Добавить сценарий</Text>
             </TouchableOpacity>

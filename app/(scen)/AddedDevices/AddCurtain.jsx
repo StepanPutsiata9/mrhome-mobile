@@ -9,15 +9,16 @@ import ShtoraClose from "../../../components/DevelopComponents/PhotosComponents/
 import { ScenariiContext } from "../ScenariiContext";
 
 
-export default function AddCurtain(){
+export default function AddCurtain({controller}){
+
     const router=useRouter();
       const [on,setOn]=useState(true);
       const [off,setOff]=useState(!on);
-      const {controllerState,setControllerState}=useContext(ScenariiContext);
+      const {controllerState,setControllerState,setControllerStateScen}=useContext(ScenariiContext);
       const labels = {
         state: 'Состояние',
     };
-      const addController = (newItem) => {
+      const addController = (newItem,newItemScen) => {
         setControllerState(prevItems => {
           const itemIndex = prevItems.findIndex(item => item.title === newItem.title);
           
@@ -31,6 +32,21 @@ export default function AddCurtain(){
             return [...prevItems, newItem];
           }
         });
+        setControllerStateScen(prevItems => {
+          const itemIndex = prevItems.findIndex(item => item.deviceId === newItemScen.deviceId);
+          
+          if (itemIndex >= 0) {
+            const updatedItems = [...prevItems];
+            updatedItems[itemIndex] = newItemScen;
+            return updatedItems;
+          } else {
+       
+            return [...prevItems, newItemScen];
+          }
+        }
+
+        )
+
       };
     return(
         <ScrollView style={styles.switch}>
@@ -76,13 +92,20 @@ export default function AddCurtain(){
                         style={styles.btn}
                         activeOpacity={0.7}
                         onPress={()=>{
-                        addController({
+                        addController(
+                          {
                           title:"Умная роль-штора",
                           payload:{
                             [labels.state]:(on?"Включать":"Выключать")
                           }
-                         
-                        });
+                        },
+                        {
+                          type:"command",
+                          deviceId:controller.deviceId,
+                          deviceType:controller.deviceType,
+                          commandName:on?"on":"off",
+                        }
+                      );
                           router.back();
                         }}>
                     <Text style={styles.btnText}>Добавить</Text>

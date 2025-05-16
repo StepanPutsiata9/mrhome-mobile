@@ -14,7 +14,7 @@ import Slider from '@react-native-community/slider';
 
 
 
-export default function AddCurtain() {
+export default function AddCurtain({controller}) {
     const router = useRouter();
     const [isOpenGlow, setIsOpenGlow] = useState(false);
     const [isOpenCircle, setIsOpenCircle] = useState(false);
@@ -22,7 +22,7 @@ export default function AddCurtain() {
     const [isOpenSlider, setIsOpenSlider] = useState(false);
 
     const [state, setState] = useState("Выключить");
-    const { controllerState, setControllerState } = useContext(ScenariiContext);
+    const {controllerState,setControllerState,setControllerStateScen}=useContext(ScenariiContext);
     const [color, setColor] = useState("");
     const items = ['Свечение', 'Мерцание', 'Затухание', 'Сплошной цвет'];
     const [sliderValue, setSliderValue] = useState();
@@ -34,6 +34,37 @@ export default function AddCurtain() {
         color: 'Цвет подсветки',
         brightness: "Яркость"
     };
+   
+      const addController = (newItem,newItemScen) => {
+        setControllerState(prevItems => {
+          const itemIndex = prevItems.findIndex(item => item.title === newItem.title);
+          
+          if (itemIndex >= 0) {
+           
+            const updatedItems = [...prevItems];
+            updatedItems[itemIndex] = newItem;
+            return updatedItems;
+          } else {
+       
+            return [...prevItems, newItem];
+          }
+        });
+        setControllerStateScen(prevItems => {
+          const itemIndex = prevItems.findIndex(item => item.deviceId === newItemScen.deviceId);
+          
+          if (itemIndex >= 0) {
+            const updatedItems = [...prevItems];
+            updatedItems[itemIndex] = newItemScen;
+            return updatedItems;
+          } else {
+       
+            return [...prevItems, newItemScen];
+          }
+        }
+
+        )
+
+      };
     const handleColorChange = (colorObj) => {
         if (typeof colorObj === 'string') {
             setColor(colorObj);
@@ -46,19 +77,7 @@ export default function AddCurtain() {
         }
     };
 
-    const addController = (newItem) => {
-        setControllerState(prevItems => {
-            const itemIndex = prevItems.findIndex(item => item.title === newItem.title);
 
-            if (itemIndex >= 0) {
-                const updatedItems = [...prevItems];
-                updatedItems[itemIndex] = newItem;
-                return updatedItems;
-            } else {
-                return [...prevItems, newItem];
-            }
-        });
-    };
     return (
         <ScrollView style={styles.switch}>
             <Header />
@@ -237,15 +256,23 @@ export default function AddCurtain() {
                                     [labels.brightness]: sliderValue || null,
 
                                 }
-                                // [
-                                //     state ? "Состояние" : null,
-                                //     selectedGlow ? "Тип свечения" : null,
-                                //     color ? "Цвет подсветки" : null
-                                // ],
-                                // state: [
-                                //     state || null, selectedGlow || null, color || null
-                                // ]
-                            });
+                            },
+                           {
+                          type:"command",
+                          deviceId:controller.deviceId,
+                          deviceType:controller.deviceType,
+                          commandName:state==="Выключить"?"off":"set_pamars",
+                          params:state==="Включить"?
+                          {
+                            state:state,
+                            glow:selectedGlow,
+                            color:color,
+                            brightness:sliderValue,
+                          }
+                          :
+                          {}
+                        }
+                        );
                         router.back();
                     }}>
                     <Text style={styles.btnText}>Добавить</Text>

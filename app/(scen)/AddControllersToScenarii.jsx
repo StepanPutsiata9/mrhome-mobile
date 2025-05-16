@@ -16,7 +16,8 @@ export default function AddControllersToScenarii(){
         }
         return data.electro.map(device => ({
           title: device.payload.title || 'Название не указано',
-          deviceType: device.payload.deviceType || 'Тип не указан'
+          deviceType: device.payload.deviceType || 'Тип не указан',
+          deviceId:device.payload.deviceId,
         }));
       }
     const electroList=extractElectroDevices(data);

@@ -1,5 +1,5 @@
 import { ScrollView, Text } from "react-native";
-import { View, StyleSheet, Pressable,TouchableOpacity } from "react-native"
+import { View, StyleSheet, Pressable, TouchableOpacity } from "react-native"
 import { Header } from "../../../components/DevelopComponents/Header";
 import Back from "../../../components/DevelopComponents/PhotosComponents/Back"
 import { useRouter } from "expo-router";
@@ -9,29 +9,40 @@ import SwitchOff from "../../../components/DevelopComponents/PhotosComponents/Sw
 import { ScenariiContext } from "../ScenariiContext";
 
 
-export default function AddCurtain() {
+export default function AddSwitch({ controller }) {
     const router = useRouter();
     const [on, setOn] = useState(true);
     const [off, setOff] = useState(!on);
-    const {controllerState,setControllerState}=useContext(ScenariiContext);
-    const labels = {
+        const {controllerState,setControllerState,setControllerStateScen}=useContext(ScenariiContext);
+      const labels = {
         state: 'Состояние',
     };
-    const addController = (newItem) => {
+      const addController = (newItem,newItemScen) => {
         setControllerState(prevItems => {
-          // Проверяем, есть ли элемент с таким же title
           const itemIndex = prevItems.findIndex(item => item.title === newItem.title);
-          
           if (itemIndex >= 0) {
-            // Если нашли - создаем новый массив с замененным элементом
             const updatedItems = [...prevItems];
             updatedItems[itemIndex] = newItem;
             return updatedItems;
           } else {
-            // Если не нашли - добавляем новый элемент
             return [...prevItems, newItem];
           }
         });
+        setControllerStateScen(prevItems => {
+          const itemIndex = prevItems.findIndex(item => item.deviceId === newItemScen.deviceId);
+          
+          if (itemIndex >= 0) {
+            const updatedItems = [...prevItems];
+            updatedItems[itemIndex] = newItemScen;
+            return updatedItems;
+          } else {
+       
+            return [...prevItems, newItemScen];
+          }
+        }
+
+        )
+
       };
     return (
         <ScrollView style={styles.switch}>
@@ -76,12 +87,18 @@ export default function AddCurtain() {
                     onPress={() => {
                         addController(
                             {
-                                title:"Умный выключатель",
-                                payload:{
-                                    [labels.state]:(on?"Включать":"Выключать")
-                                  }
-                                 
-                          });
+                                title: "Умный выключатель",
+                                payload: {
+                                    [labels.state]: (on ? "Включать" : "Выключать")
+                                }
+                            },
+                            {
+                                type: "command",
+                                deviceId: controller.deviceId,
+                                deviceType: controller.deviceType,
+                                commandName: on ? "on" : "off",
+                            }
+                        );
                         router.back();
                     }}>
                     <Text style={styles.btnText}>Добавить</Text>
@@ -95,7 +112,7 @@ const styles = StyleSheet.create({
     switch: {
         backgroundColor: "white",
         width: "100%",
-        paddingTop:50,
+        paddingTop: 50,
     },
     title: {
         flexDirection: 'row',
@@ -137,21 +154,21 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: "#8B8B8B"
     },
-    btnBlock:{
-        paddingHorizontal:20,
-      },
-      btn:{
-        borderRadius:16,
-        backgroundColor:'#4C82FF',
-    
-        paddingHorizontal:60,
-        paddingVertical:12,
-        marginVertical:10
-      },
-      btnText:{
-        color:'white',
-        fontSize:18,
-        margin:'auto'
-        
-      },
+    btnBlock: {
+        paddingHorizontal: 20,
+    },
+    btn: {
+        borderRadius: 16,
+        backgroundColor: '#4C82FF',
+
+        paddingHorizontal: 60,
+        paddingVertical: 12,
+        marginVertical: 10
+    },
+    btnText: {
+        color: 'white',
+        fontSize: 18,
+        margin: 'auto'
+
+    },
 });

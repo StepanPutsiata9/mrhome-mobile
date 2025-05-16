@@ -9,10 +9,10 @@ export default function AddSpecificController(){
     const controller=useLocalSearchParams();
     switch(controller.deviceType){
         case "curtain":
-            return <AddCurtain/>;
+            return <AddCurtain controller={controller}/>;
         case "switch":
-            return <AddSwitch/>;
+            return <AddSwitch controller={controller}/>;
         case "light":
-            return <AddLight/>;
+            return <AddLight controller={controller}/>;
     }
 }
