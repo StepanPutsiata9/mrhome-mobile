@@ -35,7 +35,7 @@ const RegistrationScreen = () => {
   };
 
   return (
-    <View style={{backgroundColor:'white'}}>
+    <View style={{backgroundColor:'white',}}>
         <Header/>
         <View style={styles.conatiner}>
         <Text style={styles.regist}>Регистрация</Text>

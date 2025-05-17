@@ -154,19 +154,21 @@ export default function NewScen() {
               onPress={() => {
                 setScenariiState(prev => [
                   {
-                    title: title || "Без названия",
-                    state: controllerState,
+                    state: {
+                      title: title || "Без названия",
+                      icon: Object.keys(componentsIcon).find(
+                        key => componentsIcon[key].type === selectedItem.type
+                      ) || "default",
+                      modalVisible: false,
+                      controllerState: controllerState,
+                    },
                     steps: controllerStateScen,
-                    icon: Object.keys(componentsIcon).find(
-                      key => componentsIcon[key].type === selectedItem.type
-                    ) || "default",
                     id: scenCount,
-                    modalVisible: false,
                   }
                   , ...prev
                 ])
                 setScenCount(scenCount + 1);
-              
+
                 setControllerState([]);
                 setControllerStateScen([]);
                 router.back();

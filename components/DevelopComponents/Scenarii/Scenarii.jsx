@@ -41,8 +41,10 @@ const componentsIcon = {
 const toggleModal = (id, data, callback) => {
     callback(data.map(scen =>
         scen.id === id
-            ? { ...scen, modalVisible: !scen.modalVisible }
+            ? { ...scen,state:{...scen.state,modalVisible: !scen.state.modalVisible } }
             : scen
+    
+
     ));
 };
 const deleteScenario = (id, data, callback) => {
@@ -52,15 +54,15 @@ export default function Scenarii({ item }) {
     const { scenariiState, setScenariiState } = useContext(ScenariiContext);
     return (
         <>
-            <Modal visible={item.modalVisible} animationType="fade"
+            <Modal visible={item.state.modalVisible} animationType="fade"
                 transparent={true}>
                 <ModalScen item={item} />
             </Modal>
             <View style={styles.scenView}>
                 <View style={styles.infoTitle}>
                     <View style={styles.titleView}>
-                        <View style={styles.icon}>{componentsIcon[item.icon]}</View>
-                        <Text style={styles.titleName}>{item.title}</Text>
+                        <View style={styles.icon}>{componentsIcon[item.state.icon]}</View>
+                        <Text style={styles.titleName}>{item.state.title}</Text>
                     </View>
                     <View style={styles.points}>
                         <TouchableOpacity
@@ -74,7 +76,7 @@ export default function Scenarii({ item }) {
                     <Text style={styles.addedControllersText}>Добавленные элементы :</Text>
                 </View>
                 <View style={styles.controllerView}>
-                    {scenariiState.length != 0 ? item.state.map((i, index) => {
+                    {scenariiState.length != 0 ? item.state.controllerState.map((i, index) => {
                         return <Text style={styles.controllerName} key={index}>{i.title}</Text>
                     }) : null}
                 </View>
@@ -96,7 +98,7 @@ export function ModalScen({ item }) {
                 <View style={styles.titleBlock}>
                     <View style={styles.title}>
                         <View>
-                            <Text style={{ fontSize: 22, color: '#4C82FF',maxWidth:300 }}>{item.title}</Text>
+                            <Text style={{ fontSize: 22, color: '#4C82FF',maxWidth:300 }}>{item.state.title}</Text>
                         </View>
                         {/* <View>{item.icon}</View> */}
                     </View>
@@ -109,7 +111,7 @@ export function ModalScen({ item }) {
                 </View>
                 <View>
                     {
-                        item.state.map((st, key) => {
+                        item.state.controllerState.map((st, key) => {
                             const keys = Object.keys(st.payload);
                             const values=Object.values(st.payload);
                             return (
