@@ -22,7 +22,7 @@ export default function AddControllersToScenarii(){
       }
     const electroList=extractElectroDevices(data);
     return(
-        <ScrollView style={{backgroundColor:'white',paddingTop:50,}}>
+        <ScrollView style={{backgroundColor:'white',}}>
         <Header/>
          <View style={styles.container}>
         <View style={styles.title}>

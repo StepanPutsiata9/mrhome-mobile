@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     switch:{
         backgroundColor:"white",
         width:"100%",
-        paddingTop:50,
+        // paddingTop:50,
     },
     title:{
         flexDirection:'row',

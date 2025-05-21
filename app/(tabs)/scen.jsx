@@ -1,9 +1,9 @@
-import { StyleSheet, View, ImageBackground, ScrollView, Pressable, Text, TouchableOpacity, Modal } from 'react-native';
+import { StyleSheet, View, ImageBackground, ScrollView, Pressable, Text, TouchableOpacity, Modal, ActivityIndicator } from 'react-native';
 import { Header } from "../../components/DevelopComponents/Header"
 import Scenarii from "../../components/DevelopComponents/Scenarii/Scenarii"
 import { useRouter } from 'expo-router';
 import Plus from "../../components/DevelopComponents/PhotosComponents/Plus"
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { SocketContext } from '../_layout';
 import { ScenariiContext } from '../(scen)/ScenariiContext';
 
@@ -11,7 +11,13 @@ export default function TabTwoScreen() {
   const { socket, data } = useContext(SocketContext);
   const router = useRouter();
   const { scenariiState } = useContext(ScenariiContext);
+  const [loading, setLoading] = useState(null);
+  useEffect(() => {
+    setLoading(true);
+    // fetch scen
+    setLoading(false);
 
+  }, [])
   return (
     <ImageBackground
       source={require('../../assets/images/Background.png')}
@@ -20,22 +26,30 @@ export default function TabTwoScreen() {
     >
       <ScrollView style={styles.scrollView}>
         <Header />
-        <View style={styles.container}>
-          <Text style={styles.scenText}>Сценарии</Text>
-          {scenariiState.length != 0 ? (
-            scenariiState.map((item, index) => (
-              <Scenarii item={item} key={index} />
-            ))
-          ) : (
-            <View style={styles.emptyScenView}>
-              <Text style={styles.emptyScen}>Сценариев пока нет...</Text>
+        {!loading
+          ?
+          <View style={styles.container}>
+            <Text style={styles.scenText}>Сценарии</Text>
+            {scenariiState.length != 0 ? (
+              scenariiState.map((item, index) => (
+                <Scenarii item={item} key={index} />
+              ))
+            ) : (
+              <View style={styles.emptyScenView}>
+                <Text style={styles.emptyScen}>Сценариев пока нет...</Text>
+              </View>
+            )}
+          </View>
+            :
+            <View style={styles.loadingView}>
+              <ActivityIndicator size={70} color={"#4C82FF"}/>
+              <Text style={styles.loadScen}>Загрузка сценариев...</Text>
             </View>
-          )}
-        </View>
+        }
       </ScrollView>
 
 
-      <TouchableOpacity
+      {!loading&&<TouchableOpacity
         style={styles.plusContainer}
         hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
         onPress={() => router.push('/(scen)/NewScenarii')}
@@ -44,6 +58,8 @@ export default function TabTwoScreen() {
           <Plus />
         </View>
       </TouchableOpacity>
+      }
+
     </ImageBackground>
   );
 }
@@ -56,27 +72,27 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    paddingTop:50,
+    // paddingTop:50,
   },
   container: {
     paddingHorizontal: 16,
-    paddingBottom: 80, 
+    paddingBottom: 80,
   },
   scenText: {
     fontSize: 28,
-    fontWeight:700,
-    letterSpacing:1,
+    fontWeight: 700,
+    letterSpacing: 1,
   },
   plusContainer: {
     position: 'absolute',
     bottom: 20,
     right: 20,
-    zIndex: 10, 
+    zIndex: 10,
   },
   plus: {
     width: 50,
     height: 50,
-    borderRadius: 25, 
+    borderRadius: 25,
     backgroundColor: '#4C82FF',
     alignItems: 'center',
     justifyContent: 'center',
@@ -88,6 +104,18 @@ const styles = StyleSheet.create({
   emptyScenView: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 40,
+    marginTop:"70%",
   },
+  loadingView:{
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems:'center',
+    gap:30,
+    marginTop:"70%",
+  },
+  loadScen:{
+    color:'#4C82FF',
+    fontWeight:'600',
+    fontSize:20,
+  }
 });

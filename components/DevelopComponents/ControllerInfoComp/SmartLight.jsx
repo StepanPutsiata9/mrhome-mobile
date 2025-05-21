@@ -29,7 +29,7 @@ export const SmartLight = ({ data, socket }) => {
     }
   };
   return (
-    <ScrollView style={{ backgroundColor: 'white', paddingTop: 50, }}>
+    <ScrollView style={{ backgroundColor: 'white',}}>
       <Header />
       <View style={styles.title}>
         <View style={{ flexDirection: 'row' }}>
