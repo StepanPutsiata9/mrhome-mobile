@@ -34,7 +34,7 @@ export default function SmartCurtain({ data, socket }) {
         </View>
         <View style={styles.infoLine}>
           <Text style={styles.infoLineText}>Состояние</Text>
-          <Text style={styles.status}>{data.payload.state==="on"?"Открыта":"Закрыта"}</Text>
+          <Text style={styles.status}>{data.payload.state === "on" ? "Открыта" : "Закрыта"}</Text>
         </View>
       </View>
       <View style={styles.onOff}>

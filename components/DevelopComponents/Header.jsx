@@ -8,7 +8,7 @@ export function Header() {
                 <LogoSmall />
             </View>
             <View>
-                <Text style={styles.headerText} >Умный дом</Text>
+                <Text style={styles.headerText}>Умный дом</Text>
             </View>
         </View>
     )

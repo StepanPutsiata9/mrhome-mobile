@@ -2,12 +2,12 @@ import { StyleSheet, Text, ScrollView, ImageBackground } from 'react-native';
 import { Header } from "../../components/DevelopComponents/Header";
 import Category from "../../components/DevelopComponents/Category/Category";
 import { useContext } from 'react';
-import { SocketContext } from '../_layout'; 
+import { SocketContext } from '../_layout';
 import { AuthContext } from '../../Auth/AuthContext';
 
 export default function HomeScreen() {
   const { socket, data } = useContext(SocketContext);
-  const {user}=useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   // console.log('SocketContext data:', data);
   // console.log('====================================');
@@ -21,7 +21,7 @@ export default function HomeScreen() {
       resizeMode="cover"
     >
       <ScrollView>
-      <Header />
+        <Header />
         <Text style={styles.myGadgets}>Мои устройства</Text>
         <Category
           titleOfCategory={"Электронные устройства"}

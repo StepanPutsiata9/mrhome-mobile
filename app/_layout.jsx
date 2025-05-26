@@ -57,7 +57,6 @@ function LayoutContent() {
           setData(dataApi.dataObj);
           setLoaded(true);
         } else if (dataApi.type === 'update') {
-          
           setData(prev => ({
             electro: updateDevices(prev.electro, dataApi.dataObj),
             sensors: updateDevices(prev.sensors, dataApi.dataObj),

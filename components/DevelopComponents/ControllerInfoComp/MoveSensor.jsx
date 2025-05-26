@@ -4,7 +4,6 @@ import { Header } from "../Header";
 import Back from "../PhotosComponents/Back"
 import { useRouter } from "expo-router";
 import { useState } from "react";
-
 import Snickers from "../PhotosComponents/Snickers";
 import MoveOn from "../PhotosComponents/MoveOn"
 import MoveOff from "../PhotosComponents/MoveOff"

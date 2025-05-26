@@ -23,17 +23,18 @@ const styles = StyleSheet.create({
         marginTop:10,
         fontSize:16,
         fontWeight:500,
+        width:'100%',
       },
       categoryTitle:{
         marginLeft:20,
       },
       controllersBlock:{
         width:"90%",
-        marginHorizontal:'auto',
         // paddingHorizontal:20,
+        marginHorizontal:'auto',
         marginTop:10,
-        padding:0,
-        flex:1,
+        // padding:0,
+        // flex:1,
         flexDirection:'row',
         flexWrap:'wrap',
         justifyContent:'space-between'

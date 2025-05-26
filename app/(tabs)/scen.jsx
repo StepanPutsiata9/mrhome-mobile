@@ -40,16 +40,16 @@ export default function TabTwoScreen() {
               </View>
             )}
           </View>
-            :
-            <View style={styles.loadingView}>
-              <ActivityIndicator size={70} color={"#4C82FF"}/>
-              <Text style={styles.loadScen}>Загрузка сценариев...</Text>
-            </View>
+          :
+          <View style={styles.loadingView}>
+            <ActivityIndicator size={70} color={"#4C82FF"} />
+            <Text style={styles.loadScen}>Загрузка сценариев...</Text>
+          </View>
         }
       </ScrollView>
 
 
-      {!loading&&<TouchableOpacity
+      {!loading && <TouchableOpacity
         style={styles.plusContainer}
         hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
         onPress={() => router.push('/(scen)/NewScenarii')}
@@ -59,7 +59,6 @@ export default function TabTwoScreen() {
         </View>
       </TouchableOpacity>
       }
-
     </ImageBackground>
   );
 }
@@ -72,7 +71,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    // paddingTop:50,
   },
   container: {
     paddingHorizontal: 16,
@@ -90,9 +88,9 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   plus: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 60,
+    height: 60,
+    borderRadius: 35,
     backgroundColor: '#4C82FF',
     alignItems: 'center',
     justifyContent: 'center',
@@ -104,18 +102,18 @@ const styles = StyleSheet.create({
   emptyScenView: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop:"70%",
+    marginTop: "70%",
   },
-  loadingView:{
+  loadingView: {
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems:'center',
-    gap:30,
-    marginTop:"70%",
+    alignItems: 'center',
+    gap: 30,
+    marginTop: "70%",
   },
-  loadScen:{
-    color:'#4C82FF',
-    fontWeight:'600',
-    fontSize:20,
+  loadScen: {
+    color: '#4C82FF',
+    fontWeight: '600',
+    fontSize: 20,
   }
 });

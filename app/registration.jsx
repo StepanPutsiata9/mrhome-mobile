@@ -58,7 +58,6 @@ const RegistrationScreen = () => {
         onChangeText={setPassword}
         secureTextEntry={isVisible}
         placeholderTextColor="#999"
-
       />
       <View style={styles.eye}>
         <Pressable onPress={()=>setIsVisible(!isVisible)}>

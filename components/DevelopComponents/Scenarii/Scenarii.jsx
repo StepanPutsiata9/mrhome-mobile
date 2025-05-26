@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0,0.5)',
         width: "100%",
+        height:'100%',
 
     },
     modalContainer: {
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     viewConroller: {
-        paddingHorizontal: 16,
+        paddingHorizontal: 12,
         marginVertical: 5
     },
     titleController: {
@@ -216,7 +217,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 10,
-        paddingHorizontal: 16,
+        paddingHorizontal: 12,
     },
     title: {
         flexDirection: 'row',
@@ -225,7 +226,7 @@ const styles = StyleSheet.create({
     scenView: {
         margin: 'auto',
         marginTop: 20,
-        width: 328,
+        width: "95%",
         paddingHorizontal: 16,
         paddingVertical: 20,
         backgroundColor: '#fff',

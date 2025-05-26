@@ -81,7 +81,7 @@ export default function ControllerItem({ data,socket }) {
 
 const styles = StyleSheet.create({
   controllerItem: {
-    width: "100%",
+    width:166,
     height: 97,
     padding: 15,
     marginVertical: 10,

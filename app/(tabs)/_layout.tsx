@@ -4,7 +4,6 @@ import { Platform } from 'react-native';
 import { HapticTab } from '@/components/HapticTab';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import { useLocalSearchParams } from 'expo-router';
 // НИЧЕГО НЕ ТРОГАТЬ!!!!!!!!!!!!!!!!!!!!!!!! И ТАК НАХУЙ ЕЛЕ ЖИВЕТ
 
 export default function TabLayout() {
@@ -17,10 +16,11 @@ export default function TabLayout() {
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           ios: {
-
             position: 'absolute',
           },
-          default: {},
+          default:{
+            height: 70,
+          },
         }),
       }}>
       <Tabs.Screen
