@@ -20,7 +20,11 @@ import ToArrow from "../../components/DevelopComponents/PhotosComponents/toArrow
 import { useContext, useState } from 'react';
 import { SocketContext } from '../_layout';
 import { ScenariiContext } from './ScenariiContext';
+import axios from "axios"
 
+const api = axios.create({
+  baseURL: 'http://testyandex.onrender.com/',
+});
 export default function NewScen() {
 
   const { socket, data } = useContext(SocketContext);
@@ -28,6 +32,13 @@ export default function NewScen() {
     setControllerState, scenariiState, setScenariiState, scenCount,
     setScenCount, controllerStateScen, setControllerStateScen
   } = useContext(ScenariiContext);
+  
+const fetchNewScen = async (newScen) => {
+    const data = api.post('/scenarios/post',newScen);
+    const response = await data.response;
+    setScenariiState(response);
+}
+
 
   const [title, setTitle] = useState("");
   const [isOpen, setIsOpen] = useState(false)
@@ -167,6 +178,20 @@ export default function NewScen() {
                   }
                   , ...prev
                 ])
+                // fetchNewScen(
+                //   {
+                //     state: {
+                //       title: title || "Без названия",
+                //       icon: Object.keys(componentsIcon).find(
+                //         key => componentsIcon[key].type === selectedItem.type
+                //       ) || "default",
+                //       modalVisible: false,
+                //       controllerState: controllerState,
+                //     },
+                //     steps: controllerStateScen,
+                //     id: scenCount,
+                //   }
+                // );
                 setScenCount(scenCount + 1);
 
                 setControllerState([]);

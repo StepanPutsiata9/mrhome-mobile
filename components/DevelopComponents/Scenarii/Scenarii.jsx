@@ -19,39 +19,41 @@ import Cup from "../PhotosComponents/Cup"
 import CloudySun from "../PhotosComponents/CloudySun"
 import CloudyMoon from "../PhotosComponents/CloudyMoon"
 import CPU from "../PhotosComponents/CPU"
-
+import axios from "axios"
 
 const componentsIcon = {
-  sunrise: <SunRise />,
-  briefcase:<Briefcase/>,
-  lamp: <Lamp />, 
-  balloon:<Balloon />,
-  moon: <Moon />,
-  sun: <Sun />,
-  sunset:<SunSet />,
-  lightning:<Lightning />, 
-  egg:<Egg />,
-  cup: <Cup />, 
-  cloudySun:<CloudySun />,
-  cloudyMoon:<CloudyMoon />,
-  cpu:<CPU />,
-  default:<Default/>
+    sunrise: <SunRise />,
+    briefcase: <Briefcase />,
+    lamp: <Lamp />,
+    balloon: <Balloon />,
+    moon: <Moon />,
+    sun: <Sun />,
+    sunset: <SunSet />,
+    lightning: <Lightning />,
+    egg: <Egg />,
+    cup: <Cup />,
+    cloudySun: <CloudySun />,
+    cloudyMoon: <CloudyMoon />,
+    cpu: <CPU />,
+    default: <Default />
 };
 
 const toggleModal = (id, data, callback) => {
     callback(data.map(scen =>
         scen.id === id
-            ? { ...scen,state:{...scen.state,modalVisible: !scen.state.modalVisible } }
+            ? { ...scen, state: { ...scen.state, modalVisible: !scen.state.modalVisible } }
             : scen
-    
+
 
     ));
 };
-const deleteScenario = (id, data, callback) => {
-    callback(data.filter(scen => scen.id !== id));
-};
+const api = axios.create({
+    baseURL: 'http://testyandex.onrender.com/',
+});
+
 export default function Scenarii({ item }) {
     const { scenariiState, setScenariiState } = useContext(ScenariiContext);
+
     return (
         <>
             <Modal visible={item.state.modalVisible} animationType="fade"
@@ -91,14 +93,23 @@ export default function Scenarii({ item }) {
 
 export function ModalScen({ item }) {
     const { scenariiState, setScenariiState } = useContext(ScenariiContext);
+    const deleteScenario = (id, data, callback) => {
+        callback(data.filter(scen => scen.id !== id));
+        // const fetchNewScen = async () => {
+        //     const data = api.delete(`/scenarios/delete/:${id}`);
+        //     const response = await data.response;
+        //     setScenariiState(response);
+        // }
+        // fetchNewScen();
 
+    };
     return (
         <TouchableOpacity style={styles.modalOverlay} onPress={() => toggleModal(item.id, scenariiState, setScenariiState)}>
             <View style={styles.modalContainer}>
                 <View style={styles.titleBlock}>
                     <View style={styles.title}>
                         <View>
-                            <Text style={{ fontSize: 22, color: '#4C82FF',maxWidth:300 }}>{item.state.title}</Text>
+                            <Text style={{ fontSize: 22, color: '#4C82FF', maxWidth: 300 }}>{item.state.title}</Text>
                         </View>
                         {/* <View>{item.icon}</View> */}
                     </View>
@@ -113,13 +124,13 @@ export function ModalScen({ item }) {
                     {
                         item.state.controllerState.map((st, key) => {
                             const keys = Object.keys(st.payload);
-                            const values=Object.values(st.payload);
+                            const values = Object.values(st.payload);
                             return (
                                 <View style={styles.viewConroller} key={key}>
                                     <Text style={styles.titleController}>{st.title}</Text>
                                     <View style={styles.infoView}>
                                         <View style={styles.commandView}>
-                                        
+
                                             {keys.map((i, index) => {
                                                 if (i != null) return <Text style={{ marginBottom: 5 }} key={index}>{i}</Text>
                                             })}
@@ -174,7 +185,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0,0.5)',
         width: "100%",
-        height:'100%',
+        height: '100%',
 
     },
     modalContainer: {
@@ -263,7 +274,7 @@ const styles = StyleSheet.create({
     },
     addedControllersText: {
         fontSize: 16,
-        fontWeight:400,
+        fontWeight: 400,
     },
     iconsBlock: {
         flexDirection: 'row',
