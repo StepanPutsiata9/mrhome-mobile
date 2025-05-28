@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ActivityIndicator,StyleSheet, Pressable } from 'react-native';
-import { AuthContext}  from '../Auth/AuthContext';
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, StyleSheet, Pressable } from 'react-native';
+import { AuthContext } from '../Auth/AuthContext';
 import api from '../Auth/api';
 import { useContext } from 'react';
 import { Header } from '@/components/DevelopComponents/Header';
@@ -15,16 +15,16 @@ const RegistrationScreen = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { login } = useContext(AuthContext);
-  const [isVisible,setIsVisible]=useState(true);
-  const router=useRouter();  
+  const [isVisible, setIsVisible] = useState(true);
+  const router = useRouter();
   const handleRegistration = async () => {
     setLoading(true);
     setError('');
     try {
-      const response = await api.post('/register', { username:loginInput, password,url:broker,port:ws });
+      const response = await api.post('/register', { username: loginInput, password, url: broker, port: ws });
       const { accessToken, refreshToken } = response.data;
       console.log('====================================');
-      console.log(accessToken,"/",refreshToken);
+      console.log(accessToken, "/", refreshToken);
       console.log('====================================');
       login(accessToken, refreshToken);
     } catch (err) {
@@ -35,121 +35,121 @@ const RegistrationScreen = () => {
   };
 
   return (
-    <View style={{backgroundColor:'white',}}>
-        <Header/>
-        <View style={styles.conatiner}>
+    <View style={{ backgroundColor: 'white', }}>
+      <Header />
+      <View style={styles.conatiner}>
         <Text style={styles.regist}>Регистрация</Text>
         <TextInput
-            value={loginInput}
-            placeholder='Логин'
-            style={styles.input}
-            onChangeText={setLoginInput}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            placeholderTextColor="#999"
+          value={loginInput}
+          placeholder='Логин'
+          style={styles.input}
+          onChangeText={setLoginInput}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          placeholderTextColor="#999"
 
         />
-      
-     <View style={styles.inputView}>
-     <TextInput
-        value={password}
-        placeholder='Пароль'
-        style={styles.input}
-        onChangeText={setPassword}
-        secureTextEntry={isVisible}
-        placeholderTextColor="#999"
-      />
-      <View style={styles.eye}>
-        <Pressable onPress={()=>setIsVisible(!isVisible)}>
-            {!isVisible?<EyeOpen/>:<EyeClosed/>}
-        </Pressable>
+
+        <View style={styles.inputView}>
+          <TextInput
+            value={password}
+            placeholder='Пароль'
+            style={styles.input}
+            onChangeText={setPassword}
+            secureTextEntry={isVisible}
+            placeholderTextColor="#999"
+          />
+          <View style={styles.eye}>
+            <Pressable onPress={() => setIsVisible(!isVisible)}>
+              {!isVisible ? <EyeOpen /> : <EyeClosed />}
+            </Pressable>
+          </View>
+        </View>
+        <TextInput
+          value={broker}
+          placeholder='Адрес брокера'
+          style={styles.input}
+          onChangeText={setBroker}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          placeholderTextColor="#999"
+        />
+        <TextInput
+          value={ws}
+          placeholder='WebSocket-порт'
+          style={styles.input}
+          onChangeText={setWs}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          placeholderTextColor="#999"
+        />
+        {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
+
+        <TouchableOpacity onPress={() => {
+          router.push('/')
+        }}>
+          <Text style={styles.link}>Есть аккаунт? Войти</Text>
+        </TouchableOpacity>
+        {loading ? (
+          <ActivityIndicator />
+        ) : (<TouchableOpacity
+          style={styles.logBtn}
+          activeOpacity={0.7}
+          onPress={handleRegistration}>
+          <Text style={styles.btnText}>Зарегистрироваться</Text>
+        </TouchableOpacity>
+        )}
       </View>
-     </View>
-     <TextInput
-            value={broker}
-            placeholder='Адрес брокера'
-            style={styles.input}
-            onChangeText={setBroker}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            placeholderTextColor="#999"
-        />
-      <TextInput
-            value={ws}
-            placeholder='WebSocket-порт'
-            style={styles.input}
-            onChangeText={setWs}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            placeholderTextColor="#999"
-        />
-      {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
-      
-      <TouchableOpacity onPress={() => {
-         router.push('/')
-      }}>
-        <Text style={styles.link}>Есть аккаунт? Войти</Text>
-      </TouchableOpacity>
-      {loading ? (
-        <ActivityIndicator />
-      ) : (<TouchableOpacity
-                style={styles.logBtn}
-                activeOpacity={0.7}
-                onPress={handleRegistration}>
-            <Text style={styles.btnText}>Зарегистрироваться</Text>
-            </TouchableOpacity>
-      )}
-    </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
-    conatiner:{
-        padding:20,
-        height:"100%"
-        // backgroundColor:'white',
-    },
-    regist:{
-        fontSize:28,
-        fontFamily:'Roboto',
-        marginTop:10,
-        marginBottom:10
-    },
-    logBtn:{
-        borderRadius:16,
-        backgroundColor:'#4C82FF',
-        paddingHorizontal:60,
-        paddingVertical:10,
-        
-      },
-    link:{
-        color:'#4C82FF',
-        fontSize:14,
-        textAlign:'right',
-        marginBottom:15
-      },
-      btnText:{
-        color:'white',
-        fontSize:18,    
-        margin:'auto'
-      },
-      input: {
-        height: 50,
-        borderRadius: 10,
-        paddingHorizontal: 15,
-        marginBottom:15,
-        fontSize: 16,
-        backgroundColor: '#ECEEF4',
-        color:'#8B8B8B'
-      },
-      eye:{
-        position:'absolute',
-        right:13,
-        top:13
-    },
-    inputView:{
-        position:'relative'
-    }
+  conatiner: {
+    padding: 20,
+    height: "100%"
+    // backgroundColor:'white',
+  },
+  regist: {
+    fontSize: 28,
+    fontFamily: 'Roboto',
+    marginTop: 10,
+    marginBottom: 10
+  },
+  logBtn: {
+    borderRadius: 16,
+    backgroundColor: '#4C82FF',
+    paddingHorizontal: 60,
+    paddingVertical: 10,
+
+  },
+  link: {
+    color: '#4C82FF',
+    fontSize: 14,
+    textAlign: 'right',
+    marginBottom: 15
+  },
+  btnText: {
+    color: 'white',
+    fontSize: 18,
+    margin: 'auto'
+  },
+  input: {
+    height: 50,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    marginBottom: 15,
+    fontSize: 16,
+    backgroundColor: '#ECEEF4',
+    color: '#8B8B8B'
+  },
+  eye: {
+    position: 'absolute',
+    right: 13,
+    top: 13
+  },
+  inputView: {
+    position: 'relative'
+  }
 });
 
 export default RegistrationScreen;

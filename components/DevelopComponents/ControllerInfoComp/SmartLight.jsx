@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Pressable, TouchableOpacity, ScrollView, Modal,Alert } from 'react-native';
+import { View, Text, StyleSheet, Pressable, TouchableOpacity, ScrollView, Modal, Alert } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { ColorWheel } from 'react-native-color-wheel';
 import Light from "../PhotosComponents/Light"
@@ -29,7 +29,7 @@ export const SmartLight = ({ data, socket }) => {
     }
   };
   return (
-    <ScrollView style={{ backgroundColor: 'white'}}>
+    <ScrollView style={{ backgroundColor: 'white' }}>
       <Header />
       <View style={styles.title}>
         <View style={{ flexDirection: 'row' }}>
@@ -137,12 +137,12 @@ export const SmartLight = ({ data, socket }) => {
         <Slider
           minimumValue={1}
           maximumValue={100}
-          step={1} 
+          step={1}
           value={sliderValue}
-          onValueChange={(value) => setSliderValue(Math.round(value))} 
-          minimumTrackTintColor="#4C82FF" 
-          maximumTrackTintColor="#000000" 
-          thumbTintColor="#4C82FF" 
+          onValueChange={(value) => setSliderValue(Math.round(value))}
+          minimumTrackTintColor="#4C82FF"
+          maximumTrackTintColor="#000000"
+          thumbTintColor="#4C82FF"
         />
       </View>
 

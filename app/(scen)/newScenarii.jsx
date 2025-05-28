@@ -32,12 +32,12 @@ export default function NewScen() {
     setControllerState, scenariiState, setScenariiState, scenCount,
     setScenCount, controllerStateScen, setControllerStateScen
   } = useContext(ScenariiContext);
-  
-const fetchNewScen = async (newScen) => {
-    const data = api.post('/scenarios/post',newScen);
+
+  const fetchNewScen = async (newScen) => {
+    const data = api.post('/scenarios/post', newScen);
     const response = await data.response;
     setScenariiState(response);
-}
+  }
 
 
   const [title, setTitle] = useState("");

@@ -7,19 +7,19 @@ export default function ScenariiProvider({ children }) {
   const [controllerState, setControllerState] = useState([]);
   const [controllerStateScen, setControllerStateScen] = useState([]);
   const [isListEmpty, setIsListEmpty] = useState(true);
-  const [scenCount,setScenCount]=useState(0)
+  const [scenCount, setScenCount] = useState(0)
 
   const value = {
-    isListEmpty:isListEmpty,
-    setIsListEmpty:setIsListEmpty,
-    scenariiState:scenariiState,
-    controllerState:controllerState,
-    setScenariiState:setScenariiState,
-    setControllerState:setControllerState,
-    scenCount:scenCount,
-    setScenCount:setScenCount,
-    controllerStateScen:controllerStateScen,
-    setControllerStateScen:setControllerStateScen,
+    isListEmpty: isListEmpty,
+    setIsListEmpty: setIsListEmpty,
+    scenariiState: scenariiState,
+    controllerState: controllerState,
+    setScenariiState: setScenariiState,
+    setControllerState: setControllerState,
+    scenCount: scenCount,
+    setScenCount: setScenCount,
+    controllerStateScen: controllerStateScen,
+    setControllerStateScen: setControllerStateScen,
   };
 
   return (
@@ -28,4 +28,4 @@ export default function ScenariiProvider({ children }) {
     </ScenariiContext.Provider>
   );
 }
-export {ScenariiContext};
+export { ScenariiContext };

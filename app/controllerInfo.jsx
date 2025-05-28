@@ -5,17 +5,17 @@ import { SmartLight } from "../components/DevelopComponents/ControllerInfoComp/S
 import SmartCurtain from "../components/DevelopComponents/ControllerInfoComp/SmartCurtain";
 import TempSensor from "../components/DevelopComponents/ControllerInfoComp/TempSensor";
 import MoveSensor from "../components/DevelopComponents/ControllerInfoComp/MoveSensor";
-import { SocketContext } from '../app/_layout'; 
+import { SocketContext } from '../app/_layout';
 import { useLocalSearchParams } from 'expo-router';
 
 export default function ControllerInfo() {
   const { socket, data } = useContext(SocketContext);
   const { id } = useLocalSearchParams();
-function findDeviceById(data, targetId) {
-  if (!data) return null;
-  const allDevices = Object.values(data).flat(); 
-  return allDevices.find(device => device.payload.id == targetId);
-}
+  function findDeviceById(data, targetId) {
+    if (!data) return null;
+    const allDevices = Object.values(data).flat();
+    return allDevices.find(device => device.payload.id == targetId);
+  }
 
   const controllerData = findDeviceById(data, id);
 
@@ -29,7 +29,7 @@ function findDeviceById(data, targetId) {
       return <Text style={styles.text}>Устройство не найдено</Text>;
     }
 
-    switch(controllerData.payload.deviceType) {
+    switch (controllerData.payload.deviceType) {
       case "light":
         return <SmartLight data={controllerData} socket={socket} />;
       case "switch":
@@ -47,7 +47,7 @@ function findDeviceById(data, targetId) {
 
   return (
     <ImageBackground
-      source={require('../assets/images/Background.png')} 
+      source={require('../assets/images/Background.png')}
       style={styles.background}
       resizeMode="cover"
     >

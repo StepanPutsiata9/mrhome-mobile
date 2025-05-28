@@ -11,7 +11,7 @@ import axios from "axios"
 export default function TabTwoScreen() {
   const { socket, data } = useContext(SocketContext);
   const router = useRouter();
-  const { scenariiState,setScenariiState } = useContext(ScenariiContext);
+  const { scenariiState, setScenariiState } = useContext(ScenariiContext);
   const [loading, setLoading] = useState(null);
   const api = axios.create({
     baseURL: 'http://testyandex.onrender.com/',
@@ -21,7 +21,7 @@ export default function TabTwoScreen() {
       setLoading(true);
       // fetch scen
       const data = api.get("/scenarios/all");
-      const response=await data.response;
+      const response = await data.response;
       setLoading(false);
       // setScenariiState(response);
     }

@@ -4,7 +4,7 @@ import SvgComponentLogo from "./PhotosComponents/LogoSVG"
 import { AuthContext } from '@/Auth/AuthContext';
 import { useContext } from 'react';
 export default function LoadScreen() {
-  
+
   return (
     <ImageBackground
       source={require("../../assets/images/Background.png")}
@@ -20,7 +20,7 @@ export default function LoadScreen() {
   );
 }
 const LoadingSpinner = () => {
-    const {user}=useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <View>

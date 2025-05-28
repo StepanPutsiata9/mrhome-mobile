@@ -5,7 +5,7 @@ import Snickers from "../PhotosComponents/Snickers"
 import Temp from "../PhotosComponents/Temp"
 import Shtora from "../PhotosComponents/Shtora"
 import SwitchOutline from "../PhotosComponents/SwitchOutline"
-export default function ControllerItem({ data,socket }) {
+export default function ControllerItem({ data, socket }) {
   let photo;
   // switch(data.title){
   //   case "Умная подсветка":
@@ -24,7 +24,7 @@ export default function ControllerItem({ data,socket }) {
   //     photo = <Snickers color={"#4C82FF"} />
   //     break;
   // }
-  switch(data.deviceType){
+  switch (data.deviceType) {
     case "light":
       photo = <Light color={"#4C82FF"} />
       break;
@@ -35,14 +35,14 @@ export default function ControllerItem({ data,socket }) {
       photo = <Shtora color={"#4C82FF"} />
       break;
     case "tempSensor":
-      photo = <Temp color={"#4C82FF"} />  
+      photo = <Temp color={"#4C82FF"} />
       break;
     case "moveSensor":
       photo = <Snickers color={"#4C82FF"} />
       break;
   }
- 
-    // EXMPL FOR SEND DEVICE 
+
+  // EXMPL FOR SEND DEVICE 
   // {
   //   "deviceId": "curtain1",
   //   "deviceType": "curtain",
@@ -59,9 +59,9 @@ export default function ControllerItem({ data,socket }) {
       onPress={() => {
         router.push({
           pathname: '/controllerInfo',
-          params:{
-            id:data.id,
-          } ,
+          params: {
+            id: data.id,
+          },
         });
       }}
     >
@@ -71,8 +71,8 @@ export default function ControllerItem({ data,socket }) {
           <Text style={styles.title}>{data.title}</Text>
         </View>
         <View style={styles.infoBlock}>
-        <Text style={styles.status}>Статус</Text>
-        <Text style={styles.online}>{data.state==="on"?"Вкл":"Выкл"}</Text>
+          <Text style={styles.status}>Статус</Text>
+          <Text style={styles.online}>{data.state === "on" ? "Вкл" : "Выкл"}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -81,7 +81,7 @@ export default function ControllerItem({ data,socket }) {
 
 const styles = StyleSheet.create({
   controllerItem: {
-    width:166,
+    width: 166,
     height: 97,
     padding: 15,
     marginVertical: 10,
@@ -101,13 +101,13 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     fontFamily: "Roboto",
     marginLeft: 10,
-    width:90,
+    width: 90,
   },
   infoBlock: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: "space-between",
-    alignItems:'center',
+    alignItems: 'center',
     marginBottom: -10
   },
   status: {
@@ -122,21 +122,21 @@ const styles = StyleSheet.create({
   },
   statusView: {
     maxWidth: 75,
-    paddingHorizontal:10,
+    paddingHorizontal: 10,
 
   },
-  onlineCircle:{
-    width:20,
-    height:20,
-    borderRadius:"50%",
-    backgroundColor:"#4C82FF",
+  onlineCircle: {
+    width: 20,
+    height: 20,
+    borderRadius: "50%",
+    backgroundColor: "#4C82FF",
     boxShadow: "0 0 15px 5px rgba(76, 130, 255, 0.9)"
   },
-  offlineCircle:{
-    width:20,
-    height:20,
-    borderRadius:"50%",
-    backgroundColor:"#8b8b8b",
+  offlineCircle: {
+    width: 20,
+    height: 20,
+    borderRadius: "50%",
+    backgroundColor: "#8b8b8b",
     boxShadow: "0 0 10px 3px rgba(139, 139, 139, 0.7)"
   },
 });
