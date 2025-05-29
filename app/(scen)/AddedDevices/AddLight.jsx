@@ -11,7 +11,7 @@ import { ScenariiContext } from "../ScenariiContext";
 
 import ColorPicker from 'react-native-wheel-color-picker';
 import Slider from '@react-native-community/slider';
-
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 export default function AddCurtain({controller}) {
@@ -79,6 +79,7 @@ export default function AddCurtain({controller}) {
 
 
     return (
+    <SafeAreaView style={{ flex: '1' ,backgroundColor: 'white',height:'100%'}}>    
         <ScrollView style={styles.switch}>
             <Header />
             <View style={styles.title}>
@@ -279,6 +280,7 @@ export default function AddCurtain({controller}) {
                 </TouchableOpacity>
             </View>
         </ScrollView>
+        </SafeAreaView>
     )
 }
 

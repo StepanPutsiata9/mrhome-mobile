@@ -7,6 +7,7 @@ import { Header } from '@/components/DevelopComponents/Header';
 import EyeOpen from "../components/DevelopComponents/PhotosComponents/EyeOpen"
 import EyeClosed from "../components/DevelopComponents/PhotosComponents/EyeClosed"
 import { useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 const RegistrationScreen = () => {
   const [loginInput, setLoginInput] = useState('');
   const [password, setPassword] = useState('');
@@ -36,70 +37,72 @@ const RegistrationScreen = () => {
 
   return (
     <View style={{ backgroundColor: 'white', }}>
-      <Header />
-      <View style={styles.conatiner}>
-        <Text style={styles.regist}>Регистрация</Text>
-        <TextInput
-          value={loginInput}
-          placeholder='Логин'
-          style={styles.input}
-          onChangeText={setLoginInput}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          placeholderTextColor="#999"
-
-        />
-
-        <View style={styles.inputView}>
+      <SafeAreaView>
+        <Header />
+        <View style={styles.conatiner}>
+          <Text style={styles.regist}>Регистрация</Text>
           <TextInput
-            value={password}
-            placeholder='Пароль'
+            value={loginInput}
+            placeholder='Логин'
             style={styles.input}
-            onChangeText={setPassword}
-            secureTextEntry={isVisible}
+            onChangeText={setLoginInput}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            placeholderTextColor="#999"
+
+          />
+
+          <View style={styles.inputView}>
+            <TextInput
+              value={password}
+              placeholder='Пароль'
+              style={styles.input}
+              onChangeText={setPassword}
+              secureTextEntry={isVisible}
+              placeholderTextColor="#999"
+            />
+            <View style={styles.eye}>
+              <Pressable onPress={() => setIsVisible(!isVisible)}>
+                {!isVisible ? <EyeOpen /> : <EyeClosed />}
+              </Pressable>
+            </View>
+          </View>
+          <TextInput
+            value={broker}
+            placeholder='Адрес брокера'
+            style={styles.input}
+            onChangeText={setBroker}
+            keyboardType="email-address"
+            autoCapitalize="none"
             placeholderTextColor="#999"
           />
-          <View style={styles.eye}>
-            <Pressable onPress={() => setIsVisible(!isVisible)}>
-              {!isVisible ? <EyeOpen /> : <EyeClosed />}
-            </Pressable>
-          </View>
-        </View>
-        <TextInput
-          value={broker}
-          placeholder='Адрес брокера'
-          style={styles.input}
-          onChangeText={setBroker}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          placeholderTextColor="#999"
-        />
-        <TextInput
-          value={ws}
-          placeholder='WebSocket-порт'
-          style={styles.input}
-          onChangeText={setWs}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          placeholderTextColor="#999"
-        />
-        {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
+          <TextInput
+            value={ws}
+            placeholder='WebSocket-порт'
+            style={styles.input}
+            onChangeText={setWs}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            placeholderTextColor="#999"
+          />
+          {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
 
-        <TouchableOpacity onPress={() => {
-          router.push('/')
-        }}>
-          <Text style={styles.link}>Есть аккаунт? Войти</Text>
-        </TouchableOpacity>
-        {loading ? (
-          <ActivityIndicator />
-        ) : (<TouchableOpacity
-          style={styles.logBtn}
-          activeOpacity={0.7}
-          onPress={handleRegistration}>
-          <Text style={styles.btnText}>Зарегистрироваться</Text>
-        </TouchableOpacity>
-        )}
-      </View>
+          <TouchableOpacity onPress={() => {
+            router.push('/')
+          }}>
+            <Text style={styles.link}>Есть аккаунт? Войти</Text>
+          </TouchableOpacity>
+          {loading ? (
+            <ActivityIndicator />
+          ) : (<TouchableOpacity
+            style={styles.logBtn}
+            activeOpacity={0.7}
+            onPress={handleRegistration}>
+            <Text style={styles.btnText}>Зарегистрироваться</Text>
+          </TouchableOpacity>
+          )}
+        </View>
+      </SafeAreaView>
     </View>
   );
 };

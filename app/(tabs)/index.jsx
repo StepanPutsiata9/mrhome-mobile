@@ -4,6 +4,7 @@ import Category from "../../components/DevelopComponents/Category/Category";
 import { useContext } from 'react';
 import { SocketContext } from '../_layout';
 import { AuthContext } from '../../Auth/AuthContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
   const { socket, data } = useContext(SocketContext);
@@ -20,6 +21,7 @@ export default function HomeScreen() {
       style={styles.background}
       resizeMode="cover"
     >
+      <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <Header />
         <Text style={styles.myGadgets}>Мои устройства</Text>
@@ -34,6 +36,8 @@ export default function HomeScreen() {
           socket={socket}
         />
       </ScrollView>
+      </SafeAreaView>
+
     </ImageBackground>
   );
 }

@@ -9,6 +9,7 @@ import LightOn from "../PhotosComponents/LightOn"
 import LightOff from "../PhotosComponents/LightOff"
 import { Header } from "../Header"
 import ColorPicker from 'react-native-wheel-color-picker';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 export const SmartLight = ({ data, socket }) => {
@@ -30,6 +31,7 @@ export const SmartLight = ({ data, socket }) => {
   };
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
+      <SafeAreaView>
       <Header />
       <View style={styles.title}>
         <View style={{ flexDirection: 'row' }}>
@@ -173,6 +175,8 @@ export const SmartLight = ({ data, socket }) => {
           <Text style={styles.btnText}>Изменить настройки</Text>
         </TouchableOpacity>
       </View>
+      </SafeAreaView>
+
     </ScrollView>
 
   );
@@ -274,6 +278,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
+  
   },
   dropdownList: {
     backgroundColor: 'white',

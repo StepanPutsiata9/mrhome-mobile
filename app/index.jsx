@@ -7,6 +7,7 @@ import { Header } from '../components/DevelopComponents/Header';
 import EyeOpen from "../components/DevelopComponents/PhotosComponents/EyeOpen"
 import EyeClosed from "../components/DevelopComponents/PhotosComponents/EyeClosed"
 import { useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const LoginScreen = () => {
   const [loginInput, setLoginInput] = useState('');
@@ -56,6 +57,7 @@ const LoginScreen = () => {
 
   return (
     <View style={{ backgroundColor: 'white' }}>
+      <SafeAreaView>
       <Header />
       <View style={styles.conatiner}>
         <Text style={styles.enter}>Войти</Text>
@@ -103,6 +105,7 @@ const LoginScreen = () => {
         </TouchableOpacity>
         )}
       </View>
+      </SafeAreaView>
     </View>
   );
 };

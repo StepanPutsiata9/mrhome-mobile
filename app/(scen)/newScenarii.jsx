@@ -21,6 +21,7 @@ import { useContext, useState } from 'react';
 import { SocketContext } from '../_layout';
 import { ScenariiContext } from './ScenariiContext';
 import axios from "axios"
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const api = axios.create({
   baseURL: 'http://testyandex.onrender.com/',
@@ -64,146 +65,150 @@ export default function NewScen() {
   const [selectedItem, setSelectedItem] = useState("");
   const router = useRouter();
   return (
-    <ScrollView>
-      <Header />
-      <View style={styles.container}>
-        <View style={styles.title}>
-          <Text style={styles.titleText}>Новый сценарий</Text>
-          <Pressable
-            onPress={() => router.back()}>
-            <Back />
-          </Pressable>
+    <SafeAreaView style={{flex:'1'}}>
 
-        </View>
-        <TextInput
-          value={title}
-          placeholder='Название сценария'
-          style={styles.input}
-          onChangeText={setTitle}
-          autoCapitalize="none"
-        />
-        <View style={styles.iconBlock}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <ScrollView>
+        <Header />
+        <View style={styles.container}>
+          <View style={styles.title}>
+            <Text style={styles.titleText}>Новый сценарий</Text>
             <Pressable
-              style={{ flexDirection: 'row', alignItems: 'center' }}
-              onPress={() => {
-                setIsOpen(true)
-              }}>
-              <Text>Иконка</Text>
-
-              <Modal visible={isOpen} transparent={true} animationType="fade">
-                <Pressable style={styles.modalOverlay} onPress={() => setIsOpen(false)}>
-                  <View style={styles.dropdownList}>
-                    {icons.map((item, index) => (
-                      <Pressable
-                        key={index}
-                        style={styles.item}
-                        onPress={() => {
-                          setSelectedItem(item);
-                          setIsOpen(false);
-                        }}
-                      >
-                        <Text>{item}</Text>
-                      </Pressable>
-                    ))}
-                  </View>
-                </Pressable>
-              </Modal>
-              <ToArrow />
+              onPress={() => router.back()}>
+              <Back />
             </Pressable>
 
           </View>
-          <View>
-            <Text>{selectedItem}</Text>
-          </View>
-        </View>
-        <View style={styles.itemsState}>
-          <Text style={styles.itemStateText}>Состояние элементов :</Text>
-        </View>
-        <View style={styles.controllersView}>
-          {controllerState.length == 0 ?
-            <Text style={styles.emptyList}>Добавленных элементов пока нет</Text>
-            :
-            controllerState.map((item, key) => {
-              const keys = Object.keys(item.payload);
-              const values = Object.values(item.payload);
-              return (
-                <View style={styles.viewConroller} key={key}>
-                  <Text style={styles.titleController}>{item.title}</Text>
-                  <View style={styles.infoView}>
-                    <View style={styles.commandView}>
-                      {keys.map((i, index) => {
-                        if (i != null) return <Text style={{ marginBottom: 5 }} key={index}>{i}</Text>
-                      })}
+          <TextInput
+            value={title}
+            placeholder='Название сценария'
+            style={styles.input}
+            onChangeText={setTitle}
+            autoCapitalize="none"
+          />
+          <View style={styles.iconBlock}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Pressable
+                style={{ flexDirection: 'row', alignItems: 'center' }}
+                onPress={() => {
+                  setIsOpen(true)
+                }}>
+                <Text>Иконка</Text>
+
+                <Modal visible={isOpen} transparent={true} animationType="fade">
+                  <Pressable style={styles.modalOverlay} onPress={() => setIsOpen(false)}>
+                    <View style={styles.dropdownList}>
+                      {icons.map((item, index) => (
+                        <Pressable
+                          key={index}
+                          style={styles.item}
+                          onPress={() => {
+                            setSelectedItem(item);
+                            setIsOpen(false);
+                          }}
+                        >
+                          <Text>{item}</Text>
+                        </Pressable>
+                      ))}
                     </View>
-                    <View style={styles.stateView}>
-                      {values.map((i, index) => {
-                        if (i != null) return <Text style={{ color: '#8b8b8b', textAlign: 'right', marginBottom: 5 }} key={index}>{i}</Text>
-                      })}
+                  </Pressable>
+                </Modal>
+                <ToArrow />
+              </Pressable>
+
+            </View>
+            <View>
+              <Text>{selectedItem}</Text>
+            </View>
+          </View>
+          <View style={styles.itemsState}>
+            <Text style={styles.itemStateText}>Состояние элементов :</Text>
+          </View>
+          <View style={styles.controllersView}>
+            {controllerState.length == 0 ?
+              <Text style={styles.emptyList}>Добавленных элементов пока нет</Text>
+              :
+              controllerState.map((item, key) => {
+                const keys = Object.keys(item.payload);
+                const values = Object.values(item.payload);
+                return (
+                  <View style={styles.viewConroller} key={key}>
+                    <Text style={styles.titleController}>{item.title}</Text>
+                    <View style={styles.infoView}>
+                      <View style={styles.commandView}>
+                        {keys.map((i, index) => {
+                          if (i != null) return <Text style={{ marginBottom: 5 }} key={index}>{i}</Text>
+                        })}
+                      </View>
+                      <View style={styles.stateView}>
+                        {values.map((i, index) => {
+                          if (i != null) return <Text style={{ color: '#8b8b8b', textAlign: 'right', marginBottom: 5 }} key={index}>{i}</Text>
+                        })}
+                      </View>
                     </View>
                   </View>
-                </View>
-              )
-            })
-          }
-        </View>
-        <View style={styles.addController}>
-          <TouchableOpacity
-            hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-            onPress={() => {
-              router.push('/(scen)/AddControllersToScenarii')
-            }}>
-            <Text style={styles.addControllerText}>Добавить элемент</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.btnBlock}>
-          {!controllerState.length == 0 &&
+                )
+              })
+            }
+          </View>
+          <View style={styles.addController}>
             <TouchableOpacity
-              style={styles.btn}
-              activeOpacity={0.7}
-
+              hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
               onPress={() => {
-                setScenariiState(prev => [
-                  {
-                    state: {
-                      title: title || "Без названия",
-                      icon: Object.keys(componentsIcon).find(
-                        key => componentsIcon[key].type === selectedItem.type
-                      ) || "default",
-                      modalVisible: false,
-                      controllerState: controllerState,
-                    },
-                    steps: controllerStateScen,
-                    id: scenCount,
-                  }
-                  , ...prev
-                ])
-                // fetchNewScen(
-                //   {
-                //     state: {
-                //       title: title || "Без названия",
-                //       icon: Object.keys(componentsIcon).find(
-                //         key => componentsIcon[key].type === selectedItem.type
-                //       ) || "default",
-                //       modalVisible: false,
-                //       controllerState: controllerState,
-                //     },
-                //     steps: controllerStateScen,
-                //     id: scenCount,
-                //   }
-                // );
-                setScenCount(scenCount + 1);
-
-                setControllerState([]);
-                setControllerStateScen([]);
-                router.back();
+                router.push('/(scen)/AddControllersToScenarii')
               }}>
-              <Text style={styles.btnText}>Добавить сценарий</Text>
+              <Text style={styles.addControllerText}>Добавить элемент</Text>
             </TouchableOpacity>
-          }
+          </View>
+          <View style={styles.btnBlock}>
+            {!controllerState.length == 0 &&
+              <TouchableOpacity
+                style={styles.btn}
+                activeOpacity={0.7}
+
+                onPress={() => {
+                  setScenariiState(prev => [
+                    {
+                      state: {
+                        title: title || "Без названия",
+                        icon: Object.keys(componentsIcon).find(
+                          key => componentsIcon[key].type === selectedItem.type
+                        ) || "default",
+                        modalVisible: false,
+                        controllerState: controllerState,
+                      },
+                      steps: controllerStateScen,
+                      id: scenCount,
+                    }
+                    , ...prev
+                  ])
+                  // fetchNewScen(
+                  //   {
+                  //     state: {
+                  //       title: title || "Без названия",
+                  //       icon: Object.keys(componentsIcon).find(
+                  //         key => componentsIcon[key].type === selectedItem.type
+                  //       ) || "default",
+                  //       modalVisible: false,
+                  //       controllerState: controllerState,
+                  //     },
+                  //     steps: controllerStateScen,
+                  //     id: scenCount,
+                  //   }
+                  // );
+                  setScenCount(scenCount + 1);
+
+                  setControllerState([]);
+                  setControllerStateScen([]);
+                  router.back();
+                }}>
+                <Text style={styles.btnText}>Добавить сценарий</Text>
+              </TouchableOpacity>
+            }
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
+
   );
 }
 

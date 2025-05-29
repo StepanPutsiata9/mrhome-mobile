@@ -7,6 +7,7 @@ import Back from "../../components/DevelopComponents/PhotosComponents/Back"
 import { useRouter } from 'expo-router';
 import { useContext } from 'react';
 import { SocketContext } from '../_layout';
+import { SafeAreaView } from 'react-native-safe-area-context';
 export default function AddControllersToScenarii() {
   const router = useRouter();
   const { data, socket } = useContext(SocketContext);
@@ -22,40 +23,41 @@ export default function AddControllersToScenarii() {
   }
   const electroList = extractElectroDevices(data);
   return (
-    <ScrollView style={{ backgroundColor: 'white', }}>
-      <Header />
-      <View style={styles.container}>
-        <View style={styles.title}>
-          <Text style={styles.titleText}>Новый сценарий</Text>
-          <Pressable onPress={() => router.back()}>
-            <Back />
-          </Pressable>
+    <SafeAreaView style={{ flex: '1' ,backgroundColor: 'white',height:'100%'}}>
+      <ScrollView>
+        <Header />
+        <View style={styles.container}>
+          <View style={styles.title}>
+            <Text style={styles.titleText}>Новый сценарий</Text>
+            <Pressable onPress={() => router.back()}>
+              <Back />
+            </Pressable>
+          </View>
+          <View>
+            {electroList.map((item, key) => {
+              return (
+                <View key={key} >
+                  <Pressable style={{
+                    flexDirection: 'row', justifyContent: 'space-between',
+                    marginBottom: 20,
+                  }} onPress={() => {
+                    router.push({
+                      pathname: "/(scen)/AddSpecificController",
+                      params: item,
+                    })
+                  }}>
+                    <Text style={{}}>{item.title}</Text>
+                    <ToArrow />
+                  </Pressable>
+                </View>
+              )
+
+
+            })}
+          </View>
         </View>
-        <View>
-          {electroList.map((item, key) => {
-            return (
-              <View key={key} >
-                <Pressable style={{
-                  flexDirection: 'row', justifyContent: 'space-between',
-                  marginBottom: 20,
-                }} onPress={() => {
-                  router.push({
-                    pathname: "/(scen)/AddSpecificController",
-                    params: item,
-                  })
-                }}>
-                  <Text style={{}}>{item.title}</Text>
-                  <ToArrow />
-                </Pressable>
-              </View>
-            )
-
-
-          })}
-        </View>
-      </View>
-    </ScrollView>
-
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 
@@ -63,6 +65,7 @@ export default function AddControllersToScenarii() {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
+    // height:'100%'
   },
   title: {
     flexDirection: 'row',

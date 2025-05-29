@@ -7,6 +7,7 @@ import { useState } from "react";
 import Shtora from "../PhotosComponents/Shtora";
 import ShtoraOpen from "../PhotosComponents/ShtoraOpen";
 import ShtoraClose from "../PhotosComponents/ShtoraClose";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 export default function SmartCurtain({ data, socket }) {
@@ -15,6 +16,7 @@ export default function SmartCurtain({ data, socket }) {
   const [off, setOff] = useState(!on);
   return (
     <ScrollView style={styles.switch}>
+      <SafeAreaView>
       <Header />
       <View style={styles.title}>
         <View style={{ flexDirection: 'row' }}>
@@ -72,6 +74,7 @@ export default function SmartCurtain({ data, socket }) {
           {off ? <Text style={{ color: '#4C82FF' }}>Закрыта</Text> : <Text style={{ color: '#8B8B8B' }}>Закрыта</Text>}
         </View>
       </View>
+      </SafeAreaView>
     </ScrollView>
   )
 }

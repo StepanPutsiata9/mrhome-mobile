@@ -64,6 +64,7 @@ export default function Scenarii({ item }) {
                     </View>
                     <View style={styles.points}>
                         <TouchableOpacity
+                            hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
                             onPress={() => toggleModal(item.id, scenariiState, setScenariiState)}
                         >
                             <Points />
@@ -165,8 +166,6 @@ export function ModalScen({ item }) {
                         <TrashBin />
                     </Pressable>
                 </View>
-
-
             </View>
         </TouchableOpacity>
     )

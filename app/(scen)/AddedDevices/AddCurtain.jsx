@@ -7,7 +7,7 @@ import { useContext, useState } from "react";
 import ShtoraOpen from "../../../components/DevelopComponents/PhotosComponents/ShtoraOpen";
 import ShtoraClose from "../../../components/DevelopComponents/PhotosComponents/ShtoraClose";
 import { ScenariiContext } from "../ScenariiContext";
-
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function AddCurtain({controller}){
 
@@ -49,6 +49,8 @@ export default function AddCurtain({controller}){
 
       };
     return(
+          <SafeAreaView style={{ flex: '1' ,backgroundColor: 'white',height:'100%'}}>
+      
         <ScrollView style={styles.switch}>
             <Header/>
             <View style={styles.title}>
@@ -112,6 +114,7 @@ export default function AddCurtain({controller}){
                     </TouchableOpacity>
                   </View>
         </ScrollView>
+      </SafeAreaView>
     )
 }
 

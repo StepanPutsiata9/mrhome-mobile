@@ -7,70 +7,73 @@ import { useState } from "react";
 import Snickers from "../PhotosComponents/Snickers";
 import MoveOn from "../PhotosComponents/MoveOn"
 import MoveOff from "../PhotosComponents/MoveOff"
+import { SafeAreaView } from "react-native-safe-area-context";
 export default function MoveSensor({ data, socket }) {
   const router = useRouter();
   const [on, setOn] = useState(data.payload.state == "on" ? true : false);
   const [off, setOff] = useState(!on);
   return (
     <ScrollView style={styles.switch}>
-      <Header />
-      <View style={styles.title}>
-        <View style={{ flexDirection: 'row' }}>
-          <Snickers color={"#4C82FF"} />
-          <View>
-            <Text style={styles.titleText}>Датчик движения</Text>
+      <SafeAreaView>
+        <Header />
+        <View style={styles.title}>
+          <View style={{ flexDirection: 'row' }}>
+            <Snickers color={"#4C82FF"} />
+            <View>
+              <Text style={styles.titleText}>Датчик движения</Text>
+            </View>
+          </View>
+          <Pressable onPress={() => router.back()}>
+            <Back />
+          </Pressable>
+        </View>
+        <View style={styles.info}>
+          <View style={styles.infoLine}>
+            <Text style={styles.infoText}>Фиксирует любое движение в помещении и мгновенно сообщает об этом в приложение,
+              помогая обеспечить безопасность и автоматизацию.</Text>
+          </View>
+          <View style={styles.infoLine}>
+            <Text style={styles.infoLineText}>Состояние</Text>
+            <Text style={styles.status}>{data.payload.state === "on" ? "Включен" : "Выключен"}</Text>
+          </View>
+          <View style={styles.infoLine}>
+            <Text style={styles.infoLineText}>Последние движение</Text>
+            <Text style={styles.status}>{data.payload.lastMove}</Text>
           </View>
         </View>
-        <Pressable onPress={() => router.back()}>
-          <Back />
-        </Pressable>
-      </View>
-      <View style={styles.info}>
-        <View style={styles.infoLine}>
-          <Text style={styles.infoText}>Фиксирует любое движение в помещении и мгновенно сообщает об этом в приложение,
-            помогая обеспечить безопасность и автоматизацию.</Text>
-        </View>
-        <View style={styles.infoLine}>
-          <Text style={styles.infoLineText}>Состояние</Text>
-          <Text style={styles.status}>{data.payload.state === "on" ? "Включен" : "Выключен"}</Text>
-        </View>
-        <View style={styles.infoLine}>
-          <Text style={styles.infoLineText}>Последние движение</Text>
-          <Text style={styles.status}>{data.payload.lastMove}</Text>
-        </View>
-      </View>
-      <View style={styles.onOff}>
-        <View style={{ alignItems: 'center' }}>
-          <Pressable disabled={on} onPress={async () => {
-            await socket.current.send(JSON.stringify({
-              topic: data.topic,
-              deviceType: data.payload.deviceType,
-              command: 'turn_on'
-            }));
-            setOn(!on);
-            setOff(!off);
-          }}>
-            <MoveOn color={on ? "#4C82FF" : "#8B8B8B"} />
-          </Pressable>
-          {on ? <Text style={{ color: '#4C82FF' }}>Включен</Text> : <Text style={{ color: '#8B8B8B' }}>Включен</Text>}
+        <View style={styles.onOff}>
+          <View style={{ alignItems: 'center' }}>
+            <Pressable disabled={on} onPress={async () => {
+              await socket.current.send(JSON.stringify({
+                topic: data.topic,
+                deviceType: data.payload.deviceType,
+                command: 'turn_on'
+              }));
+              setOn(!on);
+              setOff(!off);
+            }}>
+              <MoveOn color={on ? "#4C82FF" : "#8B8B8B"} />
+            </Pressable>
+            {on ? <Text style={{ color: '#4C82FF' }}>Включен</Text> : <Text style={{ color: '#8B8B8B' }}>Включен</Text>}
 
-        </View>
-        <View style={{ alignItems: 'center' }}>
-          <Pressable disabled={off} onPress={async () => {
-            await socket.current.send(JSON.stringify({
-              topic: data.topic,
-              deviceType: data.payload.deviceType,
-              command: 'turn_off'
-            }));
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            <Pressable disabled={off} onPress={async () => {
+              await socket.current.send(JSON.stringify({
+                topic: data.topic,
+                deviceType: data.payload.deviceType,
+                command: 'turn_off'
+              }));
 
-            setOn(!on);
-            setOff(!off)
-          }}>
-            <MoveOff color={off ? "#4C82FF" : "#8B8B8B"} />
-          </Pressable>
-          {off ? <Text style={{ color: '#4C82FF' }}>Выключен</Text> : <Text style={{ color: '#8B8B8B' }}>Выключен</Text>}
+              setOn(!on);
+              setOff(!off)
+            }}>
+              <MoveOff color={off ? "#4C82FF" : "#8B8B8B"} />
+            </Pressable>
+            {off ? <Text style={{ color: '#4C82FF' }}>Выключен</Text> : <Text style={{ color: '#8B8B8B' }}>Выключен</Text>}
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
     </ScrollView>
   )
 }

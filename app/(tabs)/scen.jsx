@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from 'react';
 import { SocketContext } from '../_layout';
 import { ScenariiContext } from '../(scen)/ScenariiContext';
 import axios from "axios"
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function TabTwoScreen() {
   const { socket, data } = useContext(SocketContext);
@@ -28,47 +29,55 @@ export default function TabTwoScreen() {
     fetchScen();
   }, [])
   return (
+
     <ImageBackground
       source={require('../../assets/images/Background.png')}
       style={styles.background}
       resizeMode="cover"
     >
-      <ScrollView style={styles.scrollView}>
-        <Header />
-        {!loading
-          ?
-          <View style={styles.container}>
-            <Text style={styles.scenText}>Сценарии</Text>
-            {scenariiState.length != 0 ? (
-              scenariiState.map((item, index) => (
-                <Scenarii item={item} key={index} />
-              ))
-            ) : (
-              <View style={styles.emptyScenView}>
-                <Text style={styles.emptyScen}>Сценариев пока нет...</Text>
-              </View>
-            )}
-          </View>
-          :
-          <View style={styles.loadingView}>
-            <ActivityIndicator size={70} color={"#4C82FF"} />
-            <Text style={styles.loadScen}>Загрузка сценариев...</Text>
-          </View>
-        }
-      </ScrollView>
+      <SafeAreaView style={{ flex: 1 }}>
+
+        <ScrollView style={styles.scrollView}>
+          <Header />
+          {!loading
+            ?
+            <View style={styles.container}>
+              <Text style={styles.scenText}>Сценарии</Text>
+              {scenariiState.length != 0 ? (
+                scenariiState.map((item, index) => (
+                  <Scenarii item={item} key={index} />
+                ))
+              ) : (
+                <View style={styles.emptyScenView}>
+                  <Text style={styles.emptyScen}>Сценариев пока нет...</Text>
+                </View>
+              )}
+            </View>
+            :
+            <View style={styles.loadingView}>
+              <ActivityIndicator size={70} color={"#4C82FF"} />
+              <Text style={styles.loadScen}>Загрузка сценариев...</Text>
+            </View>
+          }
+        </ScrollView>
 
 
-      {!loading && <TouchableOpacity
-        style={styles.plusContainer}
-        hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-        onPress={() => router.push('/(scen)/NewScenarii')}
-      >
-        <View style={styles.plus}>
-          <Plus />
-        </View>
-      </TouchableOpacity>
+      {
+        !loading && <TouchableOpacity
+          style={styles.plusContainer}
+          hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+          onPress={() => router.push('/(scen)/NewScenarii')}
+        >
+          <View style={styles.plus}>
+            <Plus />
+          </View>
+        </TouchableOpacity>
       }
-    </ImageBackground>
+      </SafeAreaView >
+
+    </ImageBackground >
+
+
   );
 }
 
