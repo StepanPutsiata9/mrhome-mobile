@@ -133,7 +133,7 @@ export const SmartLight = ({ data, socket }) => {
         </Modal>
       </View>
       <View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
-        <Text>Яркость: {sliderValue}</Text>
+        <Text style={styles.sliderText}>Яркость: {sliderValue}</Text>
         <Slider
           minimumValue={1}
           maximumValue={100}
@@ -164,11 +164,13 @@ export const SmartLight = ({ data, socket }) => {
                 }
               }
             ));
+
             setOn(true);
             setOff(false);
+            Alert.alert('Параметры настройки успешно изменены!')
           }}
         >
-          <Text style={styles.btnText}>Изменить параметры настройки</Text>
+          <Text style={styles.btnText}>Изменить настройки</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -253,7 +255,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 20,
     paddingVertical: 3,
   },
   dropdownButton: {
@@ -263,6 +265,9 @@ const styles = StyleSheet.create({
     borderColor: '#4C82FF',
     backgroundColor: "white",
     borderRadius: 16,
+  },
+  sliderText: {
+    fontSize: 18,
   },
   modalOverlay: {
     flex: 1,

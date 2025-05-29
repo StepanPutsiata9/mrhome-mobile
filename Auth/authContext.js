@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
   const loadUser = async () => {
-    setIsLoading(true);
+    setIsLoading(true);                   
     try {
       const tokens = await getTokens();
       if (tokens?.accessToken && checkTokenExpiration(tokens.accessToken)) {

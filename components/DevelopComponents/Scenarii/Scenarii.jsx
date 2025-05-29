@@ -1,4 +1,3 @@
-
 import { StyleSheet, Text, View, TouchableOpacity, Modal, Pressable, Alert } from 'react-native';
 import { useContext } from 'react';
 import { ScenariiContext } from '@/app/(scen)/ScenariiContext';
@@ -43,8 +42,6 @@ const toggleModal = (id, data, callback) => {
         scen.id === id
             ? { ...scen, state: { ...scen.state, modalVisible: !scen.state.modalVisible } }
             : scen
-
-
     ));
 };
 const api = axios.create({
@@ -53,7 +50,6 @@ const api = axios.create({
 
 export default function Scenarii({ item }) {
     const { scenariiState, setScenariiState } = useContext(ScenariiContext);
-
     return (
         <>
             <Modal visible={item.state.modalVisible} animationType="fade"
@@ -130,7 +126,6 @@ export function ModalScen({ item }) {
                                     <Text style={styles.titleController}>{st.title}</Text>
                                     <View style={styles.infoView}>
                                         <View style={styles.commandView}>
-
                                             {keys.map((i, index) => {
                                                 if (i != null) return <Text style={{ marginBottom: 5 }} key={index}>{i}</Text>
                                             })}
