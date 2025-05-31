@@ -18,6 +18,7 @@ const RegistrationScreen = () => {
   const { login } = useContext(AuthContext);
   const [isVisible, setIsVisible] = useState(true);
   const router = useRouter();
+
   const handleRegistration = async () => {
     setLoading(true);
     setError('');
@@ -51,7 +52,6 @@ const RegistrationScreen = () => {
             placeholderTextColor="#999"
 
           />
-
           <View style={styles.inputView}>
             <TextInput
               value={password}
@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
   conatiner: {
     padding: 20,
     height: "100%"
-    // backgroundColor:'white',
   },
   regist: {
     fontSize: 28,

@@ -29,8 +29,7 @@ const api = axios.create({
 export default function NewScen() {
 
   const { socket, data } = useContext(SocketContext);
-  const { isListEmpty, setIsListEmpty, controllerState,
-    setControllerState, scenariiState, setScenariiState, scenCount,
+  const { controllerState, setControllerState, scenariiState, setScenariiState, scenCount,
     setScenCount, controllerStateScen, setControllerStateScen
   } = useContext(ScenariiContext);
 
@@ -65,8 +64,7 @@ export default function NewScen() {
   const [selectedItem, setSelectedItem] = useState("");
   const router = useRouter();
   return (
-    <SafeAreaView style={{flex:'1'}}>
-
+    <SafeAreaView style={{ flex: '1' }}>
       <ScrollView>
         <Header />
         <View style={styles.container}>
@@ -76,7 +74,6 @@ export default function NewScen() {
               onPress={() => router.back()}>
               <Back />
             </Pressable>
-
           </View>
           <TextInput
             value={title}
@@ -196,7 +193,6 @@ export default function NewScen() {
                   //   }
                   // );
                   setScenCount(scenCount + 1);
-
                   setControllerState([]);
                   setControllerStateScen([]);
                   router.back();
