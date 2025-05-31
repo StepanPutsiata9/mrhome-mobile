@@ -8,6 +8,8 @@ import EyeOpen from "../components/DevelopComponents/PhotosComponents/EyeOpen"
 import EyeClosed from "../components/DevelopComponents/PhotosComponents/EyeClosed"
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
+
 const RegistrationScreen = () => {
   const [loginInput, setLoginInput] = useState('');
   const [password, setPassword] = useState('');
@@ -38,7 +40,7 @@ const RegistrationScreen = () => {
 
   return (
     <View style={{ backgroundColor: 'white', }}>
-      <SafeAreaView>
+      {/* <SafeAreaView> */}
         <Header />
         <View style={styles.conatiner}>
           <Text style={styles.regist}>Регистрация</Text>
@@ -94,21 +96,29 @@ const RegistrationScreen = () => {
           </TouchableOpacity>
           {loading ? (
             <ActivityIndicator />
-          ) : (<TouchableOpacity
-            style={styles.logBtn}
-            activeOpacity={0.7}
-            onPress={handleRegistration}>
-            <Text style={styles.btnText}>Зарегистрироваться</Text>
-          </TouchableOpacity>
+          ) : (<LinearGradient
+            colors={['#195dfc', '#4C82FF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.gradientBtn}
+          >
+            <TouchableOpacity
+              style={styles.logBtn}
+              activeOpacity={0.7}
+              onPress={handleRegistration}
+            >
+              <Text style={styles.btnText}>Зарегистрироваться</Text>
+            </TouchableOpacity>
+          </LinearGradient>
           )}
         </View>
-      </SafeAreaView>
+      {/* </SafeAreaView> */}
     </View>
   );
 };
 const styles = StyleSheet.create({
   conatiner: {
-    padding: 20,
+    paddingHorizontal: 20,
     height: "100%"
   },
   regist: {
@@ -117,24 +127,40 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10
   },
-  logBtn: {
-    borderRadius: 16,
-    backgroundColor: '#4C82FF',
-    paddingHorizontal: 60,
-    paddingVertical: 10,
-
-  },
+ 
   link: {
     color: '#4C82FF',
     fontSize: 14,
     textAlign: 'right',
     marginBottom: 15
   },
-  btnText: {
-    color: 'white',
-    fontSize: 18,
-    margin: 'auto'
+  logBtn: {
+  borderRadius: 16,
+  paddingHorizontal: 60,
+  paddingVertical: 15,
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: 'transparent',
+},
+gradientBtn: {
+  borderRadius: 16,
+  shadowColor: '#4C82FF',
+  shadowOffset: {
+    width: 0,
+    height: 4,
   },
+  shadowOpacity: 0.3,
+  shadowRadius: 6,
+  elevation: 8,
+},
+btnText: {
+  color: 'white',
+  fontSize: 20,
+  fontWeight: '400',
+  textShadowColor: 'rgba(0, 0, 0, 0.2)',
+  textShadowOffset: { width: 1, height: 1 },
+  textShadowRadius: 2,
+},
   input: {
     height: 50,
     borderRadius: 10,

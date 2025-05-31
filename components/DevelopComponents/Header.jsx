@@ -1,9 +1,11 @@
 import { View, Text, StyleSheet, Platform } from "react-native"
 import LogoSmall from "./PhotosComponents/LogoSmallSvg"
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export function Header() {
     return (
-        <View style={Platform.OS !== 'ios' ? styles.header : styles.headerIOS}>
+        <SafeAreaView style={{}}>
+        <View style={styles.header}>
             <View>
                 <LogoSmall />
             </View>
@@ -11,6 +13,9 @@ export function Header() {
                 <Text style={styles.headerText}>Умный дом</Text>
             </View>
         </View>
+        </SafeAreaView>
+       
+
     )
 }
 
@@ -22,16 +27,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 20,
         // paddingTop: 50,
-        marginBottom: 10,
-    },
-    headerIOS: {
-        flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        paddingHorizontal: 20,
-        paddingTop: 50,
-        marginBottom: 10,
+        // marginBottom: 30,
     },
     headerText: {
         color: "#4C82FF",

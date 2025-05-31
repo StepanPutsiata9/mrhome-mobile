@@ -6,12 +6,14 @@ export default function Category({ titleOfCategory, data, socket }) {
     <View style={styles.category}>
       <Text style={styles.categoryTitle}>{titleOfCategory}</Text>
       <View style={styles.controllersBlock}>
-
-        {data.map((elData) => {
-          return (
-            <ControllerItem data={elData.payload} key={elData.payload.id} socket={socket} />
-          )
-        })}
+        {data.length !== 0 ?
+          data.map((elData) => {
+            return (
+              <ControllerItem data={elData.payload} key={elData.payload.id} socket={socket} />
+            )
+          }) :
+          <Text style={styles.emptyList}>Нет добавленных контроллеров...</Text>
+        }
       </View>
     </View>
   )
@@ -27,14 +29,18 @@ const styles = StyleSheet.create({
   },
   categoryTitle: {
     marginLeft: 20,
+    fontSize: 20,
+  },
+  emptyList: {
+    marginHorizontal: "auto",
+    color:'#8b8b8b',
+    fontSize:18,
+    marginVertical:15,
   },
   controllersBlock: {
     width: "90%",
-    // paddingHorizontal:20,
     marginHorizontal: 'auto',
     marginTop: 10,
-    // padding:0,
-    // flex:1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between'

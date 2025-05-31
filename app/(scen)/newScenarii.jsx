@@ -64,9 +64,11 @@ export default function NewScen() {
   const [selectedItem, setSelectedItem] = useState("");
   const router = useRouter();
   return (
-    <SafeAreaView style={{ flex: '1' }}>
-      <ScrollView>
+    // <SafeAreaView style={{ flex: '1',backgroundColor:'white',height:'100%'}}>
+    <View style={{backgroundColor:'white',height:'100%'}}>
         <Header />
+
+      <ScrollView>
         <View style={styles.container}>
           <View style={styles.title}>
             <Text style={styles.titleText}>Новый сценарий</Text>
@@ -203,7 +205,8 @@ export default function NewScen() {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+      </View>
+    /* </SafeAreaView> */
 
   );
 }

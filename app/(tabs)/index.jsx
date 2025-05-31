@@ -21,9 +21,9 @@ export default function HomeScreen() {
       style={styles.background}
       resizeMode="cover"
     >
-      <SafeAreaView style={{ flex: 1 }}>
+      <Header/>
+      {/* <SafeAreaView style={{ flex: 1 }}> */}
       <ScrollView>
-        <Header />
         <Text style={styles.myGadgets}>Мои устройства</Text>
         <Category
           titleOfCategory={"Электронные устройства"}
@@ -36,7 +36,7 @@ export default function HomeScreen() {
           socket={socket}
         />
       </ScrollView>
-      </SafeAreaView>
+      {/* </SafeAreaView> */}
     </ImageBackground>
   );
 }

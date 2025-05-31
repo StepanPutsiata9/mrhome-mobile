@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, createContext, useMemo, useContext } from 
 import { AuthContext, AuthProvider } from '../Auth/AuthContext';
 import ScenariiProvider from "./(scen)/ScenariiContext"
 import LoadScreen from "../components/DevelopComponents/LoadScreen";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SocketContext = createContext({
   socket: { current: null },
@@ -55,6 +56,7 @@ function LayoutContent() {
           console.log("initial");
           console.log('====================================');
           setData(dataApi.dataObj);
+          console.log(data);
           setLoaded(true);
         } else if (dataApi.type === 'update') {
           setData(prev => ({

@@ -8,6 +8,7 @@ import EyeOpen from "../components/DevelopComponents/PhotosComponents/EyeOpen"
 import EyeClosed from "../components/DevelopComponents/PhotosComponents/EyeClosed"
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const LoginScreen = () => {
   const [loginInput, setLoginInput] = useState('');
@@ -57,61 +58,69 @@ const LoginScreen = () => {
 
   return (
     <View style={{ backgroundColor: 'white' }}>
-      <SafeAreaView>
-      <Header />
-      <View style={styles.conatiner}>
-        <Text style={styles.enter}>Войти</Text>
-        <TextInput
-          value={loginInput}
-          placeholder='Логин'
-          style={styles.input}
-          onChangeText={setLoginInput}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          placeholderTextColor="#999"
-        />
-
-        <View style={styles.inputView}>
+      {/* <SafeAreaView> */}
+        <Header />
+        <View style={styles.conatiner}>
+          <Text style={styles.enter}>Войти</Text>
           <TextInput
-            value={password}
-            placeholder='Пароль'
+            value={loginInput}
+            placeholder='Логин'
             style={styles.input}
-            onChangeText={setPassword}
-            secureTextEntry={!isVisible}
+            onChangeText={setLoginInput}
+            keyboardType="email-address"
+            autoCapitalize="none"
             placeholderTextColor="#999"
-
           />
-          <View style={styles.eye}>
-            <Pressable onPress={() => setIsVisible(!isVisible)}>
-              {isVisible ? <EyeOpen /> : <EyeClosed />}
-            </Pressable>
+
+          <View style={styles.inputView}>
+            <TextInput
+              value={password}
+              placeholder='Пароль'
+              style={styles.input}
+              onChangeText={setPassword}
+              secureTextEntry={!isVisible}
+              placeholderTextColor="#999"
+
+            />
+            <View style={styles.eye}>
+              <Pressable onPress={() => setIsVisible(!isVisible)}>
+                {isVisible ? <EyeOpen /> : <EyeClosed />}
+              </Pressable>
+            </View>
           </View>
+
+          {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
+
+          <TouchableOpacity onPress={() => {
+            router.push('/registration')
+          }}>
+            <Text style={styles.link}>Нет аккаунта? Зарегистрироваться</Text>
+          </TouchableOpacity>
+          {loading ? (
+            <ActivityIndicator />
+          ) : (<LinearGradient
+            colors={['#195dfc', '#4C82FF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.gradientBtn}
+          >
+            <TouchableOpacity
+              style={styles.logBtn}
+              activeOpacity={0.7}
+              onPress={handleLogin}
+            >
+              <Text style={styles.btnText}>Войти</Text>
+            </TouchableOpacity>
+          </LinearGradient>
+          )}
         </View>
-
-        {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
-
-        <TouchableOpacity onPress={() => {
-          router.push('/registration')
-        }}>
-          <Text style={styles.link}>Нет аккаунта? Зарегистрироваться</Text>
-        </TouchableOpacity>
-        {loading ? (
-          <ActivityIndicator />
-        ) : (<TouchableOpacity
-          style={styles.logBtn}
-          activeOpacity={0.7}
-          onPress={handleLogin}>
-          <Text style={styles.btnText}>Войти</Text>
-        </TouchableOpacity>
-        )}
-      </View>
-      </SafeAreaView>
+      {/* </SafeAreaView> */}
     </View>
   );
 };
 const styles = StyleSheet.create({
   conatiner: {
-    padding: 20,
+    paddingHorizontal: 20,
     height: "100%",
 
   },
@@ -122,21 +131,37 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   logBtn: {
-    borderRadius: 16,
-    backgroundColor: '#4C82FF',
-    paddingHorizontal: 60,
-    paddingVertical: 10,
+  borderRadius: 16,
+  paddingHorizontal: 60,
+  paddingVertical: 15,
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: 'transparent',
+},
+gradientBtn: {
+  borderRadius: 16,
+  shadowColor: '#4C82FF',
+  shadowOffset: {
+    width: 0,
+    height: 4,
   },
+  shadowOpacity: 0.3,
+  shadowRadius: 6,
+  elevation: 8,
+},
+btnText: {
+  color: 'white',
+  fontSize: 20,
+  fontWeight: '400',
+  textShadowColor: 'rgba(0, 0, 0, 0.2)',
+  textShadowOffset: { width: 1, height: 1 },
+  textShadowRadius: 2,
+},
   link: {
     color: '#4C82FF',
     fontSize: 14,
     textAlign: 'right',
     marginBottom: 15
-  },
-  btnText: {
-    color: 'white',
-    fontSize: 20,
-    margin: 'auto'
   },
   input: {
     height: 50,
@@ -158,3 +183,6 @@ const styles = StyleSheet.create({
 });
 
 export default LoginScreen;
+
+
+// #195dfc

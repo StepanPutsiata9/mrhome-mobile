@@ -14,7 +14,7 @@ import Slider from '@react-native-community/slider';
 import { SafeAreaView } from "react-native-safe-area-context";
 
 
-export default function AddCurtain({controller}) {
+export default function AddCurtain({ controller }) {
     const router = useRouter();
     const [isOpenGlow, setIsOpenGlow] = useState(false);
     const [isOpenCircle, setIsOpenCircle] = useState(false);
@@ -22,7 +22,7 @@ export default function AddCurtain({controller}) {
     const [isOpenSlider, setIsOpenSlider] = useState(false);
 
     const [state, setState] = useState("Выключить");
-    const {controllerState,setControllerState,setControllerStateScen}=useContext(ScenariiContext);
+    const { controllerState, setControllerState, setControllerStateScen } = useContext(ScenariiContext);
     const [color, setColor] = useState("");
     const items = ['Свечение', 'Мерцание', 'Затухание', 'Сплошной цвет'];
     const [sliderValue, setSliderValue] = useState();
@@ -34,37 +34,37 @@ export default function AddCurtain({controller}) {
         color: 'Цвет подсветки',
         brightness: "Яркость"
     };
-   
-      const addController = (newItem,newItemScen) => {
+
+    const addController = (newItem, newItemScen) => {
         setControllerState(prevItems => {
-          const itemIndex = prevItems.findIndex(item => item.title === newItem.title);
-          
-          if (itemIndex >= 0) {
-           
-            const updatedItems = [...prevItems];
-            updatedItems[itemIndex] = newItem;
-            return updatedItems;
-          } else {
-       
-            return [...prevItems, newItem];
-          }
+            const itemIndex = prevItems.findIndex(item => item.title === newItem.title);
+
+            if (itemIndex >= 0) {
+
+                const updatedItems = [...prevItems];
+                updatedItems[itemIndex] = newItem;
+                return updatedItems;
+            } else {
+
+                return [...prevItems, newItem];
+            }
         });
         setControllerStateScen(prevItems => {
-          const itemIndex = prevItems.findIndex(item => item.deviceId === newItemScen.deviceId);
-          
-          if (itemIndex >= 0) {
-            const updatedItems = [...prevItems];
-            updatedItems[itemIndex] = newItemScen;
-            return updatedItems;
-          } else {
-       
-            return [...prevItems, newItemScen];
-          }
+            const itemIndex = prevItems.findIndex(item => item.deviceId === newItemScen.deviceId);
+
+            if (itemIndex >= 0) {
+                const updatedItems = [...prevItems];
+                updatedItems[itemIndex] = newItemScen;
+                return updatedItems;
+            } else {
+
+                return [...prevItems, newItemScen];
+            }
         }
 
         )
 
-      };
+    };
     const handleColorChange = (colorObj) => {
         if (typeof colorObj === 'string') {
             setColor(colorObj);
@@ -79,208 +79,208 @@ export default function AddCurtain({controller}) {
 
 
     return (
-    <SafeAreaView style={{ flex: '1' ,backgroundColor: 'white',height:'100%'}}>    
-        <ScrollView style={styles.switch}>
+        <View style={{ flex: '1', backgroundColor: 'white', height: '100%' }}>
             <Header />
-            <View style={styles.title}>
-                <Text style={styles.titleText}>Новый сценарий</Text>
-                <Pressable onPress={() => router.back()}>
-                    <Back />
-                </Pressable>
-            </View>
-            <View style={styles.title}>
-                <View style={{ flexDirection: 'row' }}>
-                    <Text style={styles.titleTextController}>Умная подсветка</Text>
-                </View>
-            </View>
-
-            <View style={styles.itemsBlock}>
-                <View >
-                    <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
-                        setIsOpenState(true)
-                    }}>
-                        <Text>Состояние</Text>
-                        <Modal visible={isOpenState} transparent={true} animationType="fade">
-                            <Pressable style={styles.modalOverlay} onPress={() => setIsOpenState(false)}>
-                                <View style={styles.dropdownList}>
-                                    <Pressable
-                                        style={styles.item}
-                                        onPress={() => {
-                                            setState("Включить");
-                                            setIsOpenState(false);
-                                        }}
-                                    >
-                                        <Text >Включить</Text>
-                                    </Pressable>
-                                    <Pressable
-                                        style={styles.item}
-                                        onPress={() => {
-                                            setState("Выключить");
-                                            setSelectedGlow("");
-                                            setColor("");
-                                            setSliderValue("")
-                                            setIsOpenState(false);
-                                        }}
-                                    >
-                                        <Text >Выключить</Text>
-                                    </Pressable>
-                                </View>
-                            </Pressable>
-                        </Modal>
-                        <ToArrow />
+            <ScrollView style={styles.switch}>
+                <View style={styles.title}>
+                    <Text style={styles.titleText}>Новый сценарий</Text>
+                    <Pressable onPress={() => router.back()}>
+                        <Back />
                     </Pressable>
+                </View>
+                <View style={styles.title}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.titleTextController}>Умная подсветка</Text>
+                    </View>
+                </View>
 
-                </View>
-                <View>
-                    <Text style={{ color: '#8B8B8B' }}>{state}</Text>
-                </View>
-            </View>
-            <View style={styles.itemsBlock}>
-                <View >
-                    <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
-                        setIsOpenGlow(true)
-                    }}>
-                        <Text>Тип свечения</Text>
-                        <Modal visible={isOpenGlow} transparent={true} animationType="fade">
-                            <Pressable style={styles.modalOverlay} onPress={() => setIsOpenGlow(false)}>
-                                <View style={styles.dropdownList}>
-                                    {items.map((item, index) => (
+                <View style={styles.itemsBlock}>
+                    <View >
+                        <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
+                            setIsOpenState(true)
+                        }}>
+                            <Text>Состояние</Text>
+                            <Modal visible={isOpenState} transparent={true} animationType="fade">
+                                <Pressable style={styles.modalOverlay} onPress={() => setIsOpenState(false)}>
+                                    <View style={styles.dropdownList}>
                                         <Pressable
-                                            key={index}
                                             style={styles.item}
                                             onPress={() => {
-                                                setSelectedGlow(item);
                                                 setState("Включить");
-                                                setIsOpenGlow(false);
+                                                setIsOpenState(false);
                                             }}
                                         >
-                                            <Text >{item}</Text>
+                                            <Text >Включить</Text>
                                         </Pressable>
-                                    ))}
-                                </View>
-                            </Pressable>
-                        </Modal>
-                        <ToArrow />
-                    </Pressable>
+                                        <Pressable
+                                            style={styles.item}
+                                            onPress={() => {
+                                                setState("Выключить");
+                                                setSelectedGlow("");
+                                                setColor("");
+                                                setSliderValue("")
+                                                setIsOpenState(false);
+                                            }}
+                                        >
+                                            <Text >Выключить</Text>
+                                        </Pressable>
+                                    </View>
+                                </Pressable>
+                            </Modal>
+                            <ToArrow />
+                        </Pressable>
 
+                    </View>
+                    <View>
+                        <Text style={{ color: '#8B8B8B' }}>{state}</Text>
+                    </View>
                 </View>
-                <View>
-                    <Text style={{ color: '#8B8B8B' }}>{selectedGlow}</Text>
-                </View>
-            </View>
-            <View style={styles.itemsBlock}>
-                <View >
-                    <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
-                        setIsOpenCircle(true)
-                    }}>
-                        <Text>Цвет подсветки</Text>
-
-                        <Modal visible={isOpenCircle} transparent={true} animationType="fade">
-                            <Pressable style={styles.modalOverlay} onPress={() => setIsOpenCircle(false)}>
-                                <View style={styles.container}>
-                                    <View style={styles.preview}>
-                                        <View style={styles.close}>
-                                            <Pressable onPress={() => setIsOpenCircle(false)} style={{ width: 30, height: 30 }} >
-                                                <Close />
+                <View style={styles.itemsBlock}>
+                    <View >
+                        <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
+                            setIsOpenGlow(true)
+                        }}>
+                            <Text>Тип свечения</Text>
+                            <Modal visible={isOpenGlow} transparent={true} animationType="fade">
+                                <Pressable style={styles.modalOverlay} onPress={() => setIsOpenGlow(false)}>
+                                    <View style={styles.dropdownList}>
+                                        {items.map((item, index) => (
+                                            <Pressable
+                                                key={index}
+                                                style={styles.item}
+                                                onPress={() => {
+                                                    setSelectedGlow(item);
+                                                    setState("Включить");
+                                                    setIsOpenGlow(false);
+                                                }}
+                                            >
+                                                <Text >{item}</Text>
                                             </Pressable>
-                                        </View>
-                                        <View style={styles.container}>
-                                            <ColorPicker
-                                                color={color}
-                                                onColorChange={handleColorChange}
-                                                thumbSize={20}
-                                                sliderSize={20}
-                                                noSnap={true}
-                                                row={false}
-                                                style={styles.wheel}
-                                            />
-                                            <Text style={styles.text}>Цвет: {color}</Text>
+                                        ))}
+                                    </View>
+                                </Pressable>
+                            </Modal>
+                            <ToArrow />
+                        </Pressable>
 
+                    </View>
+                    <View>
+                        <Text style={{ color: '#8B8B8B' }}>{selectedGlow}</Text>
+                    </View>
+                </View>
+                <View style={styles.itemsBlock}>
+                    <View >
+                        <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
+                            setIsOpenCircle(true)
+                        }}>
+                            <Text>Цвет подсветки</Text>
+
+                            <Modal visible={isOpenCircle} transparent={true} animationType="fade">
+                                <Pressable style={styles.modalOverlay} onPress={() => setIsOpenCircle(false)}>
+                                    <View style={styles.container}>
+                                        <View style={styles.preview}>
+                                            <View style={styles.close}>
+                                                <Pressable onPress={() => setIsOpenCircle(false)} style={{ width: 30, height: 30 }} >
+                                                    <Close />
+                                                </Pressable>
+                                            </View>
+                                            <View style={styles.container}>
+                                                <ColorPicker
+                                                    color={color}
+                                                    onColorChange={handleColorChange}
+                                                    thumbSize={20}
+                                                    sliderSize={20}
+                                                    noSnap={true}
+                                                    row={false}
+                                                    style={styles.wheel}
+                                                />
+                                                <Text style={styles.text}>Цвет: {color}</Text>
+
+                                            </View>
                                         </View>
+                                    </View>
+                                </Pressable>
+                            </Modal>
+                            <ToArrow />
+                        </Pressable>
+                    </View>
+                    <View>
+                        <Text style={{ color: '#8B8B8B' }}>{color}</Text>
+                    </View>
+                </View>
+                <View style={styles.itemsBlock}>
+                    <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
+                        setIsOpenSlider(true)
+                    }}>
+                        <Text>Яркость</Text>
+                        <Modal visible={isOpenSlider} transparent={true} animationType="fade">
+                            <Pressable style={styles.modalOverlay} onPress={() => setIsOpenSlider(false)}>
+                                <View style={styles.container}>
+                                    <View style={styles.previewSlider}>
+                                        <Slider
+                                            minimumValue={1}
+                                            maximumValue={100}
+                                            step={1}
+                                            value={sliderValue}
+                                            onValueChange={(value) => {
+                                                setState("Включить");
+                                                setSliderValue(Math.round(value));
+                                            }
+                                            }
+                                            minimumTrackTintColor="#4C82FF"
+                                            maximumTrackTintColor="#000000"
+                                            thumbTintColor="#4C82FF"
+                                        />
+                                        <Text style={styles.text}>Яркость: {sliderValue}</Text>
                                     </View>
                                 </View>
                             </Pressable>
                         </Modal>
                         <ToArrow />
                     </Pressable>
+                    <View>
+                        <Text style={{ color: '#8B8B8B' }}>{sliderValue}</Text>
+                    </View>
                 </View>
-                <View>
-                    <Text style={{ color: '#8B8B8B' }}>{color}</Text>
-                </View>
-            </View>
-            <View style={styles.itemsBlock}>
-                <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
-                    setIsOpenSlider(true)
-                }}>
-                    <Text>Яркость</Text>
-                    <Modal visible={isOpenSlider} transparent={true} animationType="fade">
-                        <Pressable style={styles.modalOverlay} onPress={() => setIsOpenSlider(false)}>
-                            <View style={styles.container}>
-                                <View style={styles.previewSlider}>
-                                    <Slider
-                                        minimumValue={1}
-                                        maximumValue={100}
-                                        step={1}
-                                        value={sliderValue}
-                                        onValueChange={(value) => {
-                                            setState("Включить");
-                                            setSliderValue(Math.round(value));
-                                        }
-                                        }
-                                        minimumTrackTintColor="#4C82FF"
-                                        maximumTrackTintColor="#000000"
-                                        thumbTintColor="#4C82FF"
-                                    />
-                                    <Text style={styles.text}>Яркость: {sliderValue}</Text>
-                                </View>
-                            </View>
-                        </Pressable>
-                    </Modal>
-                    <ToArrow />
-                </Pressable>
-                <View>
-                    <Text style={{ color: '#8B8B8B' }}>{sliderValue}</Text>
-                </View>
-            </View>
-            <View style={styles.btnBlock}>
-                <TouchableOpacity
-                    style={styles.btn}
-                    activeOpacity={0.7}
-                    onPress={() => {
-                        addController(
-                            {
-                                title: 'Умная подсветка',
-                                payload: {
-                                    [labels.state]: state || null,
-                                    [labels.glowType]: selectedGlow || null,
-                                    [labels.color]: color || null,
-                                    [labels.brightness]: sliderValue || null,
+                <View style={styles.btnBlock}>
+                    <TouchableOpacity
+                        style={styles.btn}
+                        activeOpacity={0.7}
+                        onPress={() => {
+                            addController(
+                                {
+                                    title: 'Умная подсветка',
+                                    payload: {
+                                        [labels.state]: state || null,
+                                        [labels.glowType]: selectedGlow || null,
+                                        [labels.color]: color || null,
+                                        [labels.brightness]: sliderValue || null,
 
+                                    }
+                                },
+                                {
+                                    type: "command",
+                                    deviceId: controller.deviceId,
+                                    deviceType: controller.deviceType,
+                                    commandName: state === "Выключить" ? "off" : "set_pamars",
+                                    params: state === "Включить" ?
+                                        {
+                                            state: state,
+                                            glow: selectedGlow,
+                                            color: color,
+                                            brightness: sliderValue,
+                                        }
+                                        :
+                                        {}
                                 }
-                            },
-                           {
-                          type:"command",
-                          deviceId:controller.deviceId,
-                          deviceType:controller.deviceType,
-                          commandName:state==="Выключить"?"off":"set_pamars",
-                          params:state==="Включить"?
-                          {
-                            state:state,
-                            glow:selectedGlow,
-                            color:color,
-                            brightness:sliderValue,
-                          }
-                          :
-                          {}
-                        }
-                        );
-                        router.back();
-                    }}>
-                    <Text style={styles.btnText}>Добавить</Text>
-                </TouchableOpacity>
-            </View>
-        </ScrollView>
-        </SafeAreaView>
+                            );
+                            router.back();
+                        }}>
+                        <Text style={styles.btnText}>Добавить</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+        </View>
     )
 }
 

@@ -44,10 +44,9 @@ export default function AddSwitch({ controller }) {
 
     };
     return (
-        <SafeAreaView style={{ flex: '1', backgroundColor: 'white', height: '100%' }}>
-
+        <View style={{ flex: '1', backgroundColor: 'white', height: '100%' }}>
+            <Header />
             <ScrollView style={styles.switch}>
-                <Header />
                 <View style={styles.title}>
                     <Text style={styles.titleText}>Новый сценарий</Text>
                     <Pressable onPress={() => router.back()}>
@@ -106,71 +105,71 @@ export default function AddSwitch({ controller }) {
                     </TouchableOpacity>
                 </View>
             </ScrollView>
-            </SafeAreaView>
-            )
+        </View>
+    )
 }
 
-            const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     switch: {
-                backgroundColor: "white",
-            width: "100%",
+        backgroundColor: "white",
+        width: "100%",
         // paddingTop: 50,
     },
-            title: {
-                flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingHorizontal: 20,
-            marginVertical: 10
+    title: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        marginVertical: 10
     },
-            titleText: {
-                fontSize: 24,
+    titleText: {
+        fontSize: 24,
         // marginLeft:10,
     },
-            titleTextController: {
-                fontSize: 18
+    titleTextController: {
+        fontSize: 18
     },
-            infoLine: {
-                flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: 25,
-            marginVertical: 5,
-            marginBottom: 20
+    infoLine: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 25,
+        marginVertical: 5,
+        marginBottom: 20
     },
-            infoLineText: {
-                fontSize: 16,
+    infoLineText: {
+        fontSize: 16,
     },
-            status: {
-                color: "#8B8B8B",
-            fontSize: 16
+    status: {
+        color: "#8B8B8B",
+        fontSize: 16
     },
-            onOff: {
-                marginTop: 30,
-            marginBottom: 30,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: 50
+    onOff: {
+        marginTop: 30,
+        marginBottom: 30,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 50
     },
-            infoText: {
-                fontFamily: "Roboto",
-            fontSize: 16,
-            color: "#8B8B8B"
+    infoText: {
+        fontFamily: "Roboto",
+        fontSize: 16,
+        color: "#8B8B8B"
     },
-            btnBlock: {
-                paddingHorizontal: 20,
+    btnBlock: {
+        paddingHorizontal: 20,
     },
-            btn: {
-                borderRadius: 16,
-            backgroundColor: '#4C82FF',
+    btn: {
+        borderRadius: 16,
+        backgroundColor: '#4C82FF',
 
-            paddingHorizontal: 60,
-            paddingVertical: 12,
-            marginVertical: 10
+        paddingHorizontal: 60,
+        paddingVertical: 12,
+        marginVertical: 10
     },
-            btnText: {
-                color: 'white',
-            fontSize: 18,
-            margin: 'auto'
+    btnText: {
+        color: 'white',
+        fontSize: 18,
+        margin: 'auto'
 
     },
 });

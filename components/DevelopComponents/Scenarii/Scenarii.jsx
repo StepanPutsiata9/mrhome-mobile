@@ -146,7 +146,6 @@ export function ModalScen({ item }) {
                     <Pressable
                         hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
                         onPress={() =>
-
                             Alert.alert(
                                 'Удаление сценария',
                                 'Вы точно хотите удалить этот сценарий?',
