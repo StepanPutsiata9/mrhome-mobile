@@ -14,9 +14,10 @@ export default function SmartSwitch({ data, socket }) {
   const [on, setOn] = useState(data.payload.state == "on" ? true : false);
   const [off, setOff] = useState(!on);
   return (
-    <ScrollView style={styles.switch}>
-      <SafeAreaView>
-        <Header />
+    <View style={{ backgroundColor: 'white' }}>
+      <Header />
+      <ScrollView style={styles.switch}>
+        {/* <SafeAreaView> */}
         <View style={styles.title}>
           <View style={{ flexDirection: 'row' }}>
             <SwitchOutline color={"#4C82FF"} />
@@ -72,8 +73,10 @@ export default function SmartSwitch({ data, socket }) {
             {off ? <Text style={{ color: '#4C82FF' }}>Выключен</Text> : <Text style={{ color: '#8B8B8B' }}>Выключен</Text>}
           </View>
         </View>
-      </SafeAreaView>
-    </ScrollView>
+        {/* </SafeAreaView> */}
+      </ScrollView>
+    </View>
+
   )
 }
 

@@ -15,67 +15,71 @@ export default function SmartCurtain({ data, socket }) {
   const [on, setOn] = useState(data.payload.state == "on" ? true : false);
   const [off, setOff] = useState(!on);
   return (
-    <ScrollView style={styles.switch}>
-      <SafeAreaView>
+    <View style={{ backgroundColor: 'white' }}>
       <Header />
-      <View style={styles.title}>
-        <View style={{ flexDirection: 'row' }}>
-          <Shtora color={"#4C82FF"} />
-          <View>
-            <Text style={styles.titleText}>Умная роль-штора</Text>
+
+      <ScrollView style={styles.switch}>
+        {/* <SafeAreaView> */}
+        <View style={styles.title}>
+          <View style={{ flexDirection: 'row' }}>
+            <Shtora color={"#4C82FF"} />
+            <View>
+              <Text style={styles.titleText}>Умная роль-штора</Text>
+            </View>
+          </View>
+          <Pressable onPress={() => router.back()}>
+            <Back />
+          </Pressable>
+        </View>
+        <View style={styles.info}>
+          <View style={styles.infoLine}>
+            <Text style={styles.infoText}>Открывайте и закрывайте роль-шторы тогда,
+              когда вам нужно — вручную через приложение или автоматически.</Text>
+          </View>
+          <View style={styles.infoLine}>
+            <Text style={styles.infoLineText}>Состояние</Text>
+            <Text style={styles.status}>{data.payload.state === "on" ? "Открыта" : "Закрыта"}</Text>
           </View>
         </View>
-        <Pressable onPress={() => router.back()}>
-          <Back />
-        </Pressable>
-      </View>
-      <View style={styles.info}>
-        <View style={styles.infoLine}>
-          <Text style={styles.infoText}>Открывайте и закрывайте роль-шторы тогда,
-            когда вам нужно — вручную через приложение или автоматически.</Text>
-        </View>
-        <View style={styles.infoLine}>
-          <Text style={styles.infoLineText}>Состояние</Text>
-          <Text style={styles.status}>{data.payload.state === "on" ? "Открыта" : "Закрыта"}</Text>
-        </View>
-      </View>
-      <View style={styles.onOff}>
-        <View style={{ alignItems: 'center' }}>
-          <Pressable disabled={on} onPress={async () => {
-            await socket.current.send(JSON.stringify(
-              {
-                topic: data.topic,
-                deviceType: data.payload.deviceType,
-                command: 'turn_on'
-              }
-            ));
-            setOn(!on);
-            setOff(!off)
-          }}>
-            <ShtoraOpen color={on ? "#4C82FF" : "#8B8B8B"} />
-          </Pressable>
-          {on ? <Text style={{ color: '#4C82FF' }}>Открыта</Text> : <Text style={{ color: '#8B8B8B' }}>Открыта</Text>}
+        <View style={styles.onOff}>
+          <View style={{ alignItems: 'center' }}>
+            <Pressable disabled={on} onPress={async () => {
+              await socket.current.send(JSON.stringify(
+                {
+                  topic: data.topic,
+                  deviceType: data.payload.deviceType,
+                  command: 'turn_on'
+                }
+              ));
+              setOn(!on);
+              setOff(!off)
+            }}>
+              <ShtoraOpen color={on ? "#4C82FF" : "#8B8B8B"} />
+            </Pressable>
+            {on ? <Text style={{ color: '#4C82FF' }}>Открыта</Text> : <Text style={{ color: '#8B8B8B' }}>Открыта</Text>}
 
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            <Pressable disabled={off} onPress={async () => {
+              await socket.current.send(JSON.stringify(
+                {
+                  topic: data.topic,
+                  deviceType: data.payload.deviceType,
+                  command: 'turn_off'
+                }
+              ));
+              setOn(!on);
+              setOff(!off)
+            }}>
+              <ShtoraClose color={off ? "#4C82FF" : "#8B8B8B"} />
+            </Pressable>
+            {off ? <Text style={{ color: '#4C82FF' }}>Закрыта</Text> : <Text style={{ color: '#8B8B8B' }}>Закрыта</Text>}
+          </View>
         </View>
-        <View style={{ alignItems: 'center' }}>
-          <Pressable disabled={off} onPress={async () => {
-            await socket.current.send(JSON.stringify(
-              {
-                topic: data.topic,
-                deviceType: data.payload.deviceType,
-                command: 'turn_off'
-              }
-            ));
-            setOn(!on);
-            setOff(!off)
-          }}>
-            <ShtoraClose color={off ? "#4C82FF" : "#8B8B8B"} />
-          </Pressable>
-          {off ? <Text style={{ color: '#4C82FF' }}>Закрыта</Text> : <Text style={{ color: '#8B8B8B' }}>Закрыта</Text>}
-        </View>
-      </View>
-      </SafeAreaView>
-    </ScrollView>
+        {/* </SafeAreaView> */}
+      </ScrollView>
+    </View>
+
   )
 }
 
