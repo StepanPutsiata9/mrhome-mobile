@@ -10,7 +10,7 @@ import LightOff from "../PhotosComponents/LightOff"
 import { Header } from "../Header"
 import ColorPicker from 'react-native-wheel-color-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { LinearGradient } from 'expo-linear-gradient';
 
 export const SmartLight = ({ data, socket }) => {
   const [color, setColor] = useState(data.payload.color);
@@ -150,6 +150,12 @@ export const SmartLight = ({ data, socket }) => {
 
 
       <View style={{ margin: "auto", marginBottom: 45 }}>
+          <LinearGradient
+                colors={['#195dfc', '#4C82FF']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.gradientBtn}
+              >
         <TouchableOpacity
           style={styles.btn}
           activeOpacity={0.7}
@@ -166,7 +172,6 @@ export const SmartLight = ({ data, socket }) => {
                 }
               }
             ));
-
             setOn(true);
             setOff(false);
             Alert.alert('Параметры настройки успешно изменены!')
@@ -174,6 +179,7 @@ export const SmartLight = ({ data, socket }) => {
         >
           <Text style={styles.btnText}>Изменить настройки</Text>
         </TouchableOpacity>
+        </LinearGradient>
       </View>
       </SafeAreaView>
 
@@ -198,6 +204,33 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     zIndex: 0,
+  },
+  gradientBtn: {
+    borderRadius: 16,
+    shadowColor: '#4C82FF',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
+  },
+  btn: {
+    borderRadius: 16,
+    paddingHorizontal: 60,
+    paddingVertical: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
+  btnText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '400',
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   container: {
     flex: 1,

@@ -12,7 +12,7 @@ import { ScenariiContext } from "../ScenariiContext";
 import ColorPicker from 'react-native-wheel-color-picker';
 import Slider from '@react-native-community/slider';
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function AddCurtain({ controller }) {
     const router = useRouter();
@@ -243,41 +243,48 @@ export default function AddCurtain({ controller }) {
                     </View>
                 </View>
                 <View style={styles.btnBlock}>
-                    <TouchableOpacity
-                        style={styles.btn}
-                        activeOpacity={0.7}
-                        onPress={() => {
-                            addController(
-                                {
-                                    title: 'Умная подсветка',
-                                    payload: {
-                                        [labels.state]: state || null,
-                                        [labels.glowType]: selectedGlow || null,
-                                        [labels.color]: color || null,
-                                        [labels.brightness]: sliderValue || null,
+                    <LinearGradient
+                        colors={['#195dfc', '#4C82FF']}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={styles.gradientBtn}
+                    >
+                        <TouchableOpacity
+                            style={styles.btn}
+                            activeOpacity={0.7}
+                            onPress={() => {
+                                addController(
+                                    {
+                                        title: 'Умная подсветка',
+                                        payload: {
+                                            [labels.state]: state || null,
+                                            [labels.glowType]: selectedGlow || null,
+                                            [labels.color]: color || null,
+                                            [labels.brightness]: sliderValue || null,
 
-                                    }
-                                },
-                                {
-                                    type: "command",
-                                    deviceId: controller.deviceId,
-                                    deviceType: controller.deviceType,
-                                    commandName: state === "Выключить" ? "off" : "set_pamars",
-                                    params: state === "Включить" ?
-                                        {
-                                            state: state,
-                                            glow: selectedGlow,
-                                            color: color,
-                                            brightness: sliderValue,
                                         }
-                                        :
-                                        {}
-                                }
-                            );
-                            router.back();
-                        }}>
-                        <Text style={styles.btnText}>Добавить</Text>
-                    </TouchableOpacity>
+                                    },
+                                    {
+                                        type: "command",
+                                        deviceId: controller.deviceId,
+                                        deviceType: controller.deviceType,
+                                        commandName: state === "Выключить" ? "off" : "set_pamars",
+                                        params: state === "Включить" ?
+                                            {
+                                                state: state,
+                                                glow: selectedGlow,
+                                                color: color,
+                                                brightness: sliderValue,
+                                            }
+                                            :
+                                            {}
+                                    }
+                                );
+                                router.back();
+                            }}>
+                            <Text style={styles.btnText}>Добавить</Text>
+                        </TouchableOpacity>
+                    </LinearGradient>
                 </View>
             </ScrollView>
         </View>
@@ -302,6 +309,33 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         width: "100%",
         // paddingTop:50,
+    },
+    gradientBtn: {
+        borderRadius: 16,
+        shadowColor: '#4C82FF',
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        elevation: 8,
+    },
+      btn: {
+        borderRadius: 16,
+        paddingHorizontal: 60,
+        paddingVertical: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
+    },
+    btnText: {
+        color: 'white',
+        fontSize: 20,
+        fontWeight: '400',
+        textShadowColor: 'rgba(0, 0, 0, 0.2)',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 2,
     },
     title: {
         flexDirection: 'row',
@@ -346,19 +380,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         marginTop: 20,
     },
-    btn: {
-        borderRadius: 16,
-        backgroundColor: '#4C82FF',
-        paddingHorizontal: 60,
-        paddingVertical: 12,
-        marginVertical: 10
-    },
-    btnText: {
-        color: 'white',
-        fontSize: 18,
-        margin: 'auto'
-
-    },
+  
     itemsBlock: {
         flexDirection: 'row',
         justifyContent: 'space-between',
