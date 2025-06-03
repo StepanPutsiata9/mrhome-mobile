@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, Modal, Pressable, Alert } from 'react-native';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { ScenariiContext } from '@/app/(scen)/ScenariiContext';
 import Close from "../PhotosComponents/Close"
 import Points from "../PhotosComponents/Points"
@@ -19,6 +19,7 @@ import CloudySun from "../PhotosComponents/CloudySun"
 import CloudyMoon from "../PhotosComponents/CloudyMoon"
 import CPU from "../PhotosComponents/CPU"
 import axios from "axios"
+import { SocketContext } from '@/app/_layout';
 
 const componentsIcon = {
     sunrise: <SunRise />,
@@ -44,12 +45,23 @@ const toggleModal = (id, data, callback) => {
             : scen
     ));
 };
+
 const api = axios.create({
     baseURL: 'http://testyandex.onrender.com/',
 });
 
+
 export default function Scenarii({ item }) {
     const { scenariiState, setScenariiState } = useContext(ScenariiContext);
+    const { socket } = useContext(SocketContext)
+    const activeScen = (id) => {
+        socket.current.send(JSON.stringify(
+            {
+                command: 'activateScen',
+                id: id,
+            }
+        ));
+    };
     return (
         <>
             <Modal visible={item.state.modalVisible} animationType="fade"

@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "components/ui/IconSymbol.jsx", "app/_layout.jsx", "app/(tabs)/index.оsx", "app/controllerInfo.jsx", "app/(tabs)/scen.jsx", "app/+not-found.jsx"  ]
+, "components/ui/IconSymbol.jsx", "app/_layout.jsx", "app/(tabs)/index.оsx", "app/controllerInfo.jsx", "app/(tabs)/scen.jsx", "app/+not-found.jsx", "components/DevelopComponents/Scenarii/Scenarii.jsx"  ]
 }
