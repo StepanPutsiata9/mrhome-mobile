@@ -126,8 +126,8 @@ export default function AddCurtain({ controller }) {
                   {
                     title: "Умная роль-штора",
                     payload: {
-                      [labels.state]: (on ? "Включать" : "Выключать"),
-                      [labels.targetServoPos]: (on ? sliderValue : "0"),
+                      [labels.state]: (on ? "Открывать" : "Закрывать"),
+                      [labels.targetServoPos]: (on ? sliderValue :null),
                     }
                   },
                   {

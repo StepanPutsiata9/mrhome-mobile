@@ -177,7 +177,7 @@ export default function NewScen() {
                     <View style={styles.infoView}>
                       <View style={styles.commandView}>
                         {keys.map((i, index) => {
-                          if (i != null) return <Text style={{ marginBottom: 5 }} key={index}>{i}</Text>
+                          if (item.payload[i]!= null) return <Text style={{ marginBottom: 5 }} key={index}>{i}</Text>
                         })}
                       </View>
                       <View style={styles.stateView}>

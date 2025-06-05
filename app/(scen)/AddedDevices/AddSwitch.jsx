@@ -281,9 +281,9 @@ export default function AddSwitch({ controller }) {
                                         title: "Умный выключатель",
                                         payload: {
                                             [labels.state]: (on ? "Включать" : "Выключать"),
-                                            [labels.angle]: (on ? sliderValue : "0"),
-                                            [labels.min_temp]: (on ? minTemp : "-"),
-                                            [labels.max_temp]: (on ? maxTemp : "-"),
+                                            [labels.angle]: (on? sliderValue : null),
+                                            [labels.min_temp]: (on ? minTemp :null),
+                                            [labels.max_temp]: (on ? maxTemp :null),
                                         }
                                     },
                                     {

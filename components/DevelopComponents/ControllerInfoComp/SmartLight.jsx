@@ -25,8 +25,8 @@ export const SmartLight = ({ data, socket }) => {
   };
   const [color, setColor] = useState(data.payload.color);
   const [isOpen, setIsOpen] = useState(false);
-  const startEffect=Object.keys(effectArr).find((key)=>{
-    if(key == data.payload.effect){
+  const startEffect = Object.keys(effectArr).find((key) => {
+    if (key == data.payload.effect) {
       return key
     }
   })
@@ -109,96 +109,101 @@ export const SmartLight = ({ data, socket }) => {
 
           </View>
         </View>
-        <Text style={styles.settingsText}>Параметры настройки</Text>
-        <View style={styles.container}>
-          <ColorPicker
-            color={color}
-            onColorChange={handleColorChange}
-            thumbSize={20}
-            sliderSize={20}
-            noSnap={true}
-            row={false}
-            style={styles.wheel}
-          />
-          <Text style={styles.text}>Цвет: {color}</Text>
-        </View>
-        <View style={styles.container}>
-          <Pressable
-            style={styles.dropdownButton}
-            onPress={() => setIsOpen(!isOpen)}
-          >
-            <Text style={styles.selectedItem}>{selectedItem}</Text>
-          </Pressable>
+        {on ?
+          <View>
+            <Text style={styles.settingsText}>Параметры настройки</Text>
+            <View style={styles.container}>
+              <ColorPicker
+                color={color}
+                onColorChange={handleColorChange}
+                thumbSize={20}
+                sliderSize={20}
+                noSnap={true}
+                row={false}
+                style={styles.wheel}
+              />
+              <Text style={styles.text}>Цвет: {color}</Text>
+            </View>
+            <View style={styles.container}>
+              <Pressable
+                style={styles.dropdownButton}
+                onPress={() => setIsOpen(!isOpen)}
+              >
+                <Text style={styles.selectedItem}>{selectedItem}</Text>
+              </Pressable>
 
-          <Modal visible={isOpen} transparent={true} animationType="fade">
-            <Pressable style={styles.modalOverlay} onPress={() => setIsOpen(false)}>
-              <View style={styles.dropdownList}>
-                {items.map((item, index) => (
-                  <Pressable
-                    key={index}
-                    style={styles.item}
-                    onPress={() => {
-                      setSelectedItem(item);
-                      setIsOpen(false);
-                    }}
-                  >
-                    <Text>{item}</Text>
-                  </Pressable>
-                ))}
-              </View>
-            </Pressable>
-          </Modal>
-        </View>
-        <View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
-          <Text style={styles.sliderText}>Яркость: {sliderValue}</Text>
-          <Slider
-            minimumValue={1}
-            maximumValue={100}
-            step={1}
-            value={sliderValue}
-            onValueChange={(value) => setSliderValue(Math.round(value))}
-            minimumTrackTintColor="#4C82FF"
-            maximumTrackTintColor="#000000"
-            thumbTintColor="#4C82FF"
-          />
-        </View>
+              <Modal visible={isOpen} transparent={true} animationType="fade">
+                <Pressable style={styles.modalOverlay} onPress={() => setIsOpen(false)}>
+                  <View style={styles.dropdownList}>
+                    {items.map((item, index) => (
+                      <Pressable
+                        key={index}
+                        style={styles.item}
+                        onPress={() => {
+                          setSelectedItem(item);
+                          setIsOpen(false);
+                        }}
+                      >
+                        <Text>{item}</Text>
+                      </Pressable>
+                    ))}
+                  </View>
+                </Pressable>
+              </Modal>
+            </View>
+            <View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
+              <Text style={styles.sliderText}>Яркость: {sliderValue}</Text>
+              <Slider
+                minimumValue={1}
+                maximumValue={100}
+                step={1}
+                value={sliderValue}
+                onValueChange={(value) => setSliderValue(Math.round(value))}
+                minimumTrackTintColor="#4C82FF"
+                maximumTrackTintColor="#000000"
+                thumbTintColor="#4C82FF"
+              />
+            </View>
 
 
-        <View style={{ margin: "auto", marginBottom: 65 }}>
-          <LinearGradient
-            colors={['#195dfc', '#4C82FF']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.gradientBtn}
-          >
-            <TouchableOpacity
-              style={styles.btn}
-              activeOpacity={0.7}
-              onPress={async () => {
-                await socket.current.send(JSON.stringify(
-                  {
-                    topic: data.topic,
-                    deviceType: data.payload.deviceType,
-                    command: 'set_params',
-                    params: {
-                      color: color,
-                      brightness: sliderValue,
-                      glow: Object.keys(effectArr).find(
-                        key => effectArr[key] === selectedItem
-                      )
-                    }
-                  }
-                ));
-                setOn(true);
-                setOff(false);
-                Alert.alert('Параметры настройки успешно изменены!')
-              }}
-            >
-              <Text style={styles.btnText}>Изменить настройки</Text>
-            </TouchableOpacity>
-          </LinearGradient>
-        </View>
-        {/* </SafeAreaView> */}
+            <View style={{ margin: "auto", marginBottom: 65 }}>
+              <LinearGradient
+                colors={['#195dfc', '#4C82FF']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.gradientBtn}
+              >
+                <TouchableOpacity
+                  style={styles.btn}
+                  activeOpacity={0.7}
+                  onPress={async () => {
+                    await socket.current.send(JSON.stringify(
+                      {
+                        topic: data.topic,
+                        deviceType: data.payload.deviceType,
+                        command: 'set_params',
+                        params: {
+                          color: color,
+                          brightness: sliderValue,
+                          glow: Object.keys(effectArr).find(
+                            key => effectArr[key] === selectedItem
+                          )
+                        }
+                      }
+                    ));
+                    setOn(true);
+                    setOff(false);
+                    Alert.alert('Параметры настройки успешно изменены!')
+                  }}
+                >
+                  <Text style={styles.btnText}>Изменить настройки</Text>
+                </TouchableOpacity>
+              </LinearGradient>
+            </View>
+            {/* </SafeAreaView> */}
+          </View>
+          : null
+        }
 
       </ScrollView>
     </View>

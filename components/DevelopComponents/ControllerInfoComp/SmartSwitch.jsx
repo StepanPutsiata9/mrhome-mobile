@@ -200,8 +200,9 @@ export default function SmartSwitch({ data, socket }) {
         </View>
 
 
-
-        <View style={styles.temperatureContainer}>
+        {on ?
+          <View>
+                    <View style={styles.temperatureContainer}>
           <Text style={styles.sectionTitle}>Настройки температуры</Text>
 
           <View style={styles.temperatureInputContainer}>
@@ -266,6 +267,8 @@ export default function SmartSwitch({ data, socket }) {
             </TouchableOpacity>
           </LinearGradient>
         </View>
+          </View>
+          : null}
       </ScrollView>
     </View>
   );
