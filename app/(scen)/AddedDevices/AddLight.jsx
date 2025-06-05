@@ -24,9 +24,18 @@ export default function AddCurtain({ controller }) {
     const [state, setState] = useState("Выключить");
     const { controllerState, setControllerState, setControllerStateScen } = useContext(ScenariiContext);
     const [color, setColor] = useState("");
-    const items = ['Свечение', 'Мерцание', 'Затухание', 'Сплошной цвет'];
-    const [sliderValue, setSliderValue] = useState();
 
+    const items = ["Чтение", 'Ночь', 'Вечеринка', 'Джунгли', "Неон", "Свеча", "Цвет"];
+    const effectArr = {
+        reading: "Чтение",
+        night: "Ночь",
+        party: "Вечеринка",
+        jungle: 'Джунгли',
+        neon: "Неон",
+        candle: "Свеча",
+        color: "Цвет",
+    };
+    const [sliderValue, setSliderValue] = useState();
     const [selectedGlow, setSelectedGlow] = useState("");
     const labels = {
         state: 'Состояние',
@@ -272,7 +281,9 @@ export default function AddCurtain({ controller }) {
                                         params: state === "Включить" ?
                                             {
                                                 state: state,
-                                                glow: selectedGlow,
+                                                glow: Object.keys(effectArr).find(
+                                                    key => effectArr[key] === selectedGlow
+                                                ),
                                                 color: color,
                                                 brightness: sliderValue,
                                             }
@@ -321,7 +332,7 @@ const styles = StyleSheet.create({
         shadowRadius: 6,
         elevation: 8,
     },
-      btn: {
+    btn: {
         borderRadius: 16,
         paddingHorizontal: 60,
         paddingVertical: 15,
@@ -380,7 +391,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         marginTop: 20,
     },
-  
+
     itemsBlock: {
         flexDirection: 'row',
         justifyContent: 'space-between',

@@ -13,10 +13,24 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export const SmartLight = ({ data, socket }) => {
+  const items = ["Чтение", 'Ночь', 'Вечеринка', 'Джунгли', "Неон", "Свеча", "Цвет"];
+  const effectArr = {
+    reading: "Чтение",
+    night: "Ночь",
+    party: "Вечеринка",
+    jungle: 'Джунгли',
+    neon: "Неон",
+    candle: "Свеча",
+    color: "Цвет",
+  };
   const [color, setColor] = useState(data.payload.color);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(data.payload.effect);
-  const items = ['Свечение', 'Мерцание', 'Затухание', 'Сплошной цвет'];
+  const startEffect=Object.keys(effectArr).find((key)=>{
+    if(key == data.payload.effect){
+      return key
+    }
+  })
+  const [selectedItem, setSelectedItem] = useState(effectArr[startEffect]);
   const [sliderValue, setSliderValue] = useState(Number(data.payload.brightness));
   const [on, setOn] = useState(data.payload.state);
   const [off, setOff] = useState(!on);
@@ -30,7 +44,7 @@ export const SmartLight = ({ data, socket }) => {
     }
   };
   return (
-    <View style={{ backgroundColor: 'white',height:"100%" }}>
+    <View style={{ backgroundColor: 'white', height: "100%" }}>
       <Header />
       <ScrollView style={{ backgroundColor: 'white' }}>
         {/* <SafeAreaView> */}
@@ -169,7 +183,9 @@ export const SmartLight = ({ data, socket }) => {
                     params: {
                       color: color,
                       brightness: sliderValue,
-                      glow: selectedItem
+                      glow: Object.keys(effectArr).find(
+                        key => effectArr[key] === selectedItem
+                      )
                     }
                   }
                 ));
@@ -207,33 +223,33 @@ const styles = StyleSheet.create({
     height: '100%',
     zIndex: 0,
   },
-        gradientBtn: {
-        borderRadius: 16,
-        shadowColor: '#4C82FF',
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        elevation: 8,
+  gradientBtn: {
+    borderRadius: 16,
+    shadowColor: '#4C82FF',
+    shadowOffset: {
+      width: 0,
+      height: 4,
     },
-      btn: {
-        borderRadius: 16,
-        paddingHorizontal: 60,
-        paddingVertical: 15,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'transparent',
-    },
-    btnText: {
-        color: 'white',
-        fontSize: 20,
-        fontWeight: '400',
-        textShadowColor: 'rgba(0, 0, 0, 0.2)',
-        textShadowOffset: { width: 1, height: 1 },
-        textShadowRadius: 2,
-    },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
+  },
+  btn: {
+    borderRadius: 16,
+    paddingHorizontal: 60,
+    paddingVertical: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
+  btnText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '400',
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

@@ -8,7 +8,9 @@ import ShtoraOpen from "../../../components/DevelopComponents/PhotosComponents/S
 import ShtoraClose from "../../../components/DevelopComponents/PhotosComponents/ShtoraClose";
 import { ScenariiContext } from "../ScenariiContext";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {LinearGradient} from "expo-linear-gradient"
+import { LinearGradient } from "expo-linear-gradient"
+import Slider from '@react-native-community/slider';
+
 export default function AddCurtain({ controller }) {
 
   const router = useRouter();
@@ -17,7 +19,11 @@ export default function AddCurtain({ controller }) {
   const { controllerState, setControllerState, setControllerStateScen } = useContext(ScenariiContext);
   const labels = {
     state: 'Состояние',
+    targetServoPos: 'Уровень открытия шторы'
+
   };
+  const [sliderValue, setSliderValue] = useState(50);
+
   const addController = (newItem, newItemScen) => {
     setControllerState(prevItems => {
       const itemIndex = prevItems.findIndex(item => item.title === newItem.title);
@@ -88,6 +94,23 @@ export default function AddCurtain({ controller }) {
             {off ? <Text style={{ color: '#4C82FF' }}>Закрывать</Text> : <Text style={{ color: '#8B8B8B' }}>Закрывать</Text>}
           </View>
         </View>
+        {on ?
+          <View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
+            <Text style={styles.sliderText}>Уровень открытия штор: {sliderValue}</Text>
+            <Slider
+              minimumValue={1}
+              maximumValue={100}
+              step={1}
+              value={sliderValue}
+              onValueChange={(value) => setSliderValue(Math.round(value))}
+              minimumTrackTintColor="#4C82FF"
+              maximumTrackTintColor="#000000"
+              thumbTintColor="#4C82FF"
+            />
+          </View> :
+              null
+        }
+
         <View style={styles.btnBlock}>
           <LinearGradient
             colors={['#195dfc', '#4C82FF']}
@@ -103,7 +126,8 @@ export default function AddCurtain({ controller }) {
                   {
                     title: "Умная роль-штора",
                     payload: {
-                      [labels.state]: (on ? "Включать" : "Выключать")
+                      [labels.state]: (on ? "Включать" : "Выключать"),
+                      [labels.targetServoPos]: (on ? sliderValue : "0"),
                     }
                   },
                   {
@@ -111,6 +135,17 @@ export default function AddCurtain({ controller }) {
                     deviceId: controller.deviceId,
                     deviceType: controller.deviceType,
                     commandName: on ? "on" : "off",
+                    // commandName: !on ? "off" : "set_pamars",
+                    // params: on ?
+                    //   {
+                    //     state: on,
+                    //     targetServoPos: sliderValue,
+                    //   }
+                    //   :
+                    //   {}
+
+
+
                   }
                 );
                 router.back();
@@ -119,8 +154,8 @@ export default function AddCurtain({ controller }) {
             </TouchableOpacity>
           </LinearGradient>
         </View>
-      </ScrollView>
-    </View>
+      </ScrollView >
+    </View >
   )
 }
 
@@ -159,32 +194,35 @@ const styles = StyleSheet.create({
   btnBlock: {
     paddingHorizontal: 20,
   },
-    gradientBtn: {
-        borderRadius: 16,
-        shadowColor: '#4C82FF',
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        elevation: 8,
+  gradientBtn: {
+    borderRadius: 16,
+    shadowColor: '#4C82FF',
+    shadowOffset: {
+      width: 0,
+      height: 4,
     },
-      btn: {
-        borderRadius: 16,
-        paddingHorizontal: 60,
-        paddingVertical: 15,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'transparent',
-    },
-    btnText: {
-        color: 'white',
-        fontSize: 20,
-        fontWeight: '400',
-        textShadowColor: 'rgba(0, 0, 0, 0.2)',
-        textShadowOffset: { width: 1, height: 1 },
-        textShadowRadius: 2,
-    },
-
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
+  },
+  btn: {
+    borderRadius: 16,
+    paddingHorizontal: 60,
+    paddingVertical: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
+  btnText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '400',
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
+  sliderText: {
+    fontSize: 18,
+    marginBottom: 3
+  },
 });
