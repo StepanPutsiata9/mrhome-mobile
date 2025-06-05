@@ -53,8 +53,6 @@ export default function AddControllersToScenarii() {
                     </Pressable>
                   </View>
                 )
-
-
               })
               :
               <Text style={styles.emptyList}>Нет приборов для добавления в сценарий...</Text>

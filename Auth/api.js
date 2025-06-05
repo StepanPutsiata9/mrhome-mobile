@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getTokens, storeTokens } from './authStorage';
 
 const api = axios.create({
-  baseURL: 'http://testyandex.onrender.com/',
+  baseURL: 'http://testyandex.onrender.com/auth',
 });
 
 api.interceptors.request.use(async (config) => {

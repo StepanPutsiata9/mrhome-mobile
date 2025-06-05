@@ -14,7 +14,7 @@ export default function SmartSwitch({ data, socket }) {
   const [on, setOn] = useState(data.payload.state == "on" ? true : false);
   const [off, setOff] = useState(!on);
   return (
-    <View style={{ backgroundColor: 'white' }}>
+    <View style={{ backgroundColor: 'white',height:"100%" }}>
       <Header />
       <ScrollView style={styles.switch}>
         {/* <SafeAreaView> */}
@@ -22,7 +22,7 @@ export default function SmartSwitch({ data, socket }) {
           <View style={{ flexDirection: 'row' }}>
             <SwitchOutline color={"#4C82FF"} />
             <View>
-              <Text style={styles.titleText}>Умный выключатель</Text>
+              <Text style={styles.titleText}>Умное окно</Text>
             </View>
           </View>
           <Pressable onPress={() => router.back()}>
@@ -31,7 +31,7 @@ export default function SmartSwitch({ data, socket }) {
         </View>
         <View style={styles.info}>
           <View style={styles.infoLine}>
-            <Text style={styles.infoText}>Включайте и выключайте свет, розетки и другие устройства удалённо
+            <Text style={styles.infoText}>Настраивайте работку умного окна удалённо
               — через смартфон или с помощью голосового помощника.</Text>
           </View>
           <View style={styles.infoLine}>

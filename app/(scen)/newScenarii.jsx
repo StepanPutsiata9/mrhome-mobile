@@ -23,9 +23,10 @@ import { ScenariiContext } from './ScenariiContext';
 import axios from "axios"
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-const api = axios.create({
-  baseURL: 'http://testyandex.onrender.com/',
-});
+import { api } from './ScenariiContext';
+// const api = axios.create({
+//   baseURL: 'http://testyandex.onrender.com/',
+// });
 export default function NewScen() {
 
   const { socket, data } = useContext(SocketContext);
@@ -33,10 +34,13 @@ export default function NewScen() {
     setScenCount, controllerStateScen, setControllerStateScen
   } = useContext(ScenariiContext);
 
-  const fetchNewScen = async (newScen) => {
-    const data = api.post('/scenarios/post', newScen);
-    const response = await data.response;
-    setScenariiState(response);
+  const fetchNewScen = (newScen) => {
+    const setNew = async () => {
+      const data = api.post('/create', newScen);
+      const response = await data.response;
+      setScenariiState(response);
+    }
+    setNew();
   }
 
 
@@ -113,7 +117,6 @@ export default function NewScen() {
                 </Modal>
                 <ToArrow />
               </Pressable>
-
             </View>
             <View>
               <Text>{selectedItem}</Text>
@@ -318,20 +321,33 @@ const styles = StyleSheet.create({
   btnBlock: {
     marginTop: 20,
   },
-  btn: {
-    borderRadius: 16,
-    backgroundColor: '#4C82FF',
-
-    paddingHorizontal: 60,
-    paddingVertical: 15,
-    marginVertical: 10
-  },
-  btnText: {
-    color: 'white',
-    fontSize: 16,
-    margin: 'auto'
-
-  },
+ gradientBtn: {
+        borderRadius: 16,
+        shadowColor: '#4C82FF',
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        elevation: 8,
+    },
+      btn: {
+        borderRadius: 16,
+        paddingHorizontal: 60,
+        paddingVertical: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
+    },
+    btnText: {
+        color: 'white',
+        fontSize: 20,
+        fontWeight: '400',
+        textShadowColor: 'rgba(0, 0, 0, 0.2)',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 2,
+    },
   viewConroller: {
     paddingHorizontal: 10,
     marginVertical: 5

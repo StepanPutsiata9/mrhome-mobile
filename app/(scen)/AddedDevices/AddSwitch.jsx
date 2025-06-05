@@ -8,6 +8,7 @@ import SwitchOn from "../../../components/DevelopComponents/PhotosComponents/Swi
 import SwitchOff from "../../../components/DevelopComponents/PhotosComponents/SwitchOff";
 import { ScenariiContext } from "../ScenariiContext";
 import { SafeAreaView } from "react-native-safe-area-context";
+import {LinearGradient} from "expo-linear-gradient"
 export default function AddSwitch({ controller }) {
     const router = useRouter();
     const [on, setOn] = useState(true);
@@ -81,28 +82,35 @@ export default function AddSwitch({ controller }) {
                     </View>
                 </View>
                 <View style={styles.btnBlock}>
-                    <TouchableOpacity
-                        style={styles.btn}
-                        activeOpacity={0.7}
-                        onPress={() => {
-                            addController(
-                                {
-                                    title: "Умный выключатель",
-                                    payload: {
-                                        [labels.state]: (on ? "Включать" : "Выключать")
+                    <LinearGradient
+                        colors={['#195dfc', '#4C82FF']}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={styles.gradientBtn}
+                    >
+                        <TouchableOpacity
+                            style={styles.btn}
+                            activeOpacity={0.7}
+                            onPress={() => {
+                                addController(
+                                    {
+                                        title: "Умный выключатель",
+                                        payload: {
+                                            [labels.state]: (on ? "Включать" : "Выключать")
+                                        }
+                                    },
+                                    {
+                                        type: "command",
+                                        deviceId: controller.deviceId,
+                                        deviceType: controller.deviceType,
+                                        commandName: on ? "on" : "off",
                                     }
-                                },
-                                {
-                                    type: "command",
-                                    deviceId: controller.deviceId,
-                                    deviceType: controller.deviceType,
-                                    commandName: on ? "on" : "off",
-                                }
-                            );
-                            router.back();
-                        }}>
-                        <Text style={styles.btnText}>Добавить</Text>
-                    </TouchableOpacity>
+                                );
+                                router.back();
+                            }}>
+                            <Text style={styles.btnText}>Добавить</Text>
+                        </TouchableOpacity>
+                    </LinearGradient>
                 </View>
             </ScrollView>
         </View>
@@ -158,18 +166,31 @@ const styles = StyleSheet.create({
     btnBlock: {
         paddingHorizontal: 20,
     },
-    btn: {
+      gradientBtn: {
         borderRadius: 16,
-        backgroundColor: '#4C82FF',
-
+        shadowColor: '#4C82FF',
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        elevation: 8,
+    },
+      btn: {
+        borderRadius: 16,
         paddingHorizontal: 60,
-        paddingVertical: 12,
-        marginVertical: 10
+        paddingVertical: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
     },
     btnText: {
         color: 'white',
-        fontSize: 18,
-        margin: 'auto'
-
+        fontSize: 20,
+        fontWeight: '400',
+        textShadowColor: 'rgba(0, 0, 0, 0.2)',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 2,
     },
 });

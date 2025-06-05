@@ -20,7 +20,7 @@ import CloudyMoon from "../PhotosComponents/CloudyMoon"
 import CPU from "../PhotosComponents/CPU"
 import axios from "axios"
 import { SocketContext } from '@/app/_layout';
-
+import { api } from '@/app/(scen)/ScenariiContext';
 const componentsIcon = {
     sunrise: <SunRise />,
     briefcase: <Briefcase />,
@@ -46,9 +46,9 @@ const toggleModal = (id, data, callback) => {
     ));
 };
 
-const api = axios.create({
-    baseURL: 'http://testyandex.onrender.com/',
-});
+// const api = axios.create({
+//     baseURL: 'http://testyandex.onrender.com/scenarios',
+// });
 
 
 export default function Scenarii({ item }) {
@@ -57,13 +57,13 @@ export default function Scenarii({ item }) {
     const activeScen = (id) => {
         socket.current.send(JSON.stringify(
             {
-                command: 'activateScen',
+                type: 'scenario',
                 id: id,
             }
         ));
     };
     return (
-        <>
+        <Pressable onPress={()=>{activeScen(item.id)}}>
             <Modal visible={item.state.modalVisible} animationType="fade"
                 transparent={true}>
                 <ModalScen item={item} />
@@ -92,7 +92,7 @@ export default function Scenarii({ item }) {
                     }) : null}
                 </View>
             </View>
-        </>
+        </Pressable>
 
     );
 }

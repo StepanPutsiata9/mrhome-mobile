@@ -10,28 +10,32 @@ import axios from "axios"
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from "expo-linear-gradient"
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { api } from "../(scen)/ScenariiContext"
 export default function TabTwoScreen() {
   const { socket, data } = useContext(SocketContext);
   const router = useRouter();
   const { scenariiState, setScenariiState } = useContext(ScenariiContext);
   const [loading, setLoading] = useState(null);
-  const api = axios.create({
-    baseURL: 'http://testyandex.onrender.com/',
-  });
+  // const api = axios.create({
+  //   baseURL: 'http://testyandex.onrender.com/scenarios',
+  // });
   const insets = useSafeAreaInsets();
   useEffect(() => {
     const fetchScen = async () => {
-      setLoading(true);
-      // fetch scen
-      const data = api.get("/scenarios/all");
-      const response = await data.response;
-      setLoading(false);
-      // setScenariiState(response);
-    }
+      try {
+        setLoading(true);
+        const { data } = await api.get("/all");
+        console.log("response data", data);
+        setScenariiState(data);
+      } catch (error) {
+        console.error("Ошибка при загрузке сценариев:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchScen();
-  }, [])
+  }, []);
   return (
-
     <ImageBackground
       source={require('../../assets/images/Background.png')}
       style={styles.background}
@@ -61,9 +65,7 @@ export default function TabTwoScreen() {
           </View>
         }
       </ScrollView>
-
-
-       {!loading && (
+      {!loading && (
         <View style={[styles.plusContainer, { bottom: insets.bottom + 60 }]}>
           <LinearGradient
             colors={['#195dfc', '#4C82FF']}
@@ -79,11 +81,7 @@ export default function TabTwoScreen() {
           </LinearGradient>
         </View>
       )}
-      {/* </SafeAreaView > */}
-
     </ImageBackground >
-
-
   );
 }
 
@@ -121,7 +119,7 @@ const styles = StyleSheet.create({
     bottom: 20,
     right: 20,
     zIndex: 10,
-    
+
   },
   plus: {
     width: 60,
@@ -131,7 +129,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-   gradientBtn: {
+  gradientBtn: {
     width: 60,
     height: 60,
     borderRadius: 30,

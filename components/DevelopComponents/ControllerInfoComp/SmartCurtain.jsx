@@ -15,7 +15,7 @@ export default function SmartCurtain({ data, socket }) {
   const [on, setOn] = useState(data.payload.state == "on" ? true : false);
   const [off, setOff] = useState(!on);
   return (
-    <View style={{ backgroundColor: 'white' }}>
+    <View style={{ backgroundColor: 'white',height:"100%" }}>
       <Header />
 
       <ScrollView style={styles.switch}>

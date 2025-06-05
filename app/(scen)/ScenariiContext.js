@@ -1,7 +1,9 @@
 import { createContext, useState } from "react";
-
+import axios from "axios"
 const ScenariiContext = createContext();
-
+export const api = axios.create({
+  baseURL: 'http://testyandex.onrender.com/scenarios',
+});
 export default function ScenariiProvider({ children }) {
   const [scenariiState, setScenariiState] = useState([]);
   const [controllerState, setControllerState] = useState([]);

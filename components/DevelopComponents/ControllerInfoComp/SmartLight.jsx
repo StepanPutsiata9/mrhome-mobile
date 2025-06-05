@@ -30,7 +30,7 @@ export const SmartLight = ({ data, socket }) => {
     }
   };
   return (
-    <View style={{ backgroundColor: 'white' }}>
+    <View style={{ backgroundColor: 'white',height:"100%" }}>
       <Header />
       <ScrollView style={{ backgroundColor: 'white' }}>
         {/* <SafeAreaView> */}
@@ -150,7 +150,7 @@ export const SmartLight = ({ data, socket }) => {
         </View>
 
 
-        <View style={{ margin: "auto", marginBottom: 45 }}>
+        <View style={{ margin: "auto", marginBottom: 65 }}>
           <LinearGradient
             colors={['#195dfc', '#4C82FF']}
             start={{ x: 0, y: 0 }}
@@ -218,22 +218,33 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 8,
   },
-  btn: {
-    borderRadius: 16,
-    paddingHorizontal: 60,
-    paddingVertical: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-  },
-  btnText: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: '400',
-    textShadowColor: 'rgba(0, 0, 0, 0.2)',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 2,
-  },
+       gradientBtn: {
+        borderRadius: 16,
+        shadowColor: '#4C82FF',
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        elevation: 8,
+    },
+      btn: {
+        borderRadius: 16,
+        paddingHorizontal: 60,
+        paddingVertical: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
+    },
+    btnText: {
+        color: 'white',
+        fontSize: 20,
+        fontWeight: '400',
+        textShadowColor: 'rgba(0, 0, 0, 0.2)',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 2,
+    },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -281,21 +292,6 @@ const styles = StyleSheet.create({
   status: {
     color: "#8B8B8B",
     fontSize: 16
-  },
-  btn: {
-    borderRadius: 16,
-    backgroundColor: '#4C82FF',
-
-    paddingHorizontal: 60,
-    paddingVertical: 10,
-    marginVertical: 10,
-    marginBottom: 50,
-
-  },
-  btnText: {
-    color: 'white',
-    fontSize: 20,
-    paddingVertical: 3,
   },
   dropdownButton: {
     paddingHorizontal: 50,
