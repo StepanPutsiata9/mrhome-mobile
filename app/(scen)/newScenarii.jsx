@@ -24,6 +24,7 @@ import axios from "axios"
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { api } from './ScenariiContext';
+import { AuthContext } from '../../Auth/AuthContext';
 // const api = axios.create({
 //   baseURL: 'http://testyandex.onrender.com/',
 // });
@@ -33,15 +34,53 @@ export default function NewScen() {
   const { controllerState, setControllerState, scenariiState, setScenariiState, scenCount,
     setScenCount, controllerStateScen, setControllerStateScen
   } = useContext(ScenariiContext);
-
+  const { token } = useContext(AuthContext)
   const fetchNewScen = (newScen) => {
-    const setNew = async () => {
-      const data = api.post('/create', newScen);
-      const response = await data.response;
-      setScenariiState(response);
-    }
-    setNew();
-  }
+    const setNew = async (scenario) => {
+      if (!token) {
+        console.error('Ошибка: токен отсутствует');
+        return;
+      }
+
+      try {
+        const response = await axios.post(
+          'https://testyandex.onrender.com/scenarios/create',
+          scenario,
+          {
+            headers: {
+              "Authorization": `Bearer ${token.trim()}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        console.log('Полный ответ:', response.data);
+
+        // Проверяем структуру ответа
+        const dataScen = response.data.scenarios || response.data;
+
+        // Обновляем состояние в зависимости от структуры данных
+        if (Array.isArray(dataScen)) {
+          setScenariiState(dataScen);
+        } else {
+          setScenariiState(prev => [...prev, dataScen]);
+        }
+
+      } catch (error) {
+        console.error('Ошибка:', {
+          status: error.response?.status,
+          data: error.response?.data,
+          message: error.message
+        });
+
+        if (error.response?.status === 401) {
+          // Обработка неавторизованного доступа
+        }
+      }
+    };
+
+    setNew(newScen);
+  };
 
 
   const [title, setTitle] = useState("");
@@ -174,21 +213,33 @@ export default function NewScen() {
                   activeOpacity={0.7}
 
                   onPress={() => {
-                    setScenariiState(prev => [
-                      {
-                        state: {
-                          title: title || "Без названия",
-                          icon: Object.keys(componentsIcon).find(
-                            key => componentsIcon[key].type === selectedItem.type
-                          ) || "default",
-                          modalVisible: false,
-                          controllerState: controllerState,
-                        },
-                        steps: controllerStateScen,
-                        id: scenCount,
-                      }
-                      , ...prev
-                    ])
+                    fetchNewScen({
+                      state: {
+                        title: title || "Без названия",
+                        icon: Object.keys(componentsIcon).find(
+                          key => componentsIcon[key].type === selectedItem.type
+                        ) || "default",
+                        modalVisible: false,
+                        controllerState: controllerState,
+                      },
+                      steps: controllerStateScen,
+                      id: scenCount,
+                    })
+                    // setScenariiState(prev => [
+                    //   {
+                    //     state: {
+                    //       title: title || "Без названия",
+                    //       icon: Object.keys(componentsIcon).find(
+                    //         key => componentsIcon[key].type === selectedItem.type
+                    //       ) || "default",
+                    //       modalVisible: false,
+                    //       controllerState: controllerState,
+                    //     },
+                    //     steps: controllerStateScen,
+                    //     id: scenCount,
+                    //   }
+                    //   , ...prev
+                    // ])
                     // fetchNewScen(
                     //   {
                     //     state: {
@@ -321,33 +372,33 @@ const styles = StyleSheet.create({
   btnBlock: {
     marginTop: 20,
   },
- gradientBtn: {
-        borderRadius: 16,
-        shadowColor: '#4C82FF',
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        elevation: 8,
+  gradientBtn: {
+    borderRadius: 16,
+    shadowColor: '#4C82FF',
+    shadowOffset: {
+      width: 0,
+      height: 4,
     },
-      btn: {
-        borderRadius: 16,
-        paddingHorizontal: 60,
-        paddingVertical: 15,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'transparent',
-    },
-    btnText: {
-        color: 'white',
-        fontSize: 20,
-        fontWeight: '400',
-        textShadowColor: 'rgba(0, 0, 0, 0.2)',
-        textShadowOffset: { width: 1, height: 1 },
-        textShadowRadius: 2,
-    },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
+  },
+  btn: {
+    borderRadius: 16,
+    paddingHorizontal: 60,
+    paddingVertical: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
+  btnText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '400',
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
   viewConroller: {
     paddingHorizontal: 10,
     marginVertical: 5

@@ -11,8 +11,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from "expo-linear-gradient"
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api } from "../(scen)/ScenariiContext"
+import { AuthContext } from '@/Auth/AuthContext';
+
 export default function TabTwoScreen() {
   const { socket, data } = useContext(SocketContext);
+  const { token } = useContext(AuthContext);
+
   const router = useRouter();
   const { scenariiState, setScenariiState } = useContext(ScenariiContext);
   const [loading, setLoading] = useState(null);
@@ -23,18 +27,32 @@ export default function TabTwoScreen() {
   useEffect(() => {
     const fetchScen = async () => {
       try {
-        setLoading(true);
-        const { data } = await api.get("/all");
-        console.log("response data", data);
-        setScenariiState(data);
+        console.log("Токен:", token);
+        const response = await axios.get(
+          "https://testyandex.onrender.com/scenarios/all/",
+          {
+            headers: {
+              "Authorization": `Bearer ${token.trim()}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setScenariiState(response.data.scenarios);
+        console.log('====================================');
+        console.log(scenariiState);
+        console.log('====================================');
       } catch (error) {
-        console.error("Ошибка при загрузке сценариев:", error);
-      } finally {
-        setLoading(false);
+        console.error(
+          "Ошибка:",
+          error.response?.data || error.message
+        );
+        if (error.response?.status === 401) {
+          console.log("Токен недействителен, перенаправляем на логин...");
+        }
       }
     };
     fetchScen();
-  }, []);
+  }, [token]);
   return (
     <ImageBackground
       source={require('../../assets/images/Background.png')}

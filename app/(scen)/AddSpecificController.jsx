@@ -8,11 +8,11 @@ import AddLight from "./AddedDevices/AddLight"
 export default function AddSpecificController() {
     const controller = useLocalSearchParams();
     switch (controller.deviceType) {
-        case "curtain":
+        case "shtora":
             return <AddCurtain controller={controller} />;
-        case "switch":
+        case "window":
             return <AddSwitch controller={controller} />;
-        case "light":
+        case "RGB_LED":
             return <AddLight controller={controller} />;
     }
 }

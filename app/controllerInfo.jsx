@@ -30,11 +30,11 @@ export default function ControllerInfo() {
     }
 
     switch (controllerData.payload.deviceType) {
-      case "light":
+      case "RGB_LED":
         return <SmartLight data={controllerData} socket={socket} />;
-      case "switch":
+      case "window":
         return <SmartSwitch data={controllerData} socket={socket} />;
-      case "curtain":
+      case "shtora":
         return <SmartCurtain data={controllerData} socket={socket} />;
       case "tempSensor":
         return <TempSensor data={controllerData} socket={socket} />;

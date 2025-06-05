@@ -53,73 +53,74 @@ function LayoutContent() {
         const dataApi = JSON.parse(event.data);
         if (dataApi.type === 'initial') {
           console.log("initial");
-          setData({
-            "electro": [
-              {
-                "type": "electro",
-                "topic": "smart_switch",
-                "payload": {
-                  "id": 6,
-                  "title": "1",
-                  "deviceType": "switch",
-                  "deviceId": "switch1",
-                  "state": "on"
-                }
-              },
-              {
-                "type": "electro",
-                "topic": "smart_light",
-                "payload": {
-                  "id": 10,
-                  "title": "2",
-                  "deviceType": "light",
-                  "deviceId": "light1",
-                  "state": "on",
-                  "color": "#ffffff",
-                  "brightness": "70",
-                  "glow": "qwert"
-                }
-              },
-              {
-                "type": "electro",
-                "topic": "smart_curtain",
-                "payload": {
-                  "id": 9,
-                  "title": "3",
-                  "deviceType": "curtain",
-                  "deviceId": "curtain1",
-                  "state": "on"
-                }
-              }
-            ],
-            "sensors": [
-              {
-                "type": "sensor",
-                "topic": "smart_moveSensor",
-                "payload": {
-                  "id": 8,
-                  "title": "4",
-                  "deviceType": "moveSensor",
-                  "deviceId": "moveSensor1",
-                  "state": "on",
-                  "lastMove": "23.05 18:25"
-                }
-              },
-              {
-                "type": "sensor",
-                "topic": "smart_tempSensor",
-                "payload": {
-                  "id": 7,
-                  "title": "5",
-                  "deviceType": "tempSensor",
-                  "deviceId": "tempSensor1",
-                  "state": "on",
-                  "temp": "25"
-                }
-              }
-            ]
-          }
-          );
+          // setData({
+          //   "electro": [
+          //     {
+          //       "type": "electro",
+          //       "topic": "smart_switch",
+          //       "payload": {
+          //         "id": 6,
+          //         "title": "1",
+          //         "deviceType": "switch",
+          //         "deviceId": "switch1",
+          //         "state": "on"
+          //       }
+          //     },
+          //     {
+          //       "type": "electro",
+          //       "topic": "smart_light",
+          //       "payload": {
+          //         "id": 10,
+          //         "title": "2",
+          //         "deviceType": "light",
+          //         "deviceId": "light1",
+          //         "state": "on",
+          //         "color": "#ffffff",
+          //         "brightness": "70",
+          //         "glow": "qwert"
+          //       }
+          //     },
+          //     {
+          //       "type": "electro",
+          //       "topic": "smart_curtain",
+          //       "payload": {
+          //         "id": 9,
+          //         "title": "3",
+          //         "deviceType": "curtain",
+          //         "deviceId": "curtain1",
+          //         "state": "on"
+          //       }
+          //     }
+          //   ],
+          //   "sensors": [
+          //     {
+          //       "type": "sensor",
+          //       "topic": "smart_moveSensor",
+          //       "payload": {
+          //         "id": 8,
+          //         "title": "4",
+          //         "deviceType": "moveSensor",
+          //         "deviceId": "moveSensor1",
+          //         "state": "on",
+          //         "lastMove": "23.05 18:25"
+          //       }
+          //     },
+          //     {
+          //       "type": "sensor",
+          //       "topic": "smart_tempSensor",
+          //       "payload": {
+          //         "id": 7,
+          //         "title": "5",
+          //         "deviceType": "tempSensor",
+          //         "deviceId": "tempSensor1",
+          //         "state": "on",
+          //         "temp": "25"
+          //       }
+          //     }
+          //   ]
+          // }
+          // );
+          setData(dataApi.dataObj);
           console.log(data);
           setLoaded(true);
         } else if (dataApi.type === 'update') {

@@ -54,16 +54,22 @@ const toggleModal = (id, data, callback) => {
 export default function Scenarii({ item }) {
     const { scenariiState, setScenariiState } = useContext(ScenariiContext);
     const { socket } = useContext(SocketContext)
-    const activeScen = (id) => {
-        socket.current.send(JSON.stringify(
+    console.log('====================================');
+    console.log(item.state);
+    console.log('====================================');
+    const activeScen = async (id, name) => {
+        await socket.current.send(JSON.stringify(
             {
                 type: 'scenario',
                 id: id,
             }
         ));
+        Alert.alert(
+            `Сценарий ${name} успешно активирован`,
+        )
     };
     return (
-        <Pressable onPress={()=>{activeScen(item.id)}}>
+        <Pressable onPress={() => { activeScen(item.id, item.state.title) }}>
             <Modal visible={item.state.modalVisible} animationType="fade"
                 transparent={true}>
                 <ModalScen item={item} />

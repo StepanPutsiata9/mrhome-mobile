@@ -10,7 +10,7 @@ import MoveOff from "../PhotosComponents/MoveOff"
 import { SafeAreaView } from "react-native-safe-area-context";
 export default function MoveSensor({ data, socket }) {
   const router = useRouter();
-  const [on, setOn] = useState(data.payload.state == "on" ? true : false);
+  const [on, setOn] = useState(data.payload.state);
   const [off, setOff] = useState(!on);
   return (
     <View style={{ backgroundColor: 'white',height:"100%" }}>

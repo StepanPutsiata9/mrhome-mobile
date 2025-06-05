@@ -25,13 +25,13 @@ export default function ControllerItem({ data, socket }) {
   //     break;
   // }
   switch (data.deviceType) {
-    case "light":
+    case "RGB_LED":
       photo = <Light color={"#4C82FF"} />
       break;
-    case "switch":
+    case "window":
       photo = <SwitchOutline color={"#4C82FF"} />
       break;
-    case "curtain":
+    case "shtora":
       photo = <Shtora color={"#4C82FF"} />
       break;
     case "tempSensor":

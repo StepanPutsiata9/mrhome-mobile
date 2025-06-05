@@ -15,11 +15,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 export const SmartLight = ({ data, socket }) => {
   const [color, setColor] = useState(data.payload.color);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(data.payload.glow);
+  const [selectedItem, setSelectedItem] = useState(data.payload.effect);
   const items = ['Свечение', 'Мерцание', 'Затухание', 'Сплошной цвет'];
   const [sliderValue, setSliderValue] = useState(Number(data.payload.brightness));
-  const [on, setOn] = useState(data.payload.state == "on" ? true : false);
-  const [off, setOff] = useState(data.payload.state == "off" ? true : false);
+  const [on, setOn] = useState(data.payload.state);
+  const [off, setOff] = useState(!on);
   const router = useRouter();
   const handleColorChange = (colorObj) => {
     if (typeof colorObj === 'string') {
@@ -207,18 +207,7 @@ const styles = StyleSheet.create({
     height: '100%',
     zIndex: 0,
   },
-  gradientBtn: {
-    borderRadius: 16,
-    shadowColor: '#4C82FF',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 8,
-  },
-       gradientBtn: {
+        gradientBtn: {
         borderRadius: 16,
         shadowColor: '#4C82FF',
         shadowOffset: {

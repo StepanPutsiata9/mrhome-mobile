@@ -1,20 +1,23 @@
 import { ScrollView, Text } from "react-native";
-import { View, StyleSheet, Pressable } from "react-native"
+import { View, StyleSheet, Pressable,TouchableOpacity } from "react-native"
 import { Header } from "../Header";
 import Back from "../PhotosComponents/Back"
 import SwitchOutline from "../PhotosComponents/SwitchOutline";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-
+import Slider from '@react-native-community/slider';
 import SwitchOn from "../PhotosComponents/SwitchOn"
 import SwitchOff from "../PhotosComponents/SwitchOff"
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 export default function SmartSwitch({ data, socket }) {
   const router = useRouter();
-  const [on, setOn] = useState(data.payload.state == "on" ? true : false);
+  const [on, setOn] = useState(data.payload.state);
   const [off, setOff] = useState(!on);
+  const [sliderValue, setSliderValue] = useState(Number(data.payload.angle));
+
   return (
-    <View style={{ backgroundColor: 'white',height:"100%" }}>
+    <View style={{ backgroundColor: 'white', height: "100%" }}>
       <Header />
       <ScrollView style={styles.switch}>
         {/* <SafeAreaView> */}
@@ -73,6 +76,49 @@ export default function SmartSwitch({ data, socket }) {
             {off ? <Text style={{ color: '#4C82FF' }}>Выключен</Text> : <Text style={{ color: '#8B8B8B' }}>Выключен</Text>}
           </View>
         </View>
+        <View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
+          <Text style={styles.sliderText}>Угол открытия: {sliderValue}</Text>
+          <Slider
+            minimumValue={1}
+            maximumValue={100}
+            step={1}
+            value={sliderValue}
+            onValueChange={(value) => setSliderValue(Math.round(value))}
+            minimumTrackTintColor="#4C82FF"
+            maximumTrackTintColor="#000000"
+            thumbTintColor="#4C82FF"
+          />
+        </View>
+        <View style={{ margin: "auto", marginBottom: 65 }}>
+          <LinearGradient
+            colors={['#195dfc', '#4C82FF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.gradientBtn}
+          >
+            <TouchableOpacity
+              style={styles.btn}
+              activeOpacity={0.7}
+              onPress={async () => {
+                await socket.current.send(JSON.stringify(
+                  {
+                    topic: data.topic,
+                    deviceType: data.payload.deviceType,
+                    command: 'set_params',
+                    params: {
+                      targetServoPos: sliderValue,
+                    }
+                  }
+                ));
+                setOn(true);
+                setOff(false);
+                Alert.alert('Параметры настройки успешно изменены!')
+              }}
+            >
+              <Text style={styles.btnText}>Изменить настройки</Text>
+            </TouchableOpacity>
+          </LinearGradient>
+        </View>
         {/* </SafeAreaView> */}
       </ScrollView>
     </View>
@@ -123,5 +169,36 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto",
     fontSize: 16,
     color: "#8B8B8B"
+  },
+  sliderText: {
+    fontSize: 18,
+    marginBottom: 3
+  },
+  gradientBtn: {
+    borderRadius: 16,
+    shadowColor: '#4C82FF',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
+  },
+  btn: {
+    borderRadius: 16,
+    paddingHorizontal: 60,
+    paddingVertical: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
+  btnText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '400',
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
 });
