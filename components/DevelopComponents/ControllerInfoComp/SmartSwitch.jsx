@@ -19,26 +19,23 @@ export default function SmartSwitch({ data, socket }) {
   const [maxTemp, setMaxTemp] = useState('30');
   const [errors, setErrors] = useState({});
 
-  // Более строгая проверка ввода
   const formatTemperature = (value) => {
-    // Разрешаем только цифры, точку или запятую
     let formattedValue = value.replace(/[^0-9.,]/g, '');
 
-    // Заменяем запятую на точку
+
     formattedValue = formattedValue.replace(',', '.');
 
-    // Удаляем лишние точки
     const parts = formattedValue.split('.');
     if (parts.length > 2) {
       formattedValue = parts[0] + (parts[1] ? '.' + parts[1] : '');
     }
 
-    // Ограничиваем одну цифру после точки
+
     if (parts.length === 2 && parts[1].length > 1) {
       formattedValue = parts[0] + '.' + parts[1].charAt(0);
     }
 
-    // Удаляем ведущие нули (кроме случая "0.5")
+  
     if (parts[0].length > 1 && parts[0][0] === '0' && parts[0][1] !== '.') {
       formattedValue = formattedValue.substring(1);
     }
@@ -49,14 +46,13 @@ export default function SmartSwitch({ data, socket }) {
   const validateInput = (name, value, checkEmpty = true) => {
     const newErrors = { ...errors };
 
-    // Проверка на пустое значение
+
     if (checkEmpty && value.trim() === '') {
       newErrors[name] = 'Введите значение';
       setErrors(newErrors);
       return false;
     }
 
-    // Проверка на корректное число
     const numValue = parseFloat(value.replace(',', '.'));
     if (isNaN(numValue)) {
       newErrors[name] = 'Введите корректное число';
@@ -64,14 +60,14 @@ export default function SmartSwitch({ data, socket }) {
       return false;
     }
 
-    // Проверка диапазона
+
     if (numValue < 0 || numValue > 80) {
       newErrors[name] = 'Должно быть от 0 до 80';
       setErrors(newErrors);
       return false;
     }
 
-    // Проверка на одну цифру после точки
+
     const decimalPart = value.split('.')[1];
     if (decimalPart && decimalPart.length > 1) {
       newErrors[name] = 'Не более одной цифры после точки';
@@ -79,7 +75,6 @@ export default function SmartSwitch({ data, socket }) {
       return false;
     }
 
-    // Проверка соотношения min и max
     if (name === 'minTemp' && numValue >= parseFloat(maxTemp.replace(',', '.'))) {
       newErrors[name] = 'Должно быть меньше максимальной';
       setErrors(newErrors);
@@ -92,7 +87,7 @@ export default function SmartSwitch({ data, socket }) {
       return false;
     }
 
-    // Если все проверки пройдены
+
     delete newErrors[name];
     setErrors(newErrors);
     return true;
@@ -102,12 +97,10 @@ export default function SmartSwitch({ data, socket }) {
     const formattedValue = formatTemperature(value);
     if (name === 'minTemp') setMinTemp(formattedValue);
     if (name === 'maxTemp') setMaxTemp(formattedValue);
-    // При вводе проверяем только формат, без проверки на пустоту
     validateInput(name, formattedValue, false);
   };
 
   const handleSubmit = async () => {
-    // Проверяем оба поля с проверкой на пустоту
     const isMinValid = validateInput('minTemp', minTemp, true);
     const isMaxValid = validateInput('maxTemp', maxTemp, true);
 
@@ -198,8 +191,6 @@ export default function SmartSwitch({ data, socket }) {
             {off ? <Text style={{ color: '#4C82FF' }}>Выключен</Text> : <Text style={{ color: '#8B8B8B' }}>Выключен</Text>}
           </View>
         </View>
-
-
         {on ?
           <View>
                     <View style={styles.temperatureContainer}>
@@ -273,7 +264,7 @@ export default function SmartSwitch({ data, socket }) {
     </View>
   );
 }
-// Стили остаются без изменений
+
 const styles = StyleSheet.create({
   switch: {
     backgroundColor: "white",
