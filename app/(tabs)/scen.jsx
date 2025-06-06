@@ -12,47 +12,45 @@ import { LinearGradient } from "expo-linear-gradient"
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api } from "../(scen)/ScenariiContext"
 import { AuthContext } from '@/Auth/AuthContext';
-
+import scenariiApi from "../(scen)/apiScenarios"
+import { getTokens } from '@/Auth/authStorage';
 export default function TabTwoScreen() {
   const { socket, data } = useContext(SocketContext);
-  const { token } = useContext(AuthContext);
+  // const { token } = useContext(AuthContext);
 
   const router = useRouter();
   const { scenariiState, setScenariiState } = useContext(ScenariiContext);
   const [loading, setLoading] = useState(null);
-  // const api = axios.create({
-  //   baseURL: 'http://testyandex.onrender.com/scenarios',
-  // });
   const insets = useSafeAreaInsets();
   useEffect(() => {
     const fetchScen = async () => {
+
       try {
-        console.log("Токен:", token);
-        const response = await axios.get(
-          "https://testyandex.onrender.com/scenarios/all/",
-          {
-            headers: {
-              "Authorization": `Bearer ${token.trim()}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        setLoading(true);
+        const tokens = await getTokens();
+        console.log("Токен:", tokens?.accessToken);
+
+        const response = await scenariiApi.get("all/");
         setScenariiState(response.data.scenarios);
+
         console.log('====================================');
-        console.log(scenariiState);
+        console.log(response.data.scenarios); // Логируем напрямую response.data, так как scenariiState может быть еще не обновлен
         console.log('====================================');
+        // setLoading(false);
       } catch (error) {
         console.error(
           "Ошибка:",
           error.response?.data || error.message
         );
         if (error.response?.status === 401) {
-          console.log("Токен недействителен, перенаправляем на логин...");
+          console.log("Токен недействителен и не удалось обновить, перенаправляем на логин...");
         }
+      }finally{
+        setLoading(false);
       }
     };
     fetchScen();
-  }, [token]);
+  }, []);
   return (
     <ImageBackground
       source={require('../../assets/images/Background.png')}

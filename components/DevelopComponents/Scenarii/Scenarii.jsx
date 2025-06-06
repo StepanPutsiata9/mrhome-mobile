@@ -54,9 +54,6 @@ const toggleModal = (id, data, callback) => {
 export default function Scenarii({ item }) {
     const { scenariiState, setScenariiState } = useContext(ScenariiContext);
     const { socket } = useContext(SocketContext)
-    console.log('====================================');
-    console.log(item.state);
-    console.log('====================================');
     const activeScen = async (id, name) => {
         await socket.current.send(JSON.stringify(
             {
@@ -69,39 +66,37 @@ export default function Scenarii({ item }) {
         )
     };
     return (
-        // <Pressable onPress={() => { activeScen(item.id, item.state.title) }}>
-        //     <Modal visible={item.state.modalVisible} animationType="fade"
-        //         transparent={true}>
-        //         <ModalScen item={item} />
-        //     </Modal>
-        //     <View style={styles.scenView}>
-        //         <View style={styles.infoTitle}>
-        //             <View style={styles.titleView}>
-        //                 <View style={styles.icon}>{componentsIcon[item.state.icon]}</View>
-        //                 <Text style={styles.titleName}>{item.state.title}</Text>
-        //             </View>
-        //             <View style={styles.points}>
-        //                 <TouchableOpacity
-        //                     hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-        //                     onPress={() => toggleModal(item.id, scenariiState, setScenariiState)}
-        //                 >
-        //                     <Points />
-        //                 </TouchableOpacity>
-        //             </View>
-        //         </View>
-        //         <View style={styles.addedControllers}>
-        //             <Text style={styles.addedControllersText}>Добавленные элементы :</Text>
-        //         </View>
-        //         <View style={styles.controllerView}>
-        //             {scenariiState.length != 0 ? item.state.controllerState.map((i, index) => {
-        //                 return <Text style={styles.controllerName} key={index}>{i.title}</Text>
-        //             }) : null}
-        //         </View>
-        //     </View>
-        // </Pressable>
-        <View>
-            <Text>{item.state.title}</Text>
-        </View>
+        <Pressable onPress={() => { activeScen(item.id, item.state.title) }}>
+            <Modal visible={item.state.modalVisible} animationType="fade"
+                transparent={true}>
+                <ModalScen item={item} />
+            </Modal>
+            <View style={styles.scenView}>
+                <View style={styles.infoTitle}>
+                    <View style={styles.titleView}>
+                        <View style={styles.icon}>{componentsIcon[item.state.icon]}</View>
+                        <Text style={styles.titleName}>{item.state.title}</Text>
+                    </View>
+                    <View style={styles.points}>
+                        <TouchableOpacity
+                            hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+                            onPress={() => toggleModal(item.id, scenariiState, setScenariiState)}
+                        >
+                            <Points />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.addedControllers}>
+                    <Text style={styles.addedControllersText}>Добавленные элементы :</Text>
+                </View>
+                <View style={styles.controllerView}>
+                    {scenariiState.length != 0 ? item.state.controllerState.map((i, index) => {
+                        return <Text style={styles.controllerName} key={index}>{i.title}</Text>
+                    }) : null}
+                </View>
+            </View>
+        </Pressable>
+
     );
 }
 
