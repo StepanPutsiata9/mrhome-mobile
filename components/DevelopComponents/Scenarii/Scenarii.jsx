@@ -66,7 +66,7 @@ export default function Scenarii({ item }) {
         )
     };
     return (
-        <Pressable onPress={() => { activeScen(item.id, item.state.title) }}>
+        <Pressable onPress={() => { activeScen(item.id, item.state.name) }}>
             <Modal visible={item.state.modalVisible} animationType="fade"
                 transparent={true}>
                 <ModalScen item={item} />
@@ -75,7 +75,7 @@ export default function Scenarii({ item }) {
                 <View style={styles.infoTitle}>
                     <View style={styles.titleView}>
                         <View style={styles.icon}>{componentsIcon[item.state.icon]}</View>
-                        <Text style={styles.titleName}>{item.state.title}</Text>
+                        <Text style={styles.titleName}>{item.state.name}</Text>
                     </View>
                     <View style={styles.points}>
                         <TouchableOpacity
@@ -121,7 +121,7 @@ export function ModalScen({ item }) {
                 <View style={styles.titleBlock}>
                     <View style={styles.title}>
                         <View>
-                            <Text style={{ fontSize: 22, color: '#4C82FF', maxWidth: 300 }}>{item.state.title}</Text>
+                            <Text style={{ fontSize: 22, color: '#4C82FF', maxWidth: 300 }}>{item.state.name}</Text>
                         </View>
                         {/* <View>{item.icon}</View> */}
                     </View>

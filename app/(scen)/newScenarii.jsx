@@ -25,6 +25,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { api } from './ScenariiContext';
 import { AuthContext } from '../../Auth/AuthContext';
+import scenariiApi from "../(scen)/apiScenarios";
 // const api = axios.create({
 //   baseURL: 'http://testyandex.onrender.com/',
 // });
@@ -35,24 +36,15 @@ export default function NewScen() {
     setScenCount, controllerStateScen, setControllerStateScen
   } = useContext(ScenariiContext);
   const { token } = useContext(AuthContext)
-  const fetchNewScen = (newScen) => {
+  const createNewScen = (newScen) => {
     const setNew = async (scenario) => {
-      if (!token) {
-        console.error('Ошибка: токен отсутствует');
-        return;
-      }
+      // if (!token) {
+      //   console.error('Ошибка: токен отсутствует');
+      //   return;
+      // }
 
       try {
-        const response = await axios.post(
-          'https://testyandex.onrender.com/scenarios/create',
-          scenario,
-          {
-            headers: {
-              "Authorization": `Bearer ${token.trim()}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await scenariiApi.post('https://testyandex.onrender.com/scenarios/create',scenario);
 
         console.log('Полный ответ:', response.data);
 
@@ -72,10 +64,6 @@ export default function NewScen() {
           data: error.response?.data,
           message: error.message
         });
-
-        if (error.response?.status === 401) {
-          // Обработка неавторизованного доступа
-        }
       }
     };
 
@@ -213,9 +201,9 @@ export default function NewScen() {
                   activeOpacity={0.7}
 
                   onPress={() => {
-                    fetchNewScen({
+                    createNewScen({
                       state: {
-                        title: title || "Без названия",
+                        name: title || "Без названия",
                         icon: Object.keys(componentsIcon).find(
                           key => componentsIcon[key].type === selectedItem.type
                         ) || "default",
@@ -223,7 +211,7 @@ export default function NewScen() {
                         controllerState: controllerState,
                       },
                       steps: controllerStateScen,
-                      id: scenCount,
+                      // id: scenCount,
                     })
                     // setScenariiState(prev => [
                     //   {
