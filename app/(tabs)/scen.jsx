@@ -10,33 +10,25 @@ import axios from "axios"
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from "expo-linear-gradient"
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { api } from "../(scen)/ScenariiContext"
 import { AuthContext } from '@/Auth/AuthContext';
 import scenariiApi from "../(scen)/apiScenarios"
 import { getTokens } from '@/Auth/authStorage';
 export default function TabTwoScreen() {
   const { socket, data } = useContext(SocketContext);
-  // const { token } = useContext(AuthContext);
+  const {loading,setLoading}=useContext(ScenariiContext)
 
   const router = useRouter();
   const { scenariiState, setScenariiState } = useContext(ScenariiContext);
-  const [loading, setLoading] = useState(null);
+
   const insets = useSafeAreaInsets();
   useEffect(() => {
     const fetchScen = async () => {
 
       try {
         setLoading(true);
-        const tokens = await getTokens();
-        console.log("Токен:", tokens?.accessToken);
-
+        // const tokens = await getTokens();
         const response = await scenariiApi.get("all/");
         setScenariiState(response.data.scenarios);
-
-        console.log('====================================');
-        console.log(response.data.scenarios); // Логируем напрямую response.data, так как scenariiState может быть еще не обновлен
-        console.log('====================================');
-        // setLoading(false);
       } catch (error) {
         console.error(
           "Ошибка:",
@@ -106,6 +98,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
+    paddingBottom:100,
+
   },
   scrollView: {
     flex: 1,

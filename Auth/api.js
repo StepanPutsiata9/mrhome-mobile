@@ -28,7 +28,7 @@ api.interceptors.response.use(
 
       try {
         const response = await axios.post(
-          'http://testyandex.onrender.com/refresh',
+          'http://testyandex.onrender.com/auth/refresh',
           { refreshToken: tokens.refreshToken }
         );
 

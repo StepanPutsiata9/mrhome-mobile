@@ -12,7 +12,7 @@ export default function ScenariiProvider({ children }) {
   const [controllerStateScen, setControllerStateScen] = useState([]);
   const [isListEmpty, setIsListEmpty] = useState(true);
   const [scenCount, setScenCount] = useState(0)
-
+  const [loading,setLoading]=useState(false);
   const value = {
     isListEmpty: isListEmpty,
     setIsListEmpty: setIsListEmpty,
@@ -24,6 +24,8 @@ export default function ScenariiProvider({ children }) {
     setScenCount: setScenCount,
     controllerStateScen: controllerStateScen,
     setControllerStateScen: setControllerStateScen,
+    loading:loading,
+    setLoading:setLoading,
   };
 
   return (

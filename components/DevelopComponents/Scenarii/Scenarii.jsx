@@ -18,9 +18,8 @@ import Cup from "../PhotosComponents/Cup"
 import CloudySun from "../PhotosComponents/CloudySun"
 import CloudyMoon from "../PhotosComponents/CloudyMoon"
 import CPU from "../PhotosComponents/CPU"
-import axios from "axios"
 import { SocketContext } from '@/app/_layout';
-import { api } from '@/app/(scen)/ScenariiContext';
+import scenariiApi from '@/app/(scen)/apiScenarios';
 const componentsIcon = {
     sunrise: <SunRise />,
     briefcase: <Briefcase />,
@@ -66,26 +65,29 @@ export default function Scenarii({ item }) {
         )
     };
     return (
-        <Pressable onPress={() => { activeScen(item.id, item.state.name) }}>
+        <>
             <Modal visible={item.state.modalVisible} animationType="fade"
                 transparent={true}>
                 <ModalScen item={item} />
             </Modal>
             <View style={styles.scenView}>
-                <View style={styles.infoTitle}>
-                    <View style={styles.titleView}>
-                        <View style={styles.icon}>{componentsIcon[item.state.icon]}</View>
-                        <Text style={styles.titleName}>{item.state.name}</Text>
+                <Pressable onPress={() => { activeScen(item.id, item.state.name) }}>
+                    <View style={styles.infoTitle}>
+                        <View style={styles.titleView}>
+                            <View style={styles.icon}>{componentsIcon[item.state.icon]}</View>
+                            <Text style={styles.titleName}>{item.state.name}</Text>
+                        </View>
+                        <View style={styles.points}>
+                            <TouchableOpacity
+                                hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+                                onPress={() => toggleModal(item.id, scenariiState, setScenariiState)}
+                            >
+                                <Points />
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    <View style={styles.points}>
-                        <TouchableOpacity
-                            hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-                            onPress={() => toggleModal(item.id, scenariiState, setScenariiState)}
-                        >
-                            <Points />
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                </Pressable>
+
                 <View style={styles.addedControllers}>
                     <Text style={styles.addedControllersText}>Добавленные элементы :</Text>
                 </View>
@@ -95,8 +97,7 @@ export default function Scenarii({ item }) {
                     }) : null}
                 </View>
             </View>
-        </Pressable>
-
+        </>
     );
 }
 
@@ -104,15 +105,24 @@ export default function Scenarii({ item }) {
 
 
 export function ModalScen({ item }) {
-    const { scenariiState, setScenariiState } = useContext(ScenariiContext);
-    const deleteScenario = (id, data, callback) => {
-        callback(data.filter(scen => scen.id !== id));
-        // const fetchNewScen = async () => {
-        //     const data = api.delete(`/scenarios/delete/:${id}`);
-        //     const response = await data.response;
-        //     setScenariiState(response);
-        // }
-        // fetchNewScen();
+    const { scenariiState, setScenariiState, loading, setLoading } = useContext(ScenariiContext);
+    const deleteScenario = (scenId) => {
+        const fetchNewScen = async (id) => {
+            try {
+                setLoading(true);
+                const response = await scenariiApi.delete(`delete/${id}`);
+                const data = response.data.scenarios || response.data;
+                setScenariiState(data);
+            } catch (error) {
+                console.error(
+                    "Ошибка удаления:",
+                    error.response?.status || error.message
+                );
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchNewScen(scenId);
 
     };
     return (
@@ -143,7 +153,7 @@ export function ModalScen({ item }) {
                                     <View style={styles.infoView}>
                                         <View style={styles.commandView}>
                                             {keys.map((i, index) => {
-                                                if (i != null) return <Text style={{ marginBottom: 5 }} key={index}>{i}</Text>
+                                                if (st.payload[i] != null) return <Text style={{ marginBottom: 5 }} key={index}>{i}</Text>
                                             })}
                                         </View>
                                         <View style={styles.stateView}>
@@ -171,7 +181,7 @@ export function ModalScen({ item }) {
                                     },
                                     {
                                         text: 'Удалить',
-                                        onPress: () => deleteScenario(item.id, scenariiState, setScenariiState),
+                                        onPress: () => deleteScenario(item.id),
                                         style: 'destructive',
                                     },
                                 ]

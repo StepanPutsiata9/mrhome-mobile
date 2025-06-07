@@ -29,44 +29,35 @@ import scenariiApi from "../(scen)/apiScenarios";
 // const api = axios.create({
 //   baseURL: 'http://testyandex.onrender.com/',
 // });
+
 export default function NewScen() {
 
   const { socket, data } = useContext(SocketContext);
   const { controllerState, setControllerState, scenariiState, setScenariiState, scenCount,
-    setScenCount, controllerStateScen, setControllerStateScen
+    setScenCount, controllerStateScen, setControllerStateScen,loading,setLoading
   } = useContext(ScenariiContext);
   const { token } = useContext(AuthContext)
   const createNewScen = (newScen) => {
     const setNew = async (scenario) => {
-      // if (!token) {
-      //   console.error('Ошибка: токен отсутствует');
-      //   return;
-      // }
-
       try {
-        const response = await scenariiApi.post('https://testyandex.onrender.com/scenarios/create',scenario);
-
-        console.log('Полный ответ:', response.data);
-
-        // Проверяем структуру ответа
+        setLoading(true);
+        const response = await scenariiApi.post('create/',scenario);
         const dataScen = response.data.scenarios || response.data;
-
-        // Обновляем состояние в зависимости от структуры данных
         if (Array.isArray(dataScen)) {
           setScenariiState(dataScen);
         } else {
           setScenariiState(prev => [...prev, dataScen]);
         }
-
       } catch (error) {
         console.error('Ошибка:', {
           status: error.response?.status,
           data: error.response?.data,
           message: error.message
         });
+      }finally{
+          setLoading(false);
       }
     };
-
     setNew(newScen);
   };
 
