@@ -4,7 +4,7 @@ import Light from "../PhotosComponents/Light"
 import Snickers from "../PhotosComponents/Snickers"
 import Temp from "../PhotosComponents/Temp"
 import Shtora from "../PhotosComponents/Shtora"
-import SwitchOutline from "../PhotosComponents/SwitchOutline"
+import Window from "../PhotosComponents/Window"
 export default function ControllerItem({ data, socket }) {
   let photo;
   // switch(data.title){
@@ -29,7 +29,7 @@ export default function ControllerItem({ data, socket }) {
       photo = <Light color={"#4C82FF"} />
       break;
     case "window":
-      photo = <SwitchOutline color={"#4C82FF"} />
+      photo = <Window color={"#4C82FF"} />
       break;
     case "shtora":
       photo = <Shtora color={"#4C82FF"} />

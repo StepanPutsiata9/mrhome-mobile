@@ -2,15 +2,15 @@ import { ScrollView, Text, Alert } from "react-native";
 import { View, StyleSheet, Pressable, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from "react-native"
 import { Header } from "../Header";
 import Back from "../PhotosComponents/Back"
-import SwitchOutline from "../PhotosComponents/SwitchOutline";
+import SwitchOutline from "../PhotosComponents/Window";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import Slider from '@react-native-community/slider';
-import SwitchOn from "../PhotosComponents/SwitchOn"
-import SwitchOff from "../PhotosComponents/SwitchOff"
+import WindowOpen from "../PhotosComponents/WindowOpen"
+import WindowClose from "../PhotosComponents/WindowClose"
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function SmartSwitch({ data, socket }) {
+export default function SmartWindow({ data, socket }) {
   const router = useRouter();
   const [on, setOn] = useState(data.payload.state);
   const [off, setOff] = useState(!on);
@@ -170,7 +170,7 @@ export default function SmartSwitch({ data, socket }) {
               setOn(!on);
               setOff(!off)
             }}>
-              <SwitchOn color={on ? "#4C82FF" : "#8B8B8B"} />
+              <WindowOpen color={on ? "#4C82FF" : "#8B8B8B"} />
             </Pressable>
             {on ? <Text style={{ color: '#4C82FF' }}>Включен</Text> : <Text style={{ color: '#8B8B8B' }}>Включен</Text>}
           </View>
@@ -186,7 +186,7 @@ export default function SmartSwitch({ data, socket }) {
               setOn(!on);
               setOff(!off)
             }}>
-              <SwitchOff color={off ? "#4C82FF" : "#8B8B8B"} />
+              <WindowClose color={off ? "#4C82FF" : "#8B8B8B"} />
             </Pressable>
             {off ? <Text style={{ color: '#4C82FF' }}>Выключен</Text> : <Text style={{ color: '#8B8B8B' }}>Выключен</Text>}
           </View>

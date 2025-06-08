@@ -4,14 +4,14 @@ import { Header } from "../../../components/DevelopComponents/Header";
 import Back from "../../../components/DevelopComponents/PhotosComponents/Back"
 import { useRouter } from "expo-router";
 import { useContext, useState } from "react"
-import SwitchOn from "../../../components/DevelopComponents/PhotosComponents/SwitchOn";
-import SwitchOff from "../../../components/DevelopComponents/PhotosComponents/SwitchOff";
+import WindowOpen from "../../../components/DevelopComponents/PhotosComponents/WindowOpen";
+import WindowClose from "../../../components/DevelopComponents/PhotosComponents/WindowClose";
 import { ScenariiContext } from "../ScenariiContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient"
 import Slider from '@react-native-community/slider';
 
-export default function AddSwitch({ controller }) {
+export default function AddWindow({ controller }) {
     const router = useRouter();
     const [on, setOn] = useState(true);
     const [off, setOff] = useState(!on);
@@ -193,7 +193,7 @@ export default function AddSwitch({ controller }) {
                             setOn(!on);
                             setOff(!off)
                         }}>
-                            <SwitchOn color={on ? "#4C82FF" : "#8B8B8B"} />
+                            <WindowOpen color={on ? "#4C82FF" : "#8B8B8B"} />
                         </Pressable>
                         {on ? <Text style={{ color: '#4C82FF' }}>Включать</Text> : <Text style={{ color: '#8B8B8B' }}>Включать</Text>}
 
@@ -204,7 +204,7 @@ export default function AddSwitch({ controller }) {
                                 setOn(!on);
                                 setOff(!off)
                             }}>
-                            <SwitchOff color={off ? "#4C82FF" : "#8B8B8B"} />
+                            <WindowClose color={off ? "#4C82FF" : "#8B8B8B"} />
                         </Pressable>
                         {off ? <Text style={{ color: '#4C82FF' }}>Выключать</Text> : <Text style={{ color: '#8B8B8B' }}>Выключать</Text>}
                     </View>

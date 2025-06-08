@@ -1,6 +1,6 @@
 import { StyleSheet, Text, ImageBackground } from 'react-native';
 import { useContext } from 'react';
-import SmartSwitch from "../components/DevelopComponents/ControllerInfoComp/SmartSwitch";
+import SmartWindow from "../components/DevelopComponents/ControllerInfoComp/SmartWindow";
 import { SmartLight } from "../components/DevelopComponents/ControllerInfoComp/SmartLight";
 import SmartCurtain from "../components/DevelopComponents/ControllerInfoComp/SmartCurtain";
 import TempSensor from "../components/DevelopComponents/ControllerInfoComp/TempSensor";
@@ -33,7 +33,7 @@ export default function ControllerInfo() {
       case "RGB_LED":
         return <SmartLight data={controllerData} socket={socket} />;
       case "window":
-        return <SmartSwitch data={controllerData} socket={socket} />;
+        return <SmartWindow data={controllerData} socket={socket} />;
       case "shtora":
         return <SmartCurtain data={controllerData} socket={socket} />;
       case "tempSensor":
