@@ -88,7 +88,7 @@ export const SmartLight = ({ data, socket }) => {
             }}>
               <LightOn color={on ? "#4C82FF" : "#8B8B8B"} />
             </Pressable>
-            {on ? <Text style={{ color: '#4C82FF',marginTop:5 }}>Настроить работу</Text> : <Text style={{ color: '#8B8B8B',marginTop:5 }}>Настроить работу</Text>}
+            {on ? <Text style={{ color: '#4C82FF', marginTop: 5 }}>Настроить работу</Text> : <Text style={{ color: '#8B8B8B', marginTop: 5 }}>Настроить работу</Text>}
 
           </View>
           <View style={{ alignItems: 'center' }}>
@@ -100,10 +100,10 @@ export const SmartLight = ({ data, socket }) => {
                 //   command: 'turn_off'
                 // }
                 {
-                  topic:"home/led",
+                  topic: "home/led",
                   deviceType: data.payload.deviceType,
                   command: 'off',
-                  type:"command",
+                  type: "command",
                 }
               ));
               setOn(!on);
@@ -111,7 +111,7 @@ export const SmartLight = ({ data, socket }) => {
             }}>
               <LightOff color={off ? "#4C82FF" : "#8B8B8B"} />
             </Pressable>
-            {off ? <Text style={{ color: '#4C82FF',marginTop:5}}>Выключить</Text> : <Text style={{ color: '#8B8B8B',marginTop:5 }}>Выключить</Text>}
+            {off ? <Text style={{ color: '#4C82FF', marginTop: 5 }}>Выключить</Text> : <Text style={{ color: '#8B8B8B', marginTop: 5 }}>Выключить</Text>}
 
           </View>
         </View>
@@ -185,7 +185,7 @@ export const SmartLight = ({ data, socket }) => {
                   onPress={async () => {
                     await socket.current.send(JSON.stringify(
                       {
-                        type:'command',
+                        type: 'command',
                         topic: "home/led",
                         deviceType: data.payload.deviceType,
                         command: 'set_params',
@@ -195,13 +195,13 @@ export const SmartLight = ({ data, socket }) => {
                           effect: Object.keys(effectArr).find(
                             key => effectArr[key] === selectedItem
                           ),
-                          mode:"MANUAL",
+                          mode: "MANUAL",
                         }
                       }
                     ));
                     setOn(true);
                     setOff(false);
-                    Alert.alert('Параметры настройки успешно изменены!')
+                    Alert.alert('Успех', 'Параметры настройки успешно изменены!');
                   }}
                 >
                   <Text style={styles.btnText}>Изменить настройки</Text>

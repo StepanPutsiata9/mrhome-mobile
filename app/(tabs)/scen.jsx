@@ -15,7 +15,7 @@ import scenariiApi from "../(scen)/apiScenarios"
 import { getTokens } from '@/Auth/authStorage';
 export default function TabTwoScreen() {
   const { socket, data } = useContext(SocketContext);
-  const {loading,setLoading}=useContext(ScenariiContext)
+  const { loading, setLoading } = useContext(ScenariiContext)
 
   const router = useRouter();
   const { scenariiState, setScenariiState } = useContext(ScenariiContext);
@@ -37,7 +37,7 @@ export default function TabTwoScreen() {
         if (error.response?.status === 401) {
           console.log("Токен недействителен и не удалось обновить, перенаправляем на логин...");
         }
-      }finally{
+      } finally {
         setLoading(false);
       }
     };
@@ -51,11 +51,11 @@ export default function TabTwoScreen() {
     >
       {/* <SafeAreaView style={{ flex: 1 }}> */}
       <Header />
+      <Text style={styles.scenText}>Сценарии</Text>
       <ScrollView style={styles.scrollView}>
         {!loading
           ?
           <View style={styles.container}>
-            <Text style={styles.scenText}>Сценарии</Text>
             {scenariiState.length != 0 ? (
               scenariiState.map((item, index) => (
                 <Scenarii item={item} key={index} />
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
-    paddingBottom:100,
+    paddingBottom: 100,
 
   },
   scrollView: {
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 700,
     letterSpacing: 1,
+    marginLeft:20,
   },
   plusContainer: {
     position: 'absolute',

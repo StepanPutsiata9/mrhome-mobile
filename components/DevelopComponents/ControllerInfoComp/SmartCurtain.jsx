@@ -1,5 +1,5 @@
 import { ScrollView, Text } from "react-native";
-import { View, StyleSheet, Pressable, TouchableOpacity } from "react-native"
+import { View, StyleSheet, Pressable, TouchableOpacity,Alert } from "react-native"
 import { Header } from "../Header";
 import Back from "../PhotosComponents/Back"
 import { useRouter } from "expo-router";
@@ -42,7 +42,7 @@ export default function SmartCurtain({ data, socket }) {
           </View>
           <View style={styles.infoLine}>
             <Text style={styles.infoLineText}>Состояние</Text>
-            <Text style={styles.status}>{data.payload.state? "Открыта" : "Закрыта"}</Text>
+            <Text style={styles.status}>{data.payload.state ? "Открыта" : "Закрыта"}</Text>
           </View>
         </View>
         <View style={styles.onOff}>
@@ -60,7 +60,7 @@ export default function SmartCurtain({ data, socket }) {
             }}>
               <ShtoraOpen color={on ? "#4C82FF" : "#8B8B8B"} />
             </Pressable>
-            {on ? <Text style={{ color: '#4C82FF',marginTop:5 }}>Настроить работу</Text> : <Text style={{ color: '#8B8B8B',marginTop:5 }}>Настроить работу</Text>}
+            {on ? <Text style={{ color: '#4C82FF', marginTop: 5 }}>Настроить работу</Text> : <Text style={{ color: '#8B8B8B', marginTop: 5 }}>Настроить работу</Text>}
 
           </View>
           <View style={{ alignItems: 'center' }}>
@@ -77,7 +77,7 @@ export default function SmartCurtain({ data, socket }) {
             }}>
               <ShtoraClose color={off ? "#4C82FF" : "#8B8B8B"} />
             </Pressable>
-            {off ? <Text style={{ color: '#4C82FF',marginTop:5  }}>Закрыть</Text> : <Text style={{ color: '#8B8B8B',marginTop:5  }}>Закрыть</Text>}
+            {off ? <Text style={{ color: '#4C82FF', marginTop: 5 }}>Закрыть</Text> : <Text style={{ color: '#8B8B8B', marginTop: 5 }}>Закрыть</Text>}
           </View>
         </View>
         {on ?
@@ -119,15 +119,15 @@ export default function SmartCurtain({ data, socket }) {
                   ));
                   setOn(true);
                   setOff(false);
-                  Alert.alert('Параметры настройки успешно изменены!')
+                  Alert.alert('Успех', 'Параметры настройки успешно изменены!');
                 }}
               >
                 <Text style={styles.btnText}>Изменить настройки</Text>
               </TouchableOpacity>
             </LinearGradient>
           </View>
-          :null
-          }
+          : null
+        }
         {/* </SafeAreaView> */}
       </ScrollView>
     </View>
