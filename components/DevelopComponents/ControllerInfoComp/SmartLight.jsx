@@ -69,35 +69,41 @@ export const SmartLight = ({ data, socket }) => {
           </View>
           <View style={styles.infoLine}>
             <Text style={styles.infoLineText}>Состояние</Text>
-            <Text style={styles.status}>{data.payload.state === "on" ? "Включена" : "Выключена"}</Text>
+            <Text style={styles.status}>{data.payload.state ? "Включена" : "Выключена"}</Text>
           </View>
         </View>
         {/* <Text style={{ fontSize: 20, marginLeft: 20, marginTop: 15 }}>Состояние:</Text> */}
         <View style={styles.onOff}>
           <View style={{ alignItems: 'center' }}>
             <Pressable disabled={on} onPress={async () => {
-              await socket.current.send(JSON.stringify(
-                {
-                  topic: data.topic,
-                  deviceType: data.payload.deviceType,
-                  command: 'turn_on'
-                }
-              ));
+              // await socket.current.send(JSON.stringify(
+              //   {
+              //     topic: data.topic,
+              //     deviceType: data.payload.deviceType,
+              //     command: 'turn_on'
+              //   }
+              // ));
               setOn(!on);
               setOff(!off);
             }}>
               <LightOn color={on ? "#4C82FF" : "#8B8B8B"} />
             </Pressable>
-            {on ? <Text style={{ color: '#4C82FF' }}>Включена</Text> : <Text style={{ color: '#8B8B8B' }}>Включена</Text>}
+            {on ? <Text style={{ color: '#4C82FF',marginTop:5 }}>Настроить работу</Text> : <Text style={{ color: '#8B8B8B',marginTop:5 }}>Настроить работу</Text>}
 
           </View>
           <View style={{ alignItems: 'center' }}>
             <Pressable disabled={off} onPress={async () => {
               await socket.current.send(JSON.stringify(
+                // {
+                //   topic: data.topic,
+                //   deviceType: data.payload.deviceType,
+                //   command: 'turn_off'
+                // }
                 {
-                  topic: data.topic,
+                  topic:"home/led",
                   deviceType: data.payload.deviceType,
-                  command: 'turn_off'
+                  command: 'off',
+                  type:"command",
                 }
               ));
               setOn(!on);
@@ -105,7 +111,7 @@ export const SmartLight = ({ data, socket }) => {
             }}>
               <LightOff color={off ? "#4C82FF" : "#8B8B8B"} />
             </Pressable>
-            {off ? <Text style={{ color: '#4C82FF' }}>Выключена</Text> : <Text style={{ color: '#8B8B8B' }}>Выключена</Text>}
+            {off ? <Text style={{ color: '#4C82FF',marginTop:5}}>Выключить</Text> : <Text style={{ color: '#8B8B8B',marginTop:5 }}>Выключить</Text>}
 
           </View>
         </View>
@@ -179,15 +185,17 @@ export const SmartLight = ({ data, socket }) => {
                   onPress={async () => {
                     await socket.current.send(JSON.stringify(
                       {
-                        topic: data.topic,
+                        type:'command',
+                        topic: "home/led",
                         deviceType: data.payload.deviceType,
                         command: 'set_params',
                         params: {
                           color: color,
                           brightness: sliderValue,
-                          glow: Object.keys(effectArr).find(
+                          effect: Object.keys(effectArr).find(
                             key => effectArr[key] === selectedItem
-                          )
+                          ),
+                          mode:"MANUAL",
                         }
                       }
                     ));

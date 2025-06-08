@@ -72,7 +72,7 @@ export default function ControllerItem({ data, socket }) {
         </View>
         <View style={styles.infoBlock}>
           <Text style={styles.status}>Статус</Text>
-          <Text style={styles.online}>{data.state === "on" ? "Вкл" : "Выкл"}</Text>
+          <Text style={styles.online}>{data.state? "Вкл" : "Выкл"}</Text>
         </View>
       </View>
     </TouchableOpacity>

@@ -42,7 +42,7 @@ export default function SmartCurtain({ data, socket }) {
           </View>
           <View style={styles.infoLine}>
             <Text style={styles.infoLineText}>Состояние</Text>
-            <Text style={styles.status}>{data.payload.state === "on" ? "Открыта" : "Закрыта"}</Text>
+            <Text style={styles.status}>{data.payload.state? "Открыта" : "Закрыта"}</Text>
           </View>
         </View>
         <View style={styles.onOff}>
@@ -60,7 +60,7 @@ export default function SmartCurtain({ data, socket }) {
             }}>
               <ShtoraOpen color={on ? "#4C82FF" : "#8B8B8B"} />
             </Pressable>
-            {on ? <Text style={{ color: '#4C82FF' }}>Открыта</Text> : <Text style={{ color: '#8B8B8B' }}>Открыта</Text>}
+            {on ? <Text style={{ color: '#4C82FF',marginTop:5 }}>Настроить работу</Text> : <Text style={{ color: '#8B8B8B',marginTop:5 }}>Настроить работу</Text>}
 
           </View>
           <View style={{ alignItems: 'center' }}>
@@ -77,7 +77,7 @@ export default function SmartCurtain({ data, socket }) {
             }}>
               <ShtoraClose color={off ? "#4C82FF" : "#8B8B8B"} />
             </Pressable>
-            {off ? <Text style={{ color: '#4C82FF' }}>Закрыта</Text> : <Text style={{ color: '#8B8B8B' }}>Закрыта</Text>}
+            {off ? <Text style={{ color: '#4C82FF',marginTop:5  }}>Закрыть</Text> : <Text style={{ color: '#8B8B8B',marginTop:5  }}>Закрыть</Text>}
           </View>
         </View>
         {on ?

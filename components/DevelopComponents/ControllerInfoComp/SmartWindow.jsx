@@ -153,7 +153,7 @@ export default function SmartWindow({ data, socket }) {
           </View>
           <View style={styles.infoLine}>
             <Text style={styles.infoLineText}>Состояние</Text>
-            <Text style={styles.status}>{data.payload.state === "on" ? "Включен" : "Выключен"}</Text>
+            <Text style={styles.status}>{data.payload.state? "Открыто" : "Закрыто"}</Text>
           </View>
         </View>
 
@@ -172,7 +172,8 @@ export default function SmartWindow({ data, socket }) {
             }}>
               <WindowOpen color={on ? "#4C82FF" : "#8B8B8B"} />
             </Pressable>
-            {on ? <Text style={{ color: '#4C82FF' }}>Включен</Text> : <Text style={{ color: '#8B8B8B' }}>Включен</Text>}
+            {on ? <Text style={{ color: '#4C82FF',marginTop:5 }}>Настроить работу</Text> : <Text style={{ color: '#8B8B8B',marginTop:5 }}>Настроить работу</Text>}
+           
           </View>
           <View style={{ alignItems: 'center' }}>
             <Pressable disabled={off} onPress={async () => {
@@ -188,7 +189,7 @@ export default function SmartWindow({ data, socket }) {
             }}>
               <WindowClose color={off ? "#4C82FF" : "#8B8B8B"} />
             </Pressable>
-            {off ? <Text style={{ color: '#4C82FF' }}>Выключен</Text> : <Text style={{ color: '#8B8B8B' }}>Выключен</Text>}
+            {off ? <Text style={{ color: '#4C82FF',marginTop:5  }}>Закрыть</Text> : <Text style={{ color: '#8B8B8B',marginTop:5  }}>Закрыть</Text>}
           </View>
         </View>
         {on ?

@@ -195,7 +195,8 @@ export default function AddWindow({ controller }) {
                         }}>
                             <WindowOpen color={on ? "#4C82FF" : "#8B8B8B"} />
                         </Pressable>
-                        {on ? <Text style={{ color: '#4C82FF' }}>Включать</Text> : <Text style={{ color: '#8B8B8B' }}>Включать</Text>}
+                        {on ? <Text style={{ color: '#4C82FF', marginTop: 5 }}>Открывать</Text> : <Text style={{ color: '#8B8B8B', marginTop: 5 }}>Открывать</Text>}
+
 
                     </View>
                     <View style={{ alignItems: 'center' }}>
@@ -206,7 +207,7 @@ export default function AddWindow({ controller }) {
                             }}>
                             <WindowClose color={off ? "#4C82FF" : "#8B8B8B"} />
                         </Pressable>
-                        {off ? <Text style={{ color: '#4C82FF' }}>Выключать</Text> : <Text style={{ color: '#8B8B8B' }}>Выключать</Text>}
+                        {off ? <Text style={{ color: '#4C82FF', marginTop: 5  }}>Закрывать</Text> : <Text style={{ color: '#8B8B8B', marginTop: 5  }}>Закрывать</Text>}
                     </View>
                 </View>
                 {on ?
@@ -281,9 +282,9 @@ export default function AddWindow({ controller }) {
                                         title: "Умный выключатель",
                                         payload: {
                                             [labels.state]: (on ? "Включать" : "Выключать"),
-                                            [labels.angle]: (on? sliderValue : null),
-                                            [labels.min_temp]: (on ? minTemp :null),
-                                            [labels.max_temp]: (on ? maxTemp :null),
+                                            [labels.angle]: (on ? sliderValue : null),
+                                            [labels.min_temp]: (on ? minTemp : null),
+                                            [labels.max_temp]: (on ? maxTemp : null),
                                         }
                                     },
                                     {
@@ -293,14 +294,14 @@ export default function AddWindow({ controller }) {
                                         commandName: on ? "on" : "off",
                                         commandName: !on ? "off" : "set_pamars",
                                         params: on ?
-                                          {
-                                            state: on,
-                                            angle:on? sliderValue:0,
-                                            minTemp:on? minTemp:15,
-                                            maxTemp:on? maxTemp:30,
-                                          }
-                                          :
-                                          {}
+                                            {
+                                                state: on,
+                                                angle: on ? sliderValue : 0,
+                                                minTemp: on ? minTemp : 15,
+                                                maxTemp: on ? maxTemp : 30,
+                                            }
+                                            :
+                                            {}
                                     }
                                 );
                                 router.back();
