@@ -1,5 +1,5 @@
 import { ScrollView, Text } from "react-native";
-import { View, StyleSheet, Pressable, TouchableOpacity,Alert } from "react-native"
+import { View, StyleSheet, Pressable, TouchableOpacity, Alert } from "react-native"
 import { Header } from "../Header";
 import Back from "../PhotosComponents/Back"
 import { useRouter } from "expo-router";
@@ -7,11 +7,8 @@ import { useState } from "react";
 import Shtora from "../PhotosComponents/Shtora";
 import ShtoraOpen from "../PhotosComponents/ShtoraOpen";
 import ShtoraClose from "../PhotosComponents/ShtoraClose";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from 'expo-linear-gradient';
-
 import Slider from '@react-native-community/slider';
-
 export default function SmartCurtain({ data, socket }) {
   const router = useRouter();
   const [on, setOn] = useState(data.payload.state);
@@ -67,9 +64,9 @@ export default function SmartCurtain({ data, socket }) {
             <Pressable disabled={off} onPress={async () => {
               await socket.current.send(JSON.stringify(
                 {
-                  topic: data.topic,
-                  deviceType: data.payload.deviceType,
-                  command: 'turn_off'
+                  type: 'command',
+                  deviceId: data.payload.id,
+                  command: 'off',
                 }
               ));
               setOn(!on);
@@ -109,8 +106,8 @@ export default function SmartCurtain({ data, socket }) {
                 onPress={async () => {
                   await socket.current.send(JSON.stringify(
                     {
-                      topic: data.topic,
-                      deviceType: data.payload.deviceType,
+                      type: 'command',
+                      deviceId: data.payload.id,
                       command: 'set_params',
                       params: {
                         targetServoPos: sliderValue,

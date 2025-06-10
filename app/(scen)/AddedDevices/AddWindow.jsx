@@ -207,7 +207,7 @@ export default function AddWindow({ controller }) {
                             }}>
                             <WindowClose color={off ? "#4C82FF" : "#8B8B8B"} />
                         </Pressable>
-                        {off ? <Text style={{ color: '#4C82FF', marginTop: 5  }}>Закрывать</Text> : <Text style={{ color: '#8B8B8B', marginTop: 5  }}>Закрывать</Text>}
+                        {off ? <Text style={{ color: '#4C82FF', marginTop: 5 }}>Закрывать</Text> : <Text style={{ color: '#8B8B8B', marginTop: 5 }}>Закрывать</Text>}
                     </View>
                 </View>
                 {on ?
@@ -287,22 +287,29 @@ export default function AddWindow({ controller }) {
                                             [labels.max_temp]: (on ? maxTemp : null),
                                         }
                                     },
-                                    {
-                                        type: "command",
-                                        deviceId: controller.deviceId,
-                                        deviceType: controller.deviceType,
-                                        commandName: on ? "on" : "off",
-                                        commandName: !on ? "off" : "set_pamars",
-                                        params: on ?
+                                    on ?
+                                        {
+                                            type: "command",
+                                            deviceId: controller.deviceId,
+                                            deviceType: controller.deviceType,
+                                            commandName: "set_pamars",
+                                            params:
                                             {
-                                                state: on,
                                                 angle: on ? sliderValue : 0,
-                                                minTemp: on ? minTemp : 15,
+                                                minTemp: on ? minTemp : 20,
                                                 maxTemp: on ? maxTemp : 30,
+                                                auto: false,
                                             }
-                                            :
-                                            {}
-                                    }
+
+                                        }
+                                        :
+                                        {
+                                            type: "command",
+                                            deviceId: controller.deviceId,
+                                            deviceType: controller.deviceType,
+                                            commandName: "off",
+
+                                        }
                                 );
                                 router.back();
                             }}>

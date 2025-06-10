@@ -100,10 +100,9 @@ export const SmartLight = ({ data, socket }) => {
                 //   command: 'turn_off'
                 // }
                 {
-                  topic: "home/led",
-                  deviceType: data.payload.deviceType,
+                  type: 'command',
+                  deviceId: data.payload.id,
                   command: 'off',
-                  type: "command",
                 }
               ));
               setOn(!on);
@@ -186,23 +185,26 @@ export const SmartLight = ({ data, socket }) => {
                     await socket.current.send(JSON.stringify(
                       {
                         type: 'command',
-                        topic: "home/led",
-                        deviceType: data.payload.deviceType,
-                        command: 'set_params',
+                        deviceId: data.payload.id,
+                        command: "set_params",
                         params: {
                           color: color,
                           brightness: sliderValue,
                           effect: Object.keys(effectArr).find(
                             key => effectArr[key] === selectedItem
+
                           ),
                           mode: "MANUAL",
                         }
                       }
                     ));
+
                     setOn(true);
                     setOff(false);
                     Alert.alert('Успех', 'Параметры настройки успешно изменены!');
-                  }}
+                  }
+
+                  }
                 >
                   <Text style={styles.btnText}>Изменить настройки</Text>
                 </TouchableOpacity>

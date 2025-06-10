@@ -273,22 +273,28 @@ export default function AddCurtain({ controller }) {
 
                                         }
                                     },
+                                    state === "Включить"?
                                     {
                                         type: "command",
                                         deviceId: controller.deviceId,
                                         deviceType: controller.deviceType,
-                                        commandName: state === "Выключить" ? "off" : "set_pamars",
-                                        params: state === "Включить" ?
+                                        commandName:"set_pamars",
+                                        params: 
                                             {
                                                 state: state,
-                                                glow: Object.keys(effectArr).find(
+                                                effect: Object.keys(effectArr).find(
                                                     key => effectArr[key] === selectedGlow
                                                 ),
                                                 color: color,
                                                 brightness: sliderValue,
+                                                mode:"MANUAL",
                                             }
-                                            :
-                                            {}
+                                    }:
+                                    {
+                                        type: "command",
+                                        deviceId: controller.deviceId,
+                                        deviceType: controller.deviceType,
+                                        commandName:"off",
                                     }
                                 );
                                 router.back();

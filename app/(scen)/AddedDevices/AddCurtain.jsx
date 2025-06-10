@@ -108,7 +108,7 @@ export default function AddCurtain({ controller }) {
               thumbTintColor="#4C82FF"
             />
           </View> :
-              null
+          null
         }
 
         <View style={styles.btnBlock}>
@@ -127,26 +127,29 @@ export default function AddCurtain({ controller }) {
                     title: "Умная роль-штора",
                     payload: {
                       [labels.state]: (on ? "Открывать" : "Закрывать"),
-                      [labels.targetServoPos]: (on ? sliderValue :null),
+                      [labels.targetServoPos]: (on ? sliderValue : null),
                     }
                   },
-                  {
-                    type: "command",
-                    deviceId: controller.deviceId,
-                    deviceType: controller.deviceType,
-                    commandName: on ? "on" : "off",
-                    // commandName: !on ? "off" : "set_pamars",
-                    // params: on ?
-                    //   {
-                    //     state: on,
-                    //     targetServoPos: sliderValue,
-                    //   }
-                    //   :
-                    //   {}
+                  on ?
+                    {
+                      type: "command",
+                      deviceId: controller.deviceId,
+                      deviceType: controller.deviceType,
+                      commandName: "set_pamars",
+                      params:
+                      {
+                        targetServoPos: sliderValue,
+                        auto: false,
+                      }
 
-
-
-                  }
+                    }
+                    :
+                    {
+                      type: "command",
+                      deviceId: controller.deviceId,
+                      deviceType: controller.deviceType,
+                      commandName: "off"
+                    }
                 );
                 router.back();
               }}>

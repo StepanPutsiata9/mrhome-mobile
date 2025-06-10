@@ -15,10 +15,9 @@ export default function SmartWindow({ data, socket }) {
   const [on, setOn] = useState(data.payload.state);
   const [off, setOff] = useState(!on);
   const [sliderValue, setSliderValue] = useState(Number(data.payload.angle));
-  const [minTemp, setMinTemp] = useState('10');
-  const [maxTemp, setMaxTemp] = useState('30');
+  const [minTemp, setMinTemp] = useState(String(data.payload.min_temp));
+  const [maxTemp, setMaxTemp] = useState(String(data.payload.max_temp));
   const [errors, setErrors] = useState({});
-
   const formatTemperature = (value) => {
     let formattedValue = value.replace(/[^0-9.,]/g, '');
 
@@ -35,7 +34,7 @@ export default function SmartWindow({ data, socket }) {
       formattedValue = parts[0] + '.' + parts[1].charAt(0);
     }
 
-  
+
     if (parts[0].length > 1 && parts[0][0] === '0' && parts[0][1] !== '.') {
       formattedValue = formattedValue.substring(1);
     }
@@ -110,13 +109,14 @@ export default function SmartWindow({ data, socket }) {
     }
     try {
       await socket.current.send(JSON.stringify({
-        topic: data.topic,
-        deviceType: data.payload.deviceType,
+        deviceId: data.payload.id,
         command: 'set_params',
+        type: "command",
         params: {
-          targetServoPos: sliderValue,
-          mшx_temp: parseFloat(minTemp.replace(',', '.')),
+          angle: sliderValue,
+          min_temp: parseFloat(minTemp.replace(',', '.')),
           max_temp: parseFloat(maxTemp.replace(',', '.')),
+          auto: false,
         }
       }));
 
@@ -153,35 +153,28 @@ export default function SmartWindow({ data, socket }) {
           </View>
           <View style={styles.infoLine}>
             <Text style={styles.infoLineText}>Состояние</Text>
-            <Text style={styles.status}>{data.payload.state? "Открыто" : "Закрыто"}</Text>
+            <Text style={styles.status}>{data.payload.state ? "Открыто" : "Закрыто"}</Text>
           </View>
         </View>
 
         <View style={styles.onOff}>
           <View style={{ alignItems: 'center' }}>
             <Pressable disabled={on} onPress={async () => {
-              await socket.current.send(JSON.stringify(
-                {
-                  topic: data.topic,
-                  deviceType: data.payload.deviceType,
-                  command: 'turn_on'
-                }
-              ));
               setOn(!on);
               setOff(!off)
             }}>
               <WindowOpen color={on ? "#4C82FF" : "#8B8B8B"} />
             </Pressable>
-            {on ? <Text style={{ color: '#4C82FF',marginTop:5 }}>Настроить работу</Text> : <Text style={{ color: '#8B8B8B',marginTop:5 }}>Настроить работу</Text>}
-           
+            {on ? <Text style={{ color: '#4C82FF', marginTop: 5 }}>Настроить работу</Text> : <Text style={{ color: '#8B8B8B', marginTop: 5 }}>Настроить работу</Text>}
+
           </View>
           <View style={{ alignItems: 'center' }}>
             <Pressable disabled={off} onPress={async () => {
               await socket.current.send(JSON.stringify(
                 {
-                  topic: data.topic,
-                  deviceType: data.payload.deviceType,
-                  command: 'turn_off'
+                  type: 'command',
+                  deviceId: data.payload.id,
+                  command: 'off'
                 }
               ));
               setOn(!on);
@@ -189,76 +182,76 @@ export default function SmartWindow({ data, socket }) {
             }}>
               <WindowClose color={off ? "#4C82FF" : "#8B8B8B"} />
             </Pressable>
-            {off ? <Text style={{ color: '#4C82FF',marginTop:5  }}>Закрыть</Text> : <Text style={{ color: '#8B8B8B',marginTop:5  }}>Закрыть</Text>}
+            {off ? <Text style={{ color: '#4C82FF', marginTop: 5 }}>Закрыть</Text> : <Text style={{ color: '#8B8B8B', marginTop: 5 }}>Закрыть</Text>}
           </View>
         </View>
         {on ?
           <View>
-                    <View style={styles.temperatureContainer}>
-          <Text style={styles.sectionTitle}>Настройки температуры</Text>
+            <View style={styles.temperatureContainer}>
+              <Text style={styles.sectionTitle}>Настройки температуры</Text>
 
-          <View style={styles.temperatureInputContainer}>
-            <Text style={styles.temperatureLabel}>Минимальная температура (°C)</Text>
-            <TextInput
-              style={[styles.temperatureInput, errors.minTemp && styles.errorInput]}
-              keyboardType="decimal-pad"
-              value={minTemp}
-              onChangeText={(value) => handleChange('minTemp', value)}
-              onBlur={() => validateInput('minTemp', minTemp, true)}
-              placeholder="0-80"
-            />
-            {errors.minTemp && <Text style={styles.errorText}>{errors.minTemp}</Text>}
-          </View>
+              <View style={styles.temperatureInputContainer}>
+                <Text style={styles.temperatureLabel}>Минимальная температура (°C)</Text>
+                <TextInput
+                  style={[styles.temperatureInput, errors.minTemp && styles.errorInput]}
+                  keyboardType="decimal-pad"
+                  value={minTemp}
+                  onChangeText={(value) => handleChange('minTemp', value)}
+                  onBlur={() => validateInput('minTemp', minTemp, true)}
+                  placeholder="0-80"
+                />
+                {errors.minTemp && <Text style={styles.errorText}>{errors.minTemp}</Text>}
+              </View>
 
-          <View style={styles.temperatureInputContainer}>
-            <Text style={styles.temperatureLabel}>Максимальная температура (°C)</Text>
-            <TextInput
-              style={[styles.temperatureInput, errors.maxTemp && styles.errorInput]}
-              keyboardType="decimal-pad"
-              value={maxTemp}
-              onChangeText={(value) => handleChange('maxTemp', value)}
-              onBlur={() => validateInput('maxTemp', maxTemp, true)}
-              placeholder="0-80"
-            />
-            {errors.maxTemp && <Text style={styles.errorText}>{errors.maxTemp}</Text>}
-          </View>
+              <View style={styles.temperatureInputContainer}>
+                <Text style={styles.temperatureLabel}>Максимальная температура (°C)</Text>
+                <TextInput
+                  style={[styles.temperatureInput, errors.maxTemp && styles.errorInput]}
+                  keyboardType="decimal-pad"
+                  value={maxTemp}
+                  onChangeText={(value) => handleChange('maxTemp', value)}
+                  onBlur={() => validateInput('maxTemp', maxTemp, true)}
+                  placeholder="0-80"
+                />
+                {errors.maxTemp && <Text style={styles.errorText}>{errors.maxTemp}</Text>}
+              </View>
 
-          {Object.keys(errors).length === 0 && (
-            <Text style={styles.temperatureSummary}>
-              Диапазон: от {minTemp}°C до {maxTemp}°C
-            </Text>
-          )}
-        </View>
-        <View style={styles.sliderContainer}>
-          <Text style={styles.sliderText}>Угол открытия: {sliderValue}</Text>
-          <Slider
-            style={styles.slider}
-            minimumValue={1}
-            maximumValue={100}
-            step={1}
-            value={sliderValue}
-            onValueChange={(value) => setSliderValue(Math.round(value))}
-            minimumTrackTintColor="#4C82FF"
-            maximumTrackTintColor="#000000"
-            thumbTintColor="#4C82FF"
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          <LinearGradient
-            colors={['#195dfc', '#4C82FF']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.gradientBtn}
-          >
-            <TouchableOpacity
-              style={styles.btn}
-              activeOpacity={0.7}
-              onPress={handleSubmit}
-            >
-              <Text style={styles.btnText}>Изменить настройки</Text>
-            </TouchableOpacity>
-          </LinearGradient>
-        </View>
+              {Object.keys(errors).length === 0 && (
+                <Text style={styles.temperatureSummary}>
+                  Диапазон: от {minTemp}°C до {maxTemp}°C
+                </Text>
+              )}
+            </View>
+            <View style={styles.sliderContainer}>
+              <Text style={styles.sliderText}>Угол открытия: {sliderValue}</Text>
+              <Slider
+                style={styles.slider}
+                minimumValue={1}
+                maximumValue={100}
+                step={1}
+                value={sliderValue}
+                onValueChange={(value) => setSliderValue(Math.round(value))}
+                minimumTrackTintColor="#4C82FF"
+                maximumTrackTintColor="#000000"
+                thumbTintColor="#4C82FF"
+              />
+            </View>
+            <View style={styles.buttonContainer}>
+              <LinearGradient
+                colors={['#195dfc', '#4C82FF']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.gradientBtn}
+              >
+                <TouchableOpacity
+                  style={styles.btn}
+                  activeOpacity={0.7}
+                  onPress={handleSubmit}
+                >
+                  <Text style={styles.btnText}>Изменить настройки</Text>
+                </TouchableOpacity>
+              </LinearGradient>
+            </View>
           </View>
           : null}
       </ScrollView>
