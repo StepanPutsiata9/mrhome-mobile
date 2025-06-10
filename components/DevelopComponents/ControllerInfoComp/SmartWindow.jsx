@@ -1,5 +1,5 @@
 import { ScrollView, Text, Alert } from "react-native";
-import { View, StyleSheet, Pressable, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from "react-native"
+import { View, StyleSheet, Pressable, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Switch } from "react-native"
 import { Header } from "../Header";
 import Back from "../PhotosComponents/Back"
 import SwitchOutline from "../PhotosComponents/Window";
@@ -10,6 +10,7 @@ import WindowOpen from "../PhotosComponents/WindowOpen"
 import WindowClose from "../PhotosComponents/WindowClose"
 import { LinearGradient } from "expo-linear-gradient";
 
+
 export default function SmartWindow({ data, socket }) {
   const router = useRouter();
   const [on, setOn] = useState(data.payload.state);
@@ -18,6 +19,7 @@ export default function SmartWindow({ data, socket }) {
   const [minTemp, setMinTemp] = useState(String(data.payload.min_temp));
   const [maxTemp, setMaxTemp] = useState(String(data.payload.max_temp));
   const [errors, setErrors] = useState({});
+  const [auto, setAuto] = useState(false);
   const formatTemperature = (value) => {
     let formattedValue = value.replace(/[^0-9.,]/g, '');
 
@@ -116,7 +118,7 @@ export default function SmartWindow({ data, socket }) {
           angle: sliderValue,
           min_temp: parseFloat(minTemp.replace(',', '.')),
           max_temp: parseFloat(maxTemp.replace(',', '.')),
-          auto: false,
+          auto: auto,
         }
       }));
 
@@ -187,7 +189,21 @@ export default function SmartWindow({ data, socket }) {
         </View>
         {on ?
           <View>
-            <View style={styles.temperatureContainer}>
+            <View style={styles.switchContainer}>
+              <Text style={styles.switchLabel}>
+                Автоматический режим
+              </Text>
+              <Switch
+                value={auto}
+                onValueChange={setAuto}
+                trackColor={{ false: '#E0E0E0', true: '#4C82FF' }}
+                thumbColor="#FFFFFF"
+                ios_backgroundColor="#E0E0E0"
+                style={styles.switchBlock}
+              />
+            </View>
+
+            {auto && <View style={styles.temperatureContainer}>
               <Text style={styles.sectionTitle}>Настройки температуры</Text>
 
               <View style={styles.temperatureInputContainer}>
@@ -222,6 +238,7 @@ export default function SmartWindow({ data, socket }) {
                 </Text>
               )}
             </View>
+            }
             <View style={styles.sliderContainer}>
               <Text style={styles.sliderText}>Угол открытия: {sliderValue}</Text>
               <Slider
@@ -387,5 +404,18 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0, 0, 0, 0.2)',
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 2,
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+  },
+  switchLabel: {
+    fontSize: 18,
+    fontWeight: '500',
+  },
+  switchBlock: {
+    transform: [{ scaleX: 1.1 }, { scaleY: 1.1 }],
   },
 });

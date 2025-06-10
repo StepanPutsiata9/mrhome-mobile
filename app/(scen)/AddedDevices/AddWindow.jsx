@@ -1,5 +1,5 @@
 import { ScrollView, Text } from "react-native";
-import { View, StyleSheet, Pressable, TouchableOpacity, TextInput } from "react-native"
+import { View, StyleSheet, Pressable, TouchableOpacity, TextInput, Switch } from "react-native"
 import { Header } from "../../../components/DevelopComponents/Header";
 import Back from "../../../components/DevelopComponents/PhotosComponents/Back"
 import { useRouter } from "expo-router";
@@ -15,12 +15,14 @@ export default function AddWindow({ controller }) {
     const router = useRouter();
     const [on, setOn] = useState(true);
     const [off, setOff] = useState(!on);
+
     const { controllerState, setControllerState, setControllerStateScen } = useContext(ScenariiContext);
     const labels = {
         state: 'Состояние',
         angle: "Угол открытия окна",
         max_temp: 'Максимальная температура',
         min_temp: 'Минимальная температура',
+        auto: 'Автоматический режим'
     };
     const addController = (newItem, newItemScen) => {
         setControllerState(prevItems => {
@@ -54,6 +56,7 @@ export default function AddWindow({ controller }) {
     const [minTemp, setMinTemp] = useState('10');
     const [maxTemp, setMaxTemp] = useState('30');
     const [errors, setErrors] = useState({});
+    const [auto, setAuto] = useState(false);
 
     // Более строгая проверка ввода
     const formatTemperature = (value) => {
@@ -212,7 +215,19 @@ export default function AddWindow({ controller }) {
                 </View>
                 {on ?
                     <View>
-
+                        <View style={styles.switchContainer}>
+                            <Text style={styles.switchLabel}>
+                                Автоматический режим
+                            </Text>
+                            <Switch
+                                value={auto}
+                                onValueChange={setAuto}
+                                trackColor={{ false: '#E0E0E0', true: '#4C82FF' }}
+                                thumbColor="#FFFFFF"
+                                ios_backgroundColor="#E0E0E0"
+                                style={styles.switchBlock}
+                            />
+                        </View>
                         <View style={styles.temperatureContainer}>
                             <Text style={styles.sectionTitle}>Настройки температуры</Text>
 
@@ -285,6 +300,7 @@ export default function AddWindow({ controller }) {
                                             [labels.angle]: (on ? sliderValue : null),
                                             [labels.min_temp]: (on ? minTemp : null),
                                             [labels.max_temp]: (on ? maxTemp : null),
+                                            [labels.auto]:(on?(auto?"вкл":"выкл"):null)
                                         }
                                     },
                                     on ?
@@ -298,7 +314,7 @@ export default function AddWindow({ controller }) {
                                                 angle: on ? sliderValue : 0,
                                                 minTemp: on ? minTemp : 20,
                                                 maxTemp: on ? maxTemp : 30,
-                                                auto: false,
+                                                auto: auto,
                                             }
 
                                         }
@@ -453,5 +469,18 @@ const styles = StyleSheet.create({
         color: '#4C82FF',
         marginTop: 10,
         fontWeight: '500',
+    },
+    switchContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 24,
+    },
+    switchLabel: {
+        fontSize: 18,
+        fontWeight: '500',
+    },
+    switchBlock: {
+        transform: [{ scaleX: 1.1 }, { scaleY: 1.1 }],
     },
 });

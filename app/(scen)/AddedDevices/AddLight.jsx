@@ -20,7 +20,7 @@ export default function AddCurtain({ controller }) {
     const [isOpenCircle, setIsOpenCircle] = useState(false);
     const [isOpenState, setIsOpenState] = useState(false);
     const [isOpenSlider, setIsOpenSlider] = useState(false);
-
+    const [isOpenMode, setIsOpenMode] = useState(false);
     const [state, setState] = useState("Выключить");
     const { controllerState, setControllerState, setControllerStateScen } = useContext(ScenariiContext);
     const [color, setColor] = useState("");
@@ -35,13 +35,22 @@ export default function AddCurtain({ controller }) {
         candle: "Свеча",
         color: "Цвет",
     };
+    const modes = ["Безопасный", "Ручной", "Автоматический"];
+    const modesArr = {
+        AUTO: "Автоматический",
+        MANUAL: "Ручной",
+        SECURITY: "Безопасный"
+    }
     const [sliderValue, setSliderValue] = useState();
     const [selectedGlow, setSelectedGlow] = useState("");
+    const [selectedMode, setSelectedMode] = useState("");
+
     const labels = {
         state: 'Состояние',
         glowType: 'Тип свечения',
         color: 'Цвет подсветки',
-        brightness: "Яркость"
+        brightness: "Яркость",
+        mode: "Режим работы",
     };
 
     const addController = (newItem, newItemScen) => {
@@ -218,6 +227,45 @@ export default function AddCurtain({ controller }) {
                     </View>
                 </View>
                 <View style={styles.itemsBlock}>
+                    <View >
+                        <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
+                            setIsOpenMode(true)
+                        }}>
+                            <Text>Режим работы</Text>
+
+                            <Modal visible={isOpenCircle} transparent={true} animationType="fade">
+                                <Pressable style={styles.modalOverlay} onPress={() => setIsOpenMode(false)}>
+                                    <View style={styles.containerMode}>
+                                        <Text style={styles.titleOfTheme}>Выберите режим работы</Text>
+                                        <SegmentedControl
+                                            values={modes}
+                                            selectedIndex={modes.indexOf(selectedMode)}
+                                            onChange={(event) => {
+                                                const selectedIndex = event.nativeEvent.selectedSegmentIndex;
+                                                setSelectedMode(modes[selectedIndex]);
+                                            }}
+                                            tintColor="#4C82FF"
+                                            backgroundColor="#FFFFFF"
+                                            activeFontStyle={styles.activeText}
+                                            fontStyle={styles.inactiveText}
+                                            style={styles.segmentedControl}
+                                        />
+                                        <View style={styles.selectedContainer}>
+                                            <Text style={styles.selectedText}>Выбран режим:
+                                                <Text style={styles.selectedMode}> {selectedMode}</Text>
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </Pressable>
+                            </Modal>
+                            <ToArrow />
+                        </Pressable>
+                    </View>
+                    <View>
+                        <Text style={{ color: '#8B8B8B' }}>{color}</Text>
+                    </View>
+                </View>
+                <View style={styles.itemsBlock}>
                     <Pressable style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
                         setIsOpenSlider(true)
                     }}>
@@ -270,16 +318,16 @@ export default function AddCurtain({ controller }) {
                                             [labels.glowType]: selectedGlow || null,
                                             [labels.color]: color || null,
                                             [labels.brightness]: sliderValue || null,
-
+                                            [labels.mode]: selectedMode || null,
                                         }
                                     },
-                                    state === "Включить"?
-                                    {
-                                        type: "command",
-                                        deviceId: controller.deviceId,
-                                        deviceType: controller.deviceType,
-                                        commandName:"set_pamars",
-                                        params: 
+                                    state === "Включить" ?
+                                        {
+                                            type: "command",
+                                            deviceId: controller.deviceId,
+                                            deviceType: controller.deviceType,
+                                            commandName: "set_pamars",
+                                            params:
                                             {
                                                 state: state,
                                                 effect: Object.keys(effectArr).find(
@@ -287,15 +335,17 @@ export default function AddCurtain({ controller }) {
                                                 ),
                                                 color: color,
                                                 brightness: sliderValue,
-                                                mode:"MANUAL",
+                                                mode: Object.keys(modesArr).find(
+                                                    key => modesArr[key] === selectedMode
+                                                ),
                                             }
-                                    }:
-                                    {
-                                        type: "command",
-                                        deviceId: controller.deviceId,
-                                        deviceType: controller.deviceType,
-                                        commandName:"off",
-                                    }
+                                        } :
+                                        {
+                                            type: "command",
+                                            deviceId: controller.deviceId,
+                                            deviceType: controller.deviceType,
+                                            commandName: "off",
+                                        }
                                 );
                                 router.back();
                             }}>
@@ -486,5 +536,45 @@ const styles = StyleSheet.create({
     wheel: {
         width: 250,
         height: 250,
+    },
+
+
+    containerMode: {
+        flex: 1,
+        padding: 24,
+    },
+    titleOfTheme: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: '#333',
+        marginBottom: 24,
+        textAlign: 'center',
+    },
+    segmentedControl: {
+        height: 44,
+        borderRadius: 8,
+        borderColor: '#4C82FF',
+        marginBottom: 24,
+    },
+    activeText: {
+        color: '#FFFFFF',
+        fontWeight: '600',
+    },
+    inactiveText: {
+        color: '#4C82FF',
+    },
+    selectedContainer: {
+        backgroundColor: '#E8F0FE',
+        padding: 16,
+        borderRadius: 8,
+        alignItems: 'center',
+    },
+    selectedText: {
+        color: '#555',
+        fontSize: 16,
+    },
+    selectedMode: {
+        color: '#4C82FF',
+        fontWeight: 'bold',
     },
 });

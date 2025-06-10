@@ -11,6 +11,7 @@ import { Header } from "../Header"
 import ColorPicker from 'react-native-wheel-color-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
+import SegmentedControl from '@react-native-segmented-control/segmented-control';
 
 export const SmartLight = ({ data, socket }) => {
   const items = ["Чтение", 'Ночь', 'Вечеринка', 'Джунгли', "Неон", "Свеча", "Цвет"];
@@ -23,6 +24,12 @@ export const SmartLight = ({ data, socket }) => {
     candle: "Свеча",
     color: "Цвет",
   };
+  const modes = ["Безопасный", "Ручной", "Автоматический"];
+  const modesArr = {
+    AUTO: "Автоматический",
+    MANUAL: "Ручной",
+    SECURITY: "Безопасный"
+  }
   const [color, setColor] = useState(data.payload.color);
   const [isOpen, setIsOpen] = useState(false);
   const startEffect = Object.keys(effectArr).find((key) => {
@@ -30,10 +37,18 @@ export const SmartLight = ({ data, socket }) => {
       return key
     }
   })
+  const startMode = Object.keys(modesArr).find((key) => {
+    if (key == data.payload.mode) {
+
+      return key
+    }
+  })
   const [selectedItem, setSelectedItem] = useState(effectArr[startEffect]);
   const [sliderValue, setSliderValue] = useState(Number(data.payload.brightness));
   const [on, setOn] = useState(data.payload.state);
   const [off, setOff] = useState(!on);
+  const [selectedMode, setSelectedMode] = useState(modesArr[startMode]);
+
   const router = useRouter();
   const handleColorChange = (colorObj) => {
     if (typeof colorObj === 'string') {
@@ -117,6 +132,7 @@ export const SmartLight = ({ data, socket }) => {
         {on ?
           <View>
             <Text style={styles.settingsText}>Параметры настройки</Text>
+
             <View style={styles.container}>
               <ColorPicker
                 color={color}
@@ -129,7 +145,31 @@ export const SmartLight = ({ data, socket }) => {
               />
               <Text style={styles.text}>Цвет: {color}</Text>
             </View>
+            <View style={styles.containerMode}>
+              <Text style={styles.titleOfTheme}>Выберите режим работы</Text>
+
+              <SegmentedControl
+                values={modes}
+                selectedIndex={modes.indexOf(selectedMode)}
+                onChange={(event) => {
+                  const selectedIndex = event.nativeEvent.selectedSegmentIndex;
+                  setSelectedMode(modes[selectedIndex]);
+                }}
+                tintColor="#4C82FF"
+                backgroundColor="#FFFFFF"
+                activeFontStyle={styles.activeText}
+                fontStyle={styles.inactiveText}
+                style={styles.segmentedControl}
+              />
+
+              <View style={styles.selectedContainer}>
+                <Text style={styles.selectedText}>Выбран режим:
+                  <Text style={styles.selectedMode}> {selectedMode}</Text>
+                </Text>
+              </View>
+            </View>
             <View style={styles.container}>
+              <Text style={styles.titleOfTheme}>Тип свечения</Text>
               <Pressable
                 style={styles.dropdownButton}
                 onPress={() => setIsOpen(!isOpen)}
@@ -192,18 +232,17 @@ export const SmartLight = ({ data, socket }) => {
                           brightness: sliderValue,
                           effect: Object.keys(effectArr).find(
                             key => effectArr[key] === selectedItem
-
                           ),
-                          mode: "MANUAL",
+                          mode: Object.keys(modesArr).find(
+                            key => modesArr[key] === selectedMode
+                          ),
                         }
                       }
                     ));
-
                     setOn(true);
                     setOff(false);
                     Alert.alert('Успех', 'Параметры настройки успешно изменены!');
                   }
-
                   }
                 >
                   <Text style={styles.btnText}>Изменить настройки</Text>
@@ -367,5 +406,44 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     fontWeight: 600,
 
-  }
+  },
+
+  containerMode: {
+    flex: 1,
+    padding: 24,
+  },
+  titleOfTheme: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 24,
+    textAlign: 'center',
+  },
+  segmentedControl: {
+    height: 44,
+    borderRadius: 8,
+    borderColor: '#4C82FF',
+    marginBottom: 24,
+  },
+  activeText: {
+    color: '#FFFFFF',
+    fontWeight: '600',
+  },
+  inactiveText: {
+    color: '#4C82FF',
+  },
+  selectedContainer: {
+    backgroundColor: '#E8F0FE',
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  selectedText: {
+    color: '#555',
+    fontSize: 16,
+  },
+  selectedMode: {
+    color: '#4C82FF',
+    fontWeight: 'bold',
+  },
 });
