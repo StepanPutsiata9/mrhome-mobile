@@ -228,41 +228,43 @@ export default function AddWindow({ controller }) {
                                 style={styles.switchBlock}
                             />
                         </View>
-                        <View style={styles.temperatureContainer}>
-                            <Text style={styles.sectionTitle}>Настройки температуры</Text>
+                        {auto&&
+                            <View style={styles.temperatureContainer}>
+                                <Text style={styles.sectionTitle}>Настройки температуры</Text>
 
-                            <View style={styles.temperatureInputContainer}>
-                                <Text style={styles.temperatureLabel}>Минимальная температура (°C)</Text>
-                                <TextInput
-                                    style={[styles.temperatureInput, errors.minTemp && styles.errorInput]}
-                                    keyboardType="decimal-pad"
-                                    value={minTemp}
-                                    onChangeText={(value) => handleChange('minTemp', value)}
-                                    onBlur={() => validateInput('minTemp', minTemp, true)}
-                                    placeholder="0-80"
-                                />
-                                {errors.minTemp && <Text style={styles.errorText}>{errors.minTemp}</Text>}
+                                <View style={styles.temperatureInputContainer}>
+                                    <Text style={styles.temperatureLabel}>Минимальная температура (°C)</Text>
+                                    <TextInput
+                                        style={[styles.temperatureInput, errors.minTemp && styles.errorInput]}
+                                        keyboardType="decimal-pad"
+                                        value={minTemp}
+                                        onChangeText={(value) => handleChange('minTemp', value)}
+                                        onBlur={() => validateInput('minTemp', minTemp, true)}
+                                        placeholder="0-80"
+                                    />
+                                    {errors.minTemp && <Text style={styles.errorText}>{errors.minTemp}</Text>}
+                                </View>
+
+                                <View style={styles.temperatureInputContainer}>
+                                    <Text style={styles.temperatureLabel}>Максимальная температура (°C)</Text>
+                                    <TextInput
+                                        style={[styles.temperatureInput, errors.maxTemp && styles.errorInput]}
+                                        keyboardType="decimal-pad"
+                                        value={maxTemp}
+                                        onChangeText={(value) => handleChange('maxTemp', value)}
+                                        onBlur={() => validateInput('maxTemp', maxTemp, true)}
+                                        placeholder="0-80"
+                                    />
+                                    {errors.maxTemp && <Text style={styles.errorText}>{errors.maxTemp}</Text>}
+                                </View>
+
+                                {Object.keys(errors).length === 0 && (
+                                    <Text style={styles.temperatureSummary}>
+                                        Диапазон: от {minTemp}°C до {maxTemp}°C
+                                    </Text>
+                                )}
                             </View>
-
-                            <View style={styles.temperatureInputContainer}>
-                                <Text style={styles.temperatureLabel}>Максимальная температура (°C)</Text>
-                                <TextInput
-                                    style={[styles.temperatureInput, errors.maxTemp && styles.errorInput]}
-                                    keyboardType="decimal-pad"
-                                    value={maxTemp}
-                                    onChangeText={(value) => handleChange('maxTemp', value)}
-                                    onBlur={() => validateInput('maxTemp', maxTemp, true)}
-                                    placeholder="0-80"
-                                />
-                                {errors.maxTemp && <Text style={styles.errorText}>{errors.maxTemp}</Text>}
-                            </View>
-
-                            {Object.keys(errors).length === 0 && (
-                                <Text style={styles.temperatureSummary}>
-                                    Диапазон: от {minTemp}°C до {maxTemp}°C
-                                </Text>
-                            )}
-                        </View>
+                        }
                         <View style={styles.sliderContainer}>
                             <Text style={styles.sliderText}>Угол открытия: {sliderValue}</Text>
                             <Slider
@@ -278,9 +280,7 @@ export default function AddWindow({ controller }) {
                             />
                         </View>
                     </View>
-
                     : null}
-
                 <View style={styles.btnBlock}>
                     <LinearGradient
                         colors={['#195dfc', '#4C82FF']}
@@ -300,7 +300,7 @@ export default function AddWindow({ controller }) {
                                             [labels.angle]: (on ? sliderValue : null),
                                             [labels.min_temp]: (on ? minTemp : null),
                                             [labels.max_temp]: (on ? maxTemp : null),
-                                            [labels.auto]:(on?(auto?"вкл":"выкл"):null)
+                                            [labels.auto]: (on ? (auto ? "вкл" : "выкл") : null)
                                         }
                                     },
                                     on ?
@@ -316,7 +316,6 @@ export default function AddWindow({ controller }) {
                                                 maxTemp: on ? maxTemp : 30,
                                                 auto: auto,
                                             }
-
                                         }
                                         :
                                         {
@@ -324,7 +323,6 @@ export default function AddWindow({ controller }) {
                                             deviceId: controller.deviceId,
                                             deviceType: controller.deviceType,
                                             commandName: "off",
-
                                         }
                                 );
                                 router.back();

@@ -53,6 +53,9 @@ const toggleModal = (id, data, callback) => {
 export default function Scenarii({ item }) {
     const { scenariiState, setScenariiState } = useContext(ScenariiContext);
     const { socket } = useContext(SocketContext)
+    console.log('====================================');
+    console.log(item);
+    console.log('====================================');
     const activeScen = async (id, name) => {
         await socket.current.send(JSON.stringify(
             {

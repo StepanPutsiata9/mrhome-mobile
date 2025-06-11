@@ -13,6 +13,7 @@ import ColorPicker from 'react-native-wheel-color-picker';
 import Slider from '@react-native-community/slider';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
+import SegmentedControl from '@react-native-segmented-control/segmented-control';
 
 export default function AddCurtain({ controller }) {
     const router = useRouter();
@@ -35,9 +36,9 @@ export default function AddCurtain({ controller }) {
         candle: "Свеча",
         color: "Цвет",
     };
-    const modes = ["Безопасный", "Ручной", "Автоматический"];
+    const modes = ["Безопасный", "Ручной", "Авто"];
     const modesArr = {
-        AUTO: "Автоматический",
+        AUTO: "Авто",
         MANUAL: "Ручной",
         SECURITY: "Безопасный"
     }
@@ -233,7 +234,7 @@ export default function AddCurtain({ controller }) {
                         }}>
                             <Text>Режим работы</Text>
 
-                            <Modal visible={isOpenCircle} transparent={true} animationType="fade">
+                            <Modal visible={isOpenMode} transparent={true} animationType="fade">
                                 <Pressable style={styles.modalOverlay} onPress={() => setIsOpenMode(false)}>
                                     <View style={styles.containerMode}>
                                         <Text style={styles.titleOfTheme}>Выберите режим работы</Text>
@@ -262,7 +263,7 @@ export default function AddCurtain({ controller }) {
                         </Pressable>
                     </View>
                     <View>
-                        <Text style={{ color: '#8B8B8B' }}>{color}</Text>
+                        <Text style={{ color: '#8B8B8B' }}>{selectedMode}</Text>
                     </View>
                 </View>
                 <View style={styles.itemsBlock}>
@@ -540,8 +541,12 @@ const styles = StyleSheet.create({
 
 
     containerMode: {
-        flex: 1,
+        // flex: 1,
         padding: 24,
+        width:350,
+        height:220,
+        borderRadius:16,
+        backgroundColor:'white',
     },
     titleOfTheme: {
         fontSize: 18,

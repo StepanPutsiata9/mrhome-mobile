@@ -68,7 +68,7 @@ export default function ControllerItem({ data, socket }) {
       <View style={styles.controllerItem}>
         <View style={styles.titleBlock}>
           {photo}
-          <Text style={styles.title}>{data.title}</Text>
+          <Text style={styles.title}>{data.title.slice(0,20)}</Text>
         </View>
         <View style={styles.infoBlock}>
           <Text style={styles.status}>Статус</Text>

@@ -21,7 +21,7 @@ export default function TempSensor({ data, socket }) {
           <View style={{ flexDirection: 'row' }}>
             <Temp color={"#4C82FF"} />
             <View>
-              <Text style={styles.titleText}>Датчик температуры</Text>
+              <Text style={styles.titleText}>Датчик влажности и температуры</Text>
             </View>
           </View>
           <Pressable onPress={() => router.back()}>
@@ -33,16 +33,20 @@ export default function TempSensor({ data, socket }) {
             <Text style={styles.infoText}>Получайте точные данные о климате в реальном времени и
               поддерживайте комфорт, где бы вы ни находились.</Text>
           </View>
-          <View style={styles.infoLine}>
+          {/* <View style={styles.infoLine}>
             <Text style={styles.infoLineText}>Состояние</Text>
             <Text style={styles.status}>{data.payload.state === "on" ? "Включен" : "Выключен"}</Text>
-          </View>
+          </View> */}
           <View style={styles.infoLine}>
             <Text style={styles.infoLineText}>Температура</Text>
             <Text style={styles.status}>{data.payload.temp}*С</Text>
           </View>
+          <View style={styles.infoLine}>
+            <Text style={styles.infoLineText}>Влажность</Text>
+            <Text style={styles.status}>{data.payload.humm} г/м³</Text>
+          </View>
         </View>
-        <View style={styles.onOff}>
+        {/* <View style={styles.onOff}>
           <View style={{ alignItems: 'center' }}>
             <Pressable disabled={on} onPress={async () => {
               await socket.current.send(JSON.stringify(
@@ -76,7 +80,7 @@ export default function TempSensor({ data, socket }) {
             </Pressable>
             {off ? <Text style={{ color: '#4C82FF' }}>Выключен</Text> : <Text style={{ color: '#8B8B8B' }}>Выключен</Text>}
           </View>
-        </View>
+        </View> */}
         {/* </SafeAreaView> */}
       </ScrollView>
     </View>
@@ -94,13 +98,13 @@ const styles = StyleSheet.create({
   title: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 25,
+    alignItems:'center',
+    paddingHorizontal: 15,
     marginVertical: 15
   },
   titleText: {
-    fontSize: 20,
-    marginLeft: 10,
+    fontSize: 18,
+    marginLeft: 5,
   },
   infoLine: {
     flexDirection: 'row',
