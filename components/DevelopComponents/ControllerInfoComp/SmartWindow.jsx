@@ -19,7 +19,7 @@ export default function SmartWindow({ data, socket }) {
   const [minTemp, setMinTemp] = useState(String(data.payload.min_temp));
   const [maxTemp, setMaxTemp] = useState(String(data.payload.max_temp));
   const [errors, setErrors] = useState({});
-  const [auto, setAuto] = useState(false);
+  const [auto, setAuto] = useState(data.payload.auto=='true'?true:false);
   const formatTemperature = (value) => {
     let formattedValue = value.replace(/[^0-9.,]/g, '');
 
@@ -203,7 +203,7 @@ export default function SmartWindow({ data, socket }) {
               />
             </View>
 
-            {auto && <View style={styles.temperatureContainer}>
+            {auto&& <View style={styles.temperatureContainer}>
               <Text style={styles.sectionTitle}>Настройки температуры</Text>
 
               <View style={styles.temperatureInputContainer}>

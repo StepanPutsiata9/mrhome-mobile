@@ -57,12 +57,9 @@ export default function TabTwoScreen() {
           ?
           <View style={styles.container}>
             {scenariiState.length != 0 ? (
-              scenariiState.map((item, index) => {
-                item.id!=50?
+              scenariiState.map((item, index) => (
                 <Scenarii item={item} key={index} />
-                :
-                <View><Text>{item.state.name}</Text></View>
-})
+              ))
             ) : (
               <View style={styles.emptyScenView}>
                 <Text style={styles.emptyScen}>Сценариев пока нет...</Text>
@@ -126,7 +123,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 700,
     letterSpacing: 1,
-    marginLeft:20,
+    marginLeft: 20,
   },
   plusContainer: {
     position: 'absolute',
