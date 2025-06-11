@@ -25,7 +25,9 @@ export default function AddCurtain({ controller }) {
     const [state, setState] = useState("Выключить");
     const { controllerState, setControllerState, setControllerStateScen } = useContext(ScenariiContext);
     const [color, setColor] = useState("");
-
+    console.log('====================================');
+    console.log(controller);
+    console.log('====================================');
     const items = ["Чтение", 'Ночь', 'Вечеринка', 'Джунгли', "Неон", "Свеча", "Цвет"];
     const effectArr = {
         reading: "Чтение",
@@ -326,8 +328,7 @@ export default function AddCurtain({ controller }) {
                                         {
                                             type: "command",
                                             deviceId: controller.deviceId,
-                                            deviceType: controller.deviceType,
-                                            commandName: "set_pamars",
+                                            commandName: "set_params",
                                             params:
                                             {
                                                 state: state,
@@ -344,7 +345,6 @@ export default function AddCurtain({ controller }) {
                                         {
                                             type: "command",
                                             deviceId: controller.deviceId,
-                                            deviceType: controller.deviceType,
                                             commandName: "off",
                                         }
                                 );

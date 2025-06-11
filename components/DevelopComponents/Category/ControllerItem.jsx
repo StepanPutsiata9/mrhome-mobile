@@ -53,7 +53,6 @@ export default function ControllerItem({ data, socket }) {
   // }
 
   const router = useRouter();
-
   return (
     <TouchableOpacity
       onPress={() => {
@@ -68,11 +67,22 @@ export default function ControllerItem({ data, socket }) {
       <View style={styles.controllerItem}>
         <View style={styles.titleBlock}>
           {photo}
-          <Text style={styles.title}>{data.title.slice(0,20)}</Text>
+          
+          <Text style={styles.title}>{data.title.slice(0,19)}</Text>
         </View>
         <View style={styles.infoBlock}>
-          <Text style={styles.status}>Статус</Text>
-          <Text style={styles.online}>{data.state? "Вкл" : "Выкл"}</Text>
+          {!data.deviceType.includes("ensor")?
+            <>
+              <Text style={styles.status}>Статус</Text>
+              <Text style={styles.online}>{data.state ? "Вкл" : "Выкл"}</Text>
+            </>
+            :
+              <>
+              <Text style={styles.status}>Статус</Text>
+              <Text style={styles.online}>Вкл</Text>
+            </>
+          }
+
         </View>
       </View>
     </TouchableOpacity>

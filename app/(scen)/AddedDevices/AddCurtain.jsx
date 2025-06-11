@@ -134,8 +134,7 @@ export default function AddCurtain({ controller }) {
                     {
                       type: "command",
                       deviceId: controller.deviceId,
-                      deviceType: controller.deviceType,
-                      commandName: "set_pamars",
+                      commandName: "set_params",
                       params:
                       {
                         targetServoPos: sliderValue,
@@ -147,7 +146,6 @@ export default function AddCurtain({ controller }) {
                     {
                       type: "command",
                       deviceId: controller.deviceId,
-                      deviceType: controller.deviceType,
                       commandName: "off"
                     }
                 );

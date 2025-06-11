@@ -294,7 +294,7 @@ export default function AddWindow({ controller }) {
                             onPress={() => {
                                 addController(
                                     {
-                                        title: "Умный выключатель",
+                                        title: "Умное окно",
                                         payload: {
                                             [labels.state]: (on ? "Включать" : "Выключать"),
                                             [labels.angle]: (on ? sliderValue : null),
@@ -307,8 +307,7 @@ export default function AddWindow({ controller }) {
                                         {
                                             type: "command",
                                             deviceId: controller.deviceId,
-                                            deviceType: controller.deviceType,
-                                            commandName: "set_pamars",
+                                            commandName: "set_params",
                                             params:
                                             {
                                                 angle: on ? sliderValue : 0,
@@ -321,7 +320,6 @@ export default function AddWindow({ controller }) {
                                         {
                                             type: "command",
                                             deviceId: controller.deviceId,
-                                            deviceType: controller.deviceType,
                                             commandName: "off",
                                         }
                                 );
