@@ -43,7 +43,7 @@ export default function TempSensor({ data, socket }) {
           </View>
           <View style={styles.infoLine}>
             <Text style={styles.infoLineText}>Влажность</Text>
-            <Text style={styles.status}>{data.payload.humm} г/м³</Text>
+            <Text style={styles.status}>{data.payload.hum} г/м³</Text>
           </View>
         </View>
         {/* <View style={styles.onOff}>

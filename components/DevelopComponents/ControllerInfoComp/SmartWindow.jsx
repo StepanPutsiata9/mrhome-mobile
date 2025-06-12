@@ -62,8 +62,8 @@ export default function SmartWindow({ data, socket }) {
     }
 
 
-    if (numValue < 0 || numValue > 80) {
-      newErrors[name] = 'Должно быть от 0 до 80';
+    if (numValue < 0 || numValue > 40) {
+      newErrors[name] = 'Должно быть от 0 до 40';
       setErrors(newErrors);
       return false;
     }
@@ -214,7 +214,7 @@ export default function SmartWindow({ data, socket }) {
                   value={minTemp}
                   onChangeText={(value) => handleChange('minTemp', value)}
                   onBlur={() => validateInput('minTemp', minTemp, true)}
-                  placeholder="0-80"
+                  placeholder="0-40"
                 />
                 {errors.minTemp && <Text style={styles.errorText}>{errors.minTemp}</Text>}
               </View>
@@ -227,7 +227,7 @@ export default function SmartWindow({ data, socket }) {
                   value={maxTemp}
                   onChangeText={(value) => handleChange('maxTemp', value)}
                   onBlur={() => validateInput('maxTemp', maxTemp, true)}
-                  placeholder="0-80"
+                  placeholder="0-40"
                 />
                 {errors.maxTemp && <Text style={styles.errorText}>{errors.maxTemp}</Text>}
               </View>
@@ -244,7 +244,7 @@ export default function SmartWindow({ data, socket }) {
               <Slider
                 style={styles.slider}
                 minimumValue={1}
-                maximumValue={100}
+                maximumValue={90}
                 step={1}
                 value={sliderValue}
                 onValueChange={(value) => setSliderValue(Math.round(value))}
