@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.sstepanpvich546.test"
     },
     "web": {
       "bundler": "metro",
@@ -33,10 +34,17 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-build-properties"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "e7455794-fd1d-4bc8-9009-292418c407e9"
+      }
     }
   }
 }
