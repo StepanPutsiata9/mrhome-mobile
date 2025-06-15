@@ -68,10 +68,10 @@ export default function ControllerItem({ data, socket }) {
         <View style={styles.titleBlock}>
           {photo}
           
-          <Text style={styles.title}>{data.title||"Датчик"}</Text>
+          <Text style={styles.title}>{data.title.slice(0,19)}</Text>
         </View>
         <View style={styles.infoBlock}>
-          {!data.type=="sensor"?
+          {!data.deviceType.includes("ensor")?
             <>
               <Text style={styles.status}>Статус</Text>
               <Text style={styles.online}>{data.state ? "Вкл" : "Выкл"}</Text>
@@ -104,11 +104,10 @@ const styles = StyleSheet.create({
   titleBlock: {
     flex: 1,
     flexDirection: "row",
-    alignItems:'center'
 
   },
   title: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: 500,
     fontFamily: "Roboto",
     marginLeft: 10,

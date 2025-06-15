@@ -14,7 +14,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 
 export const SmartLight = ({ data, socket }) => {
-  console.log("data ",data)
   const items = ["Чтение", 'Ночь', 'Вечеринка', 'Джунгли', "Неон", "Свеча", "Цвет"];
   const effectArr = {
     reading: "Чтение",
@@ -25,9 +24,9 @@ export const SmartLight = ({ data, socket }) => {
     candle: "Свеча",
     color: "Цвет",
   };
-  const modes = ["Безопасный", "Ручной", "Авто"];
+  const modes = ["Безопасный", "Ручной", "Автоматический"];
   const modesArr = {
-    AUTO: "Авто",
+    AUTO: "Автоматический",
     MANUAL: "Ручной",
     SECURITY: "Безопасный"
   }

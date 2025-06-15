@@ -76,7 +76,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-
   const logout = async () => {
     try {
       await clearTokens();
@@ -88,7 +87,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // loadUser();
+    loadUser();
   }, []);
 
   return (

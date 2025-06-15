@@ -22,7 +22,9 @@ export default function AddControllersToScenarii() {
     }));
   }
   const electroList = extractElectroDevices(data);
-
+  console.log('====================================');
+  console.log(electroList);
+  console.log('====================================');
   return (
     // <SafeAreaView style={{ flex: '1' ,backgroundColor: 'white',height:'100%'}}>
     <View style={{ flex: '1', backgroundColor: 'white', height: '100%' }}>

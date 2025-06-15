@@ -311,8 +311,8 @@ export default function AddWindow({ controller }) {
                                             params:
                                             {
                                                 angle: on ? sliderValue : 0,
-                                                min_temp: on ? minTemp : 20,
-                                                max_temp: on ? maxTemp : 30,
+                                                minTemp: on ? minTemp : 20,
+                                                maxTemp: on ? maxTemp : 30,
                                                 auto: auto,
                                             }
                                         }
