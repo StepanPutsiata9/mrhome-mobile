@@ -37,15 +37,8 @@ function LayoutContent() {
   useEffect(() => {
     // fetch data from API
     if (user && token) {
-      console.log('====================================');
-      console.log("user ", user, " token ", token);
-      console.log('====================================');
       const ws = new WebSocket(`ws://testyandex.onrender.com?token=${token}`);
       ws.onopen = () => {
-        console.log('Connected');
-        console.log('====================================');
-        console.log(token);
-        console.log('====================================');
         socket.current = ws;
       };
 
@@ -54,13 +47,8 @@ function LayoutContent() {
         if (dataApi.type === 'initial') {
           console.log("initial");
           setData(dataApi.dataObj);
-          console.log("sensors ",dataApi.dataObj.sensors);
-          console.log(data);
           setLoaded(true);
         } else if (dataApi.type === 'update') {
-          console.log('====================================');
-          console.log("update ",dataApi.dataObj);
-          console.log('====================================');
           setData(prev => ({
             electro: updateDevices(prev.electro, dataApi.dataObj),
             sensors: updateDevices(prev.sensors, dataApi.dataObj),
